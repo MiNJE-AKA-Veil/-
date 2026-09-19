@@ -1,0 +1,553 @@
+<title>3상 교류 전기각</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#0d1b2e; --panel:#132644; --panel-2:#0f2038;
+    --line:#7fb8d9; --line-dim:#3d5f85;
+    --ink:#eaf2f8; --ink-dim:#8fa8c2;
+    --accent:#f4a637; --accent-ink:#2a1a02;
+    --ok:#57d1a4; --grid:#1c3050;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:'IBM Plex Sans KR','Noto Sans KR',system-ui,sans-serif;
+    padding-inline:16px; padding-block:28px;
+    display:flex; justify-content:center;
+  }
+  .wrap{ width:100%; max-width:760px; display:flex; flex-direction:column; gap:14px; }
+  header{ display:flex; flex-direction:column; gap:6px; }
+  .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  h1{ margin:0; font-size:clamp(20px,4vw,26px); font-weight:700; text-wrap:balance; }
+  .panel{ background:var(--panel); border:1px solid var(--grid); border-radius:14px; padding:20px; }
+  .stepTitle{ margin:0 0 14px; font-size:14px; font-weight:700; color:var(--ink); }
+  .stepTitle .idx{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%; margin-right:8px;
+    background:var(--accent); color:var(--accent-ink); font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700;
+  }
+  svg{ width:100%; height:auto; display:block; }
+  .controls-row{ display:flex; align-items:center; gap:12px; }
+  button{
+    font-family:'IBM Plex Sans KR', sans-serif; font-size:13px; font-weight:600;
+    padding:8px 16px; border-radius:8px; border:1px solid var(--grid);
+    background:var(--accent); color:var(--accent-ink); cursor:pointer;
+  }
+  button:hover{ filter:brightness(1.08); }
+  button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .readout{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--accent); }
+  .step-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .step-row span{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-dim); margin-right:2px; }
+  .step-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+    padding:6px 10px; border-radius:6px; border:1px solid var(--grid);
+    background:var(--panel-2); color:var(--ink-dim); cursor:pointer;
+  }
+  .step-btn:hover{ border-color:var(--line); color:var(--ink); }
+  .step-btn.active{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .step-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  svg line, svg circle{ transition: opacity .2s ease; }
+  @media (prefers-reduced-motion: reduce){ * { transition:none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">SFC 가이드북 · 3/4 단계까지 진행 중</span>
+    <h1>SFC 기동 이해하기</h1>
+    <div class="controls-row">
+      <button id="playBtn" type="button">일시정지</button>
+      <span class="readout" id="readoutIn" style="color:var(--ink-dim);"></span>
+      <span class="readout" id="readoutOut"></span>
+    </div>
+    <div class="step-row" id="freqRow">
+      <span>출력 주파수 (점호 타이밍):</span>
+    </div>
+    <div class="step-row" id="stepRow">
+      <span>출력 기준 구간별 정지:</span>
+    </div>
+  </header>
+
+  <section class="panel">
+    <h2 class="stepTitle"><span class="idx">1</span>3상 교류와 전기각</h2>
+    <svg viewBox="0 0 460 300" role="img" aria-label="원 위에서 120도 간격으로 함께 도는 R S T 세 개의 벡터와, 그에 대응하는 세 개의 정현파가 서로 120도 위상차를 두고 나란히 진행하는 모습을 보여주는 다이어그램">
+      <defs>
+        <marker id="arrowR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path></marker>
+        <marker id="arrowS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--line)"></path></marker>
+        <marker id="arrowT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ok)"></path></marker>
+      </defs>
+
+      <!-- circle: three phase vectors, 120 degrees apart, rotating together -->
+      <g id="circleTicks"></g>
+      <circle cx="115" cy="140" r="88" fill="none" stroke="var(--line-dim)" stroke-width="2"></circle>
+      <circle cx="115" cy="140" r="2.5" fill="var(--ink-dim)"></circle>
+      <line id="vecR" x1="115" y1="140" x2="203" y2="140" stroke="var(--accent)" stroke-width="3" marker-end="url(#arrowR)"></line>
+      <line id="vecS" x1="115" y1="140" x2="203" y2="140" stroke="var(--line)" stroke-width="3" marker-end="url(#arrowS)"></line>
+      <line id="vecT" x1="115" y1="140" x2="203" y2="140" stroke="var(--ok)" stroke-width="3" marker-end="url(#arrowT)"></line>
+      <circle id="dotR" cx="203" cy="140" r="5" fill="var(--accent)"></circle>
+      <circle id="dotS" cx="203" cy="140" r="5" fill="var(--line)"></circle>
+      <circle id="dotT" cx="203" cy="140" r="5" fill="var(--ok)"></circle>
+
+      <!-- waveform: three overlaid sine curves, 120 degrees phase-shifted -->
+      <g id="waveTicks"></g>
+      <line x1="245" y1="140" x2="450" y2="140" stroke="var(--ink-dim)" stroke-width="1"></line>
+      <path id="waveR" fill="none" stroke="var(--accent)" stroke-width="2.25"></path>
+      <path id="waveS" fill="none" stroke="var(--line)" stroke-width="2.25"></path>
+      <path id="waveT" fill="none" stroke="var(--ok)" stroke-width="2.25"></path>
+      <line id="waveMarker" y1="55" y2="225" stroke="var(--ink-dim)" stroke-width="1.25" stroke-dasharray="3 3"></line>
+      <circle id="waveDotR" r="4.5" fill="var(--accent)"></circle>
+      <circle id="waveDotS" r="4.5" fill="var(--line)"></circle>
+      <circle id="waveDotT" r="4.5" fill="var(--ok)"></circle>
+
+      <text x="130" y="26" font-size="13" font-weight="700" font-family="IBM Plex Mono" fill="var(--accent)">R</text>
+      <text x="145" y="26" font-size="13" font-weight="700" font-family="IBM Plex Mono" fill="var(--line)">S</text>
+      <text x="160" y="26" font-size="13" font-weight="700" font-family="IBM Plex Mono" fill="var(--ok)">T</text>
+    </svg>
+  </section>
+
+  <section class="panel">
+    <h2 class="stepTitle"><span class="idx">2</span>SFC 싸이리스터 전류 흐름 (6-Pulse 브릿지)</h2>
+    <svg viewBox="0 0 400 230" role="img" aria-label="DC 링크 사이에 연결된 6개 Thyristor 브릿지에서 현재 도통 중인 2개 소자와 실제 전류 경로를 화살표로 보여주는 회로도. 점호 순서가 반복되는 속도(=출력 주파수)는 아래 프리셋 버튼으로 조절되며 위 1단계 입력과는 독립적으로 진행됨">
+      <g id="wires"></g>
+      <line x1="55" y1="20" x2="345" y2="20" stroke="var(--line)" stroke-width="2.5"></line>
+      <text x="18" y="24" font-size="12" fill="var(--ink-dim)" font-family="IBM Plex Mono">DC+</text>
+      <line x1="55" y1="205" x2="345" y2="205" stroke="var(--line)" stroke-width="2.5"></line>
+      <text x="18" y="209" font-size="12" fill="var(--ink-dim)" font-family="IBM Plex Mono">DC−</text>
+      <g id="nodes"></g>
+      <g id="bridge"></g>
+      <defs>
+        <marker id="arrowCurrent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"></path></marker>
+      </defs>
+      <line id="curTop" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#arrowCurrent)" style="transition:opacity .2s ease, x1 .2s ease, x2 .2s ease;"></line>
+      <line id="curMid" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#arrowCurrent)" style="transition:opacity .2s ease, x1 .2s ease, x2 .2s ease;"></line>
+      <line id="curBot" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#arrowCurrent)" style="transition:opacity .2s ease, x1 .2s ease, x2 .2s ease;"></line>
+    </svg>
+  </section>
+
+  <section class="panel">
+    <h2 class="stepTitle"><span class="idx">3</span>SFC 출력 — 계단형 전류 파형</h2>
+    <svg viewBox="0 0 400 205" role="img" aria-label="고정된 200ms 시간창 위에 R상 S상 T상의 계단형 전류 파형을 그린 그래프. 출력 주파수가 높을수록 같은 200ms 안에 더 많은 주기가 들어가 스텝 폭이 좁아지고, 주파수가 낮을수록 스텝 폭이 넓어짐. 프리셋 버튼으로 주파수를 바꾸면 이 그림이 다시 그려짐">
+      <g id="outChart"></g>
+    </svg>
+  </section>
+</div>
+
+<script>
+(function(){
+  var CX=115, CY=140, CR=88;
+  var WX0=245, WX1=450, WSPAN=WX1-WX0, WY0=140, WAMP=68;
+  var PHASE = { R:0, S:120, T:240 }; // R appears first, S appears once the angle has advanced 120°, T once it has advanced 240°
+  var COLOR = { R:'var(--accent)', S:'var(--line)', T:'var(--ok)' };
+
+  function pt(thetaDeg, cx, cy, r){
+    var rad = (thetaDeg-90)*Math.PI/180;
+    return { x: cx + r*Math.cos(rad), y: cy + r*Math.sin(rad) };
+  }
+
+  var circleTicksG = document.getElementById('circleTicks');
+  [0,60,120,180,240,300].forEach(function(a){
+    var p1 = pt(a,CX,CY,CR+2), p2 = pt(a,CX,CY,CR+9);
+    var l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',p1.x); l.setAttribute('y1',p1.y); l.setAttribute('x2',p2.x); l.setAttribute('y2',p2.y);
+    l.setAttribute('stroke','var(--ink-dim)');
+    circleTicksG.appendChild(l);
+    var lp = pt(a,CX,CY,CR+22);
+    var t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',lp.x); t.setAttribute('y',lp.y+3); t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-size','9.5'); t.setAttribute('font-family','IBM Plex Mono'); t.setAttribute('fill','var(--ink-dim)');
+    t.textContent = a+'°';
+    circleTicksG.appendChild(t);
+  });
+
+  var waveTicksG = document.getElementById('waveTicks');
+  [0,60,120,180,240,300,360].forEach(function(a){
+    var x = WX0 + (a/360)*WSPAN;
+    var l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',x); l.setAttribute('y1',55); l.setAttribute('x2',x); l.setAttribute('y2',225);
+    l.setAttribute('stroke','var(--grid)'); l.setAttribute('stroke-dasharray','2 4');
+    waveTicksG.appendChild(l);
+    var t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',x); t.setAttribute('y',238); t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-size','9.5'); t.setAttribute('font-family','IBM Plex Mono'); t.setAttribute('fill','var(--ink-dim)');
+    t.textContent = a+'°';
+    waveTicksG.appendChild(t);
+  });
+
+  // same sin(theta-90) formula as pt()'s y-coordinate, so each dot's height on the
+  // wave exactly matches that phase's height on the circle at every instant
+  function heightAt(thetaDeg, amp, base){
+    return base + amp*Math.sin((thetaDeg-90)*Math.PI/180);
+  }
+  var wavePathEl = { R:document.getElementById('waveR'), S:document.getElementById('waveS'), T:document.getElementById('waveT') };
+
+  // ===== Step 2: 6-pulse bridge — same conduction table verified earlier =====
+  // Runs on its own output clock (angleOut), independent of step 1's input clock —
+  // that decoupling is what lets the inverter's firing sequence set a frequency
+  // different from the fixed 60Hz input.
+  var STEPS = [
+    { th:['T1','T6'], lv:{R:1,S:-1,T:0} },
+    { th:['T1','T2'], lv:{R:1,S:0,T:-1} },
+    { th:['T3','T2'], lv:{R:0,S:1,T:-1} },
+    { th:['T3','T4'], lv:{R:-1,S:1,T:0} },
+    { th:['T5','T4'], lv:{R:-1,S:0,T:1} },
+    { th:['T5','T6'], lv:{R:0,S:-1,T:1} }
+  ];
+  function activePhases(step){
+    var plus=null, minus=null;
+    ['R','S','T'].forEach(function(ph){ if (step.lv[ph]===1) plus=ph; if (step.lv[ph]===-1) minus=ph; });
+    return { plus:plus, minus:minus };
+  }
+
+  var wiresG = document.getElementById('wires');
+  var nodesG = document.getElementById('nodes');
+  var bridgeG = document.getElementById('bridge');
+  var COLS = { R:100, S:200, T:300 };
+  var topOf = { R:'T1', S:'T3', T:'T5' };
+  var botOf = { R:'T4', S:'T6', T:'T2' };
+  var thyEls = {};
+
+  Object.keys(COLS).forEach(function(ph){
+    var x = COLS[ph];
+    var wire = document.createElementNS('http://www.w3.org/2000/svg','line');
+    wire.setAttribute('x1', x); wire.setAttribute('y1', 20);
+    wire.setAttribute('x2', x); wire.setAttribute('y2', 205);
+    wire.setAttribute('stroke', 'var(--line-dim)'); wire.setAttribute('stroke-width', '2.5');
+    wiresG.appendChild(wire);
+  });
+
+  function drawThy(id, x, y, ph, isTop){
+    var bg = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    bg.setAttribute('cx', x); bg.setAttribute('cy', y); bg.setAttribute('r', 16); bg.setAttribute('fill', 'var(--paper)');
+    bridgeG.appendChild(bg);
+    var circ = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circ.setAttribute('cx', x); circ.setAttribute('cy', y); circ.setAttribute('r', 15);
+    circ.setAttribute('fill', 'var(--panel-2)'); circ.setAttribute('stroke', 'var(--line-dim)'); circ.setAttribute('stroke-width', '2.5');
+    circ.style.transition = 'fill .2s ease, stroke .2s ease';
+    bridgeG.appendChild(circ);
+    var txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x', x); txt.setAttribute('y', y+4); txt.setAttribute('text-anchor', 'middle');
+    txt.setAttribute('font-size', '11'); txt.setAttribute('font-family', 'IBM Plex Mono'); txt.setAttribute('fill', 'var(--ink-dim)');
+    txt.style.transition = 'fill .2s ease';
+    txt.textContent = id;
+    bridgeG.appendChild(txt);
+    var sub = document.createElementNS('http://www.w3.org/2000/svg','text');
+    sub.setAttribute('x', x); sub.setAttribute('y', isTop ? y-24 : y+34); sub.setAttribute('text-anchor', 'middle');
+    sub.setAttribute('font-size', '10'); sub.setAttribute('font-family', 'IBM Plex Mono'); sub.setAttribute('fill', 'var(--ink-dim)');
+    sub.textContent = ph + (isTop ? '+' : '−');
+    bridgeG.appendChild(sub);
+    thyEls[id] = { circle: circ, text: txt };
+  }
+
+  Object.keys(COLS).forEach(function(ph){
+    var x = COLS[ph];
+    drawThy(topOf[ph], x, 60, ph, true);
+    var nodeC = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    nodeC.setAttribute('cx', x); nodeC.setAttribute('cy', 112); nodeC.setAttribute('r', 5);
+    nodeC.setAttribute('fill', 'var(--paper)'); nodeC.setAttribute('stroke', 'var(--line)'); nodeC.setAttribute('stroke-width', '2.5');
+    nodesG.appendChild(nodeC);
+    var nodeLbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    nodeLbl.setAttribute('x', x); nodeLbl.setAttribute('y', 132); nodeLbl.setAttribute('text-anchor','middle'); nodeLbl.setAttribute('font-size', '11');
+    nodeLbl.setAttribute('font-family', 'IBM Plex Mono'); nodeLbl.setAttribute('fill', 'var(--ink-dim)');
+    nodeLbl.textContent = ph + '상';
+    nodesG.appendChild(nodeLbl);
+    drawThy(botOf[ph], x, 160, ph, false);
+  });
+
+  var curTop = document.getElementById('curTop');
+  var curMid = document.getElementById('curMid');
+  var curBot = document.getElementById('curBot');
+
+  // ===== Step 3: stepped output current, drawn over a FIXED 200ms real-time window =====
+  // Unlike step 2 (which reflects angleOut directly), this chart's x-axis is real time,
+  // not electrical angle — so raising the output frequency visibly packs more (narrower)
+  // cycles into the same 200ms window instead of just sweeping a marker across a static
+  // one-cycle picture. The dynamic pieces are rebuilt by buildOutChart() whenever the
+  // frequency preset changes.
+  var outChart = document.getElementById('outChart');
+  var OUT_X0=56, OUT_X1=384, OUT_XSPAN=OUT_X1-OUT_X0;
+  var OUT_ROWS = { R:38, S:92, T:146 };
+  var WINDOW_MS = 200;
+  var outStepG = {};
+
+  Object.keys(OUT_ROWS).forEach(function(ph){
+    var y0 = OUT_ROWS[ph];
+    var axis = document.createElementNS('http://www.w3.org/2000/svg','line');
+    axis.setAttribute('x1',OUT_X0); axis.setAttribute('x2',OUT_X1); axis.setAttribute('y1',y0); axis.setAttribute('y2',y0);
+    axis.setAttribute('stroke','var(--ink-dim)'); axis.setAttribute('stroke-width','1');
+    outChart.appendChild(axis);
+
+    var lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl.setAttribute('x',4); lbl.setAttribute('y',y0+5); lbl.setAttribute('font-size','13');
+    lbl.setAttribute('font-family','IBM Plex Mono'); lbl.setAttribute('font-weight','600'); lbl.setAttribute('fill',COLOR[ph]);
+    lbl.textContent = ph;
+    outChart.appendChild(lbl);
+
+    [[1,'+I'],[0,'0'],[-1,'−I']].forEach(function(pair){
+      var ty = y0 - pair[0]*16;
+      var tick = document.createElementNS('http://www.w3.org/2000/svg','line');
+      tick.setAttribute('x1',OUT_X0-4); tick.setAttribute('x2',OUT_X0); tick.setAttribute('y1',ty); tick.setAttribute('y2',ty);
+      tick.setAttribute('stroke','var(--ink-dim)');
+      outChart.appendChild(tick);
+      var tt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      tt.setAttribute('x',OUT_X0-7); tt.setAttribute('y',ty+3); tt.setAttribute('text-anchor','end');
+      tt.setAttribute('font-size','8.5'); tt.setAttribute('font-family','IBM Plex Mono'); tt.setAttribute('fill','var(--ink-dim)');
+      tt.textContent = pair[1];
+      outChart.appendChild(tt);
+    });
+
+    var g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    outChart.appendChild(g);
+    outStepG[ph] = g;
+  });
+
+  // bottom time axis (0 / 50 / 100 / 150 / 200 ms) — frequency independent
+  var timeAxisY = OUT_ROWS.T + 34;
+  [0,50,100,150,200].forEach(function(ms){
+    var x = OUT_X0 + (ms/WINDOW_MS)*OUT_XSPAN;
+    var tick = document.createElementNS('http://www.w3.org/2000/svg','line');
+    tick.setAttribute('x1',x); tick.setAttribute('x2',x); tick.setAttribute('y1',timeAxisY-4); tick.setAttribute('y2',timeAxisY);
+    tick.setAttribute('stroke','var(--ink-dim)');
+    outChart.appendChild(tick);
+    var tt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    tt.setAttribute('x',x); tt.setAttribute('y',timeAxisY+11);
+    tt.setAttribute('text-anchor', ms===0 ? 'start' : (ms===200 ? 'end' : 'middle'));
+    tt.setAttribute('font-size','8.5'); tt.setAttribute('font-family','IBM Plex Mono'); tt.setAttribute('fill','var(--ink-dim)');
+    tt.textContent = ms+'ms';
+    outChart.appendChild(tt);
+  });
+
+  // rebuilds the R/S/T step rects+polylines for a 200ms window at the given output
+  // frequency — higher freqHz means a shorter period, so more (narrower) repeats fit
+  function buildOutChart(freqHz){
+    var stepMs = 1000/(6*freqHz);
+    Object.keys(OUT_ROWS).forEach(function(ph){
+      var y0 = OUT_ROWS[ph];
+      var g = outStepG[ph];
+      while (g.firstChild) g.removeChild(g.firstChild);
+      var pts = [];
+      var n = Math.ceil(WINDOW_MS/stepMs) + 1;
+      for (var i=0; i<n; i++){
+        var tA = i*stepMs;
+        if (tA >= WINDOW_MS) break;
+        var tB = Math.min((i+1)*stepMs, WINDOW_MS);
+        var lv = STEPS[i%6].lv[ph];
+        var xA = OUT_X0 + (tA/WINDOW_MS)*OUT_XSPAN, xB = OUT_X0 + (tB/WINDOW_MS)*OUT_XSPAN;
+        var yy = y0 - lv*16;
+        if (lv !== 0){
+          var rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+          rect.setAttribute('x',xA); rect.setAttribute('width',xB-xA);
+          rect.setAttribute('y',Math.min(y0,yy)); rect.setAttribute('height',16);
+          rect.setAttribute('fill',COLOR[ph]); rect.setAttribute('opacity','0.22');
+          g.appendChild(rect);
+        }
+        pts.push(xA+','+yy, xB+','+yy);
+      }
+      var poly = document.createElementNS('http://www.w3.org/2000/svg','polyline');
+      poly.setAttribute('points', pts.join(' '));
+      poly.setAttribute('fill','none'); poly.setAttribute('stroke',COLOR[ph]); poly.setAttribute('stroke-width','2.5');
+      poly.setAttribute('stroke-linejoin','round');
+      g.appendChild(poly);
+    });
+  }
+
+  var outMarker = document.createElementNS('http://www.w3.org/2000/svg','line');
+  outMarker.setAttribute('y1',18); outMarker.setAttribute('y2',168);
+  outMarker.setAttribute('stroke','var(--accent)'); outMarker.setAttribute('stroke-width','1.5');
+  outChart.appendChild(outMarker);
+
+  var vecEl = { R:document.getElementById('vecR'), S:document.getElementById('vecS'), T:document.getElementById('vecT') };
+  var dotEl = { R:document.getElementById('dotR'), S:document.getElementById('dotS'), T:document.getElementById('dotT') };
+  var waveDotEl = { R:document.getElementById('waveDotR'), S:document.getElementById('waveDotS'), T:document.getElementById('waveDotT') };
+  var waveMarker = document.getElementById('waveMarker');
+  var readoutIn = document.getElementById('readoutIn');
+  var readoutOut = document.getElementById('readoutOut');
+  var playBtn = document.getElementById('playBtn');
+
+  // Input (section 1) and output (sections 2-3) now run on independent clocks.
+  // Rectifying to DC erases the input's 60Hz timing, so the inverter is free to
+  // resynthesize the output at whatever frequency its own firing sequence sets —
+  // that decoupling is the whole point of an SFC, so it has to be visible here.
+  var IN_DEG_PER_SEC = 30;
+  // 1Hz of output = 360 electrical degrees/sec, by definition.
+  function degPerSecFromHz(hz){ return hz * 360; }
+  // 점호 간격: time between successive 60° firing steps, i.e. 1/6 of one output cycle.
+  function stepIntervalMs(hz){ return 1000 / (6*hz); }
+  function freqLabel(hz){ return hz + 'Hz(' + stepIntervalMs(hz).toFixed(1) + 'ms)'; }
+  var angleIn = 0, angleOut = 0, lastT = null;
+  var sweepMs = 0; // real-time clock (independent of angleOut) driving step-3's marker sweep across its fixed 200ms window
+  // one-way latch: the 0-360° intro (R, then S at 120°, then T at 240°, each
+  // appearing and drawing in) plays once. After that we're in steady state —
+  // all three phases already exist — and it never re-hides on later wraps.
+  // This now belongs to the input clock only (section 1's reveal).
+  var introDone = false;
+  var fullWaveBuilt = { R:false, S:false, T:false };
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var playing = !reduceMotion;
+  playBtn.textContent = playing ? '일시정지' : '재생';
+  playBtn.addEventListener('click', function(){
+    playing = !playing;
+    playBtn.textContent = playing ? '일시정지' : '재생';
+    lastT = null;
+  });
+
+  var freqRow = document.getElementById('freqRow');
+  var freqBtns = [];
+  // Hz values, not abstract %: 20/40/60/80% of a 60Hz-rated machine, grounded in the
+  // ~80%-of-rated disconnect point verified earlier — never an arbitrary 0-100 range.
+  var FREQ_PRESETS = [12, 24, 36, 48];
+  var activeFreqHz = 24; // default: 40% preset
+  var outDegPerSec = degPerSecFromHz(activeFreqHz);
+  FREQ_PRESETS.forEach(function(hz){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'step-btn'; b.textContent = freqLabel(hz);
+    if (hz === activeFreqHz) b.classList.add('active');
+    b.addEventListener('click', function(){
+      activeFreqHz = hz;
+      outDegPerSec = degPerSecFromHz(hz);
+      buildOutChart(hz);
+      freqBtns.forEach(function(fb,i){ fb.classList.toggle('active', FREQ_PRESETS[i]===hz); });
+    });
+    freqRow.appendChild(b);
+    freqBtns.push(b);
+  });
+  buildOutChart(activeFreqHz);
+
+  var stepRow = document.getElementById('stepRow');
+  var stepBtns = [];
+  // 360° jumps to 359.99 (not 360, which wraps to 0 via the %360 in render) so it
+  // shows the "just before reset" state — all three phases still fully drawn —
+  // instead of landing back on the same empty state as the 0° button.
+  var STEP_TARGETS = [
+    {deg:0, label:'0°'}, {deg:60, label:'60°'}, {deg:120, label:'120°'},
+    {deg:180, label:'180°'}, {deg:240, label:'240°'}, {deg:300, label:'300°'},
+    {deg:359.99, label:'360°'}
+  ];
+  STEP_TARGETS.forEach(function(step){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'step-btn'; b.textContent = step.label;
+    b.addEventListener('click', function(){
+      playing = false;
+      playBtn.textContent = '재생';
+      lastT = null;
+      angleOut = step.deg; // output-only: input (section 1) keeps running independently
+      render();
+    });
+    stepRow.appendChild(b);
+    stepBtns.push(b);
+  });
+
+  function render(){
+    var normIn = ((angleIn % 360) + 360) % 360;
+    var normOut = ((angleOut % 360) + 360) % 360;
+    ['R','S','T'].forEach(function(ph){
+      if (introDone){
+        var thetaSS = ((normIn - PHASE[ph]) % 360 + 360) % 360;
+        var pSS = pt(thetaSS, CX, CY, CR);
+        vecEl[ph].style.opacity = 1; dotEl[ph].style.opacity = 1;
+        vecEl[ph].setAttribute('x2', pSS.x); vecEl[ph].setAttribute('y2', pSS.y);
+        dotEl[ph].setAttribute('cx', pSS.x); dotEl[ph].setAttribute('cy', pSS.y);
+
+        var wxSS = WX0 + (normIn/360)*WSPAN;
+        var wySS = heightAt(thetaSS, WAMP, WY0);
+        waveDotEl[ph].style.opacity = 1;
+        waveDotEl[ph].setAttribute('cx', wxSS); waveDotEl[ph].setAttribute('cy', wySS);
+
+        if (!fullWaveBuilt[ph]){
+          var dSS = '';
+          for (var aSS=0; aSS<=360; aSS+=4){
+            var xSS = WX0 + (aSS/360)*WSPAN;
+            var ySS = heightAt(aSS-PHASE[ph], WAMP, WY0);
+            dSS += (aSS===0 ? 'M ' : 'L ') + xSS + ' ' + ySS + ' ';
+          }
+          wavePathEl[ph].setAttribute('d', dSS);
+          fullWaveBuilt[ph] = true;
+        }
+        return;
+      }
+      var born = normIn >= PHASE[ph];
+      if (!born){
+        vecEl[ph].style.opacity = 0; dotEl[ph].style.opacity = 0;
+        waveDotEl[ph].style.opacity = 0; wavePathEl[ph].setAttribute('d', '');
+        return;
+      }
+      // theta counts from 0 at the moment this phase is born, so its motion is
+      // identical to R's — just starting 120°/240° later. That delayed start
+      // IS the 120° phase lag.
+      var theta = normIn - PHASE[ph];
+      var p = pt(theta, CX, CY, CR);
+      vecEl[ph].style.opacity = 1; dotEl[ph].style.opacity = 1;
+      vecEl[ph].setAttribute('x2', p.x); vecEl[ph].setAttribute('y2', p.y);
+      dotEl[ph].setAttribute('cx', p.x); dotEl[ph].setAttribute('cy', p.y);
+
+      var wx = WX0 + (normIn/360)*WSPAN;
+      var wy = heightAt(theta, WAMP, WY0);
+      waveDotEl[ph].style.opacity = 1;
+      waveDotEl[ph].setAttribute('cx', wx); waveDotEl[ph].setAttribute('cy', wy);
+
+      // progressively draw this phase's curve from its birth point up to now
+      var d = '';
+      var startA = PHASE[ph];
+      for (var a = startA; a <= normIn; a += 4){
+        var x = WX0 + (a/360)*WSPAN;
+        var y = heightAt(a-PHASE[ph], WAMP, WY0);
+        d += (a===startA ? 'M ' : 'L ') + x + ' ' + y + ' ';
+      }
+      var x2 = WX0 + (normIn/360)*WSPAN;
+      d += 'L ' + x2 + ' ' + wy + ' ';
+      wavePathEl[ph].setAttribute('d', d);
+    });
+    var mx = WX0 + (normIn/360)*WSPAN;
+    waveMarker.setAttribute('x1', mx); waveMarker.setAttribute('x2', mx);
+    readoutIn.textContent = '입력 전기각 ' + normIn.toFixed(0) + '° (60Hz 고정)';
+    readoutOut.textContent = '출력 전기각 ' + normOut.toFixed(0) + '° · 구간 ' + (Math.floor(normOut/60)+1) + '/6 · ' + freqLabel(activeFreqHz);
+
+    stepBtns.forEach(function(b,i){
+      var d = STEP_TARGETS[i].deg;
+      b.classList.toggle('active', Math.abs(normOut - d) < 0.5);
+    });
+
+    // step 2 & 3: bridge and output waveform, driven by the independent output clock
+    var sextant = Math.floor(normOut/60) % 6;
+    var stepC = STEPS[sextant];
+    var act = activePhases(stepC);
+    Object.keys(thyEls).forEach(function(id){
+      var active = stepC.th.indexOf(id) !== -1;
+      thyEls[id].circle.setAttribute('fill', active ? 'var(--accent)' : 'var(--panel-2)');
+      thyEls[id].circle.setAttribute('stroke', active ? 'var(--accent)' : 'var(--line-dim)');
+      thyEls[id].text.setAttribute('fill', active ? 'var(--accent-ink)' : 'var(--ink-dim)');
+    });
+    var xP = COLS[act.plus], xM = COLS[act.minus];
+    curTop.setAttribute('x1', xP); curTop.setAttribute('y1', 20);
+    curTop.setAttribute('x2', xP); curTop.setAttribute('y2', 103);
+    curMid.setAttribute('x1', xP); curMid.setAttribute('y1', 112);
+    curMid.setAttribute('x2', xM); curMid.setAttribute('y2', 112);
+    curBot.setAttribute('x1', xM); curBot.setAttribute('y1', 121);
+    curBot.setAttribute('x2', xM); curBot.setAttribute('y2', 205);
+
+    // step 3's marker sweeps the fixed 200ms window on its own real-time clock —
+    // NOT normOut — since the window's timescale is constant regardless of frequency
+    var tw = sweepMs % WINDOW_MS;
+    var omx = OUT_X0 + (tw/WINDOW_MS)*OUT_XSPAN;
+    outMarker.setAttribute('x1', omx); outMarker.setAttribute('x2', omx);
+  }
+
+  function tick(now){
+    if (lastT === null) lastT = now;
+    var dt = Math.min((now-lastT)/1000, 0.05);
+    lastT = now;
+    if (playing){
+      angleIn += IN_DEG_PER_SEC * dt;
+      angleOut += outDegPerSec * dt;
+      sweepMs += dt * 1000;
+    }
+    if (!introDone && angleIn >= 360) introDone = true;
+    render();
+    requestAnimationFrame(tick);
+  }
+
+  render();
+  requestAnimationFrame(tick);
+})();
+</script>
