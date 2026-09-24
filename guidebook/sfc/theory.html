@@ -253,16 +253,15 @@
         <span class="step-readout mono" id="phaseReadout"></span>
       </div>
       <div class="visual"><svg id="phaseSvg" viewBox="0 0 460 210" role="img" aria-label="원 위에서 120도씩 떨어진 R S T 세 벡터가 함께 회전하고, 그에 대응하는 세 정현파가 120도 위상차를 두고 나란히 그려지는 애니메이션. R이 먼저 나타나고 S가 120도 뒤, T가 240도 뒤에 나타난 뒤에는 계속 세 개가 함께 남는다"></svg></div>
-      <p class="bridge"><strong>그런데:</strong> 위 애니메이션은 "위상만" 보여준다. 위상이 어긋난
-        전류 세 개가 있다고 저절로 회전자계가 생기지는 않는다 — 그 전류가 흐르는 <strong>코일이
-        실제로 어디에 감겨 있는지</strong>도 똑같이 중요하다.</p>
-      <div class="visual"><svg id="statorSvg" viewBox="0 0 340 300" role="img" aria-label="고정자 안쪽에 120도 간격으로 감긴 R S T 세 코일과 그 가운데 있는 회전자를 보여주는 단면도. 세 코일의 자속이 합쳐지면서 회전 방향 화살표를 따라 도는 모습"></svg></div>
-      <div class="slide-note"><strong>회전자계 = 공간적 120° 배치 + 시간적 120° 위상차</strong> — R/S/T
-        코일이 고정자 안쪽에 <strong>기계적으로 120°씩 떨어져</strong> 감겨 있고, 거기에 120° 위상차
-        나는 전류가 흐른다. 그러면 세 코일이 각자 자리에서 만드는 자속이 벡터로 합쳐지면서, 합쳐진
-        자속의 <strong>방향 자체가 시간에 따라 빙글빙글 돈다</strong> — 이게 회전자계의 실체다.
-        (코일이 전부 한 자리에 감겨 있었다면 위상이 아무리 어긋나도 제자리에서 세기만 바뀌는
-        맥동자계에 그쳤을 것이다.)</div>
+      <p class="bridge"><strong>그런데:</strong> 이 전류는 실제로 고정자에 감긴 <strong>코일에</strong>
+        흐른다. 아래 번호를 눌러서, 세 코일에 전류가 정확히 어떻게 들어가고 나오는지 직접 보자.</p>
+      <div class="step-row" id="statorSteps"></div>
+      <div class="visual"><svg id="statorSvg" viewBox="0 0 340 300" role="img" aria-label="고정자 안쪽에 120도 간격으로 감긴 R S T 세 코일 단면도. 매 순간 두 코일에만 전류가 흐르고 중성점을 통해 회로가 이어지며, 나머지 한 코일은 꺼져 있는 모습을 6단계로 보여주는 인터랙티브 다이어그램"></svg></div>
+      <span class="step-readout mono" id="statorReadout"></span>
+      <div class="slide-note">매 순간 <strong>두 코일에만</strong> 전류가 흐르고(한쪽에서 들어가 중성점을
+        거쳐 다른 쪽으로 나감), 나머지 한 코일은 쉰다. 이 두 코일의 조합이 60°마다 바뀌면서, 세
+        코일이 만드는 합성 자속의 방향이 단계적으로 돌아간다 — 위 애니메이션의 매끈한 회전을,
+        실제 하드웨어는 이렇게 <strong>두 코일씩 스위칭</strong>해서 흉내내는 것이다.</div>
     </section>
 
     <!-- 5 -->
@@ -845,29 +844,76 @@
     requestAnimationFrame(tick);
   })();
 
-  /* ================= slide 4b: stator cross-section (spatial 120° winding layout) ================= */
+  /* ================= slide 4b: stator cross-section — interactive current path ================= */
   (function(){
+    var STEPS = [
+      { th:['T1','T6'], lv:{R:1,S:-1,T:0} },
+      { th:['T1','T2'], lv:{R:1,S:0,T:-1} },
+      { th:['T3','T2'], lv:{R:0,S:1,T:-1} },
+      { th:['T3','T4'], lv:{R:-1,S:1,T:0} },
+      { th:['T5','T4'], lv:{R:-1,S:0,T:1} },
+      { th:['T5','T6'], lv:{R:0,S:-1,T:1} }
+    ];
     var svg = document.getElementById('statorSvg');
-    var CX=150, CY=150, R=85;
+    var stepsWrap = document.getElementById('statorSteps');
+    var readout = document.getElementById('statorReadout');
+    var CX=150, CY=150, R=85, RIN=R-16, ROUT=R+16;
     var WCOLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
     var WPHASE = { R:0, S:120, T:240 };
+    var current = 1;
+    var btns = [];
 
-    el('circle', {cx:CX,cy:CY,r:R, fill:'none', stroke:'var(--line-strong)','stroke-width':2}, svg);
-    el('circle', {cx:CX,cy:CY,r:30, fill:'var(--panel-2)', stroke:'var(--ink-dim)','stroke-width':2}, svg);
-    txt(CX,CY+4,'회전자','var(--ink-dim)',11,'middle',svg,600);
+    for (var i=1;i<=6;i++){
+      (function(n){
+        var b = document.createElement('button');
+        b.type='button'; b.className='step-btn'; b.textContent=n;
+        b.addEventListener('click', function(){ current=n; draw(); });
+        stepsWrap.appendChild(b);
+        btns.push(b);
+      })(i);
+    }
 
-    arrowMarker(svg,'statorRot','var(--ink-faint)');
-    var a0=pt(-22,CX,CY,R+16), a1=pt(22,CX,CY,R+16);
-    el('path', {d:'M '+a0.x+' '+a0.y+' A '+(R+16)+' '+(R+16)+' 0 0 1 '+a1.x+' '+a1.y, fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5,'marker-end':'url(#statorRot)'}, svg);
+    function draw(){
+      clearSvg(svg);
+      arrowMarker(svg,'statorArrow','var(--ink)');
+      var lv = STEPS[current-1].lv;
 
-    Object.keys(WPHASE).forEach(function(ph){
-      var p1 = pt(WPHASE[ph],CX,CY,R-16), p2 = pt(WPHASE[ph],CX,CY,R+16);
-      el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke:WCOLOR[ph], 'stroke-width':7, 'stroke-linecap':'round'}, svg);
-      var lp = pt(WPHASE[ph],CX,CY,R+38);
-      txt(lp.x,lp.y+4,ph+'상 코일',WCOLOR[ph],12,'middle',svg,700);
-    });
+      el('circle', {cx:CX,cy:CY,r:R, fill:'none', stroke:'var(--line-strong)','stroke-width':2}, svg);
+      el('circle', {cx:CX,cy:CY,r:30, fill:'var(--panel-2)', stroke:'var(--ink-dim)','stroke-width':2}, svg);
+      txt(CX,CY+4,'회전자','var(--ink-dim)',11,'middle',svg,600);
 
-    txt(CX,268,'세 코일이 120°씩 떨어져 있다 + 화살표 방향으로 회전자계가 돈다','var(--ink-faint)',10.5,'middle',svg);
+      var innerPts = {};
+      Object.keys(WPHASE).forEach(function(ph){
+        var active = lv[ph]!==0;
+        var p1 = pt(WPHASE[ph],CX,CY,RIN), p2 = pt(WPHASE[ph],CX,CY,ROUT);
+        innerPts[ph] = p1;
+        el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke: active?WCOLOR[ph]:'var(--line)', 'stroke-width':7, 'stroke-linecap':'round', opacity: active?1:0.35}, svg);
+        var lp = pt(WPHASE[ph],CX,CY,ROUT+22);
+        txt(lp.x,lp.y+4,ph+'상',active?WCOLOR[ph]:'var(--ink-faint)',12,'middle',svg,700);
+        if (active){
+          var sign = lv[ph]>0 ? '+' : '−';
+          var sp = pt(WPHASE[ph],CX,CY,ROUT+38);
+          txt(sp.x,sp.y+4,sign,WCOLOR[ph],13,'middle',svg,700);
+          // arrow along the coil bar: +1 flows inward (terminal->neutral), -1 flows outward (neutral->terminal)
+          if (lv[ph]>0) el('line', {x1:p2.x,y1:p2.y,x2:p1.x,y2:p1.y, stroke:'var(--ink)','stroke-width':2,'marker-end':'url(#statorArrow)'}, svg);
+          else el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke:'var(--ink)','stroke-width':2,'marker-end':'url(#statorArrow)'}, svg);
+        }
+      });
+
+      var plusPh=null, minusPh=null;
+      Object.keys(lv).forEach(function(ph){ if(lv[ph]>0) plusPh=ph; if(lv[ph]<0) minusPh=ph; });
+      if (plusPh && minusPh){
+        var pA = innerPts[plusPh], pB = innerPts[minusPh];
+        var midA = { x:(pA.x+CX)/2, y:(pA.y+CY)/2 };
+        el('path', {d:'M '+pA.x+' '+pA.y+' Q '+CX+' '+CY+' '+pB.x+' '+pB.y, fill:'none', stroke:'var(--ink)','stroke-width':1.75,'stroke-dasharray':'3 3','marker-end':'url(#statorArrow)'}, svg);
+        txt(CX,CY-38,'중성점','var(--ink-faint)',10,'middle',svg);
+      }
+
+      btns.forEach(function(b,i){ b.classList.toggle('active', i===current-1); });
+      readout.textContent = '구간 ' + current + '/6 · R=' + (lv.R>0?'+1':lv.R<0?'−1':'0') +
+        ' S=' + (lv.S>0?'+1':lv.S<0?'−1':'0') + ' T=' + (lv.T>0?'+1':lv.T<0?'−1':'0');
+    }
+    draw();
   })();
 
   /* ================= slide 6: firing-angle sine/shading diagram ================= */
