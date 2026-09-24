@@ -65,6 +65,9 @@
     <div class="step-row" id="freqRow">
       <span>출력 주파수 (점호 타이밍):</span>
     </div>
+    <div class="step-row" id="slowRow">
+      <span>2·3단계 재생 속도 (슬로모션):</span>
+    </div>
     <div class="step-row" id="stepRow">
       <span>출력 기준 구간별 정지:</span>
     </div>
@@ -377,6 +380,12 @@
   function freqLabel(hz){ return hz + 'Hz(' + stepIntervalMs(hz).toFixed(1) + 'ms)'; }
   var angleIn = 0, angleOut = 0, lastT = null;
   var sweepMs = 0; // real-time clock (independent of angleOut) driving step-3's marker sweep across its fixed 200ms window
+  // At real speed a 12-48Hz output steps every 3.5-13.9ms — faster than a 60fps screen
+  // (16.7ms) can show, so steps 2-3 flicker. Slow-motion divides BOTH output clocks
+  // (angleOut and sweepMs) by the same factor so they stay in sync; the Hz(ms) labels and
+  // the 200ms axis keep their real values, and 12/24/36/48Hz keep their relative speeds.
+  var SLOW_PRESETS = [100, 200, 400];
+  var slowFactor = 200;
   // one-way latch: the 0-360° intro (R, then S at 120°, then T at 240°, each
   // appearing and drawing in) plays once. After that we're in steady state —
   // all three phases already exist — and it never re-hides on later wraps.
@@ -413,6 +422,21 @@
     freqBtns.push(b);
   });
   buildOutChart(activeFreqHz);
+
+  var slowRow = document.getElementById('slowRow');
+  var slowBtns = [];
+  SLOW_PRESETS.forEach(function(f){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'step-btn'; b.textContent = '1/' + f + '배속';
+    if (f === slowFactor) b.classList.add('active');
+    b.addEventListener('click', function(){
+      slowFactor = f;
+      slowBtns.forEach(function(sb,i){ sb.classList.toggle('active', SLOW_PRESETS[i]===f); });
+      render();
+    });
+    slowRow.appendChild(b);
+    slowBtns.push(b);
+  });
 
   var stepRow = document.getElementById('stepRow');
   var stepBtns = [];
@@ -501,7 +525,7 @@
     var mx = WX0 + (normIn/360)*WSPAN;
     waveMarker.setAttribute('x1', mx); waveMarker.setAttribute('x2', mx);
     readoutIn.textContent = '입력 전기각 ' + normIn.toFixed(0) + '° (60Hz 고정)';
-    readoutOut.textContent = '출력 전기각 ' + normOut.toFixed(0) + '° · 구간 ' + (Math.floor(normOut/60)+1) + '/6 · ' + freqLabel(activeFreqHz);
+    readoutOut.textContent = '출력 전기각 ' + normOut.toFixed(0) + '° · 구간 ' + (Math.floor(normOut/60)+1) + '/6 · ' + freqLabel(activeFreqHz) + ' · 1/' + slowFactor + '배속';
 
     stepBtns.forEach(function(b,i){
       var d = STEP_TARGETS[i].deg;
@@ -539,8 +563,8 @@
     lastT = now;
     if (playing){
       angleIn += IN_DEG_PER_SEC * dt;
-      angleOut += outDegPerSec * dt;
-      sweepMs += dt * 1000;
+      angleOut += outDegPerSec * dt / slowFactor;
+      sweepMs += dt * 1000 / slowFactor;
     }
     if (!introDone && angleIn >= 360) introDone = true;
     render();
