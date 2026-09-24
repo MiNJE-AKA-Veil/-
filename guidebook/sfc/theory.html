@@ -10,6 +10,7 @@
     --line:#ddd7c8; --line-strong:#c7c0ac;
     --accent:#9a5b00; --accent-ink:#ffffff; --accent-2:#0f7a5c;
     --series-a:#1baf7a; --series-b:#eda100;
+    --bad:#c23b3b;
     --code-bg:#ece7d8;
   }
   @media (prefers-color-scheme: dark){
@@ -20,6 +21,7 @@
       --line:#232c35; --line-strong:#2e3a46;
       --accent:#e8a33d; --accent-ink:#241a04; --accent-2:#4fd1a5;
       --series-a:#199e70; --series-b:#c98500;
+      --bad:#e2685f;
       --code-bg:#0e1720;
     }
   }
@@ -30,6 +32,7 @@
     --line:#232c35; --line-strong:#2e3a46;
     --accent:#e8a33d; --accent-ink:#241a04; --accent-2:#4fd1a5;
     --series-a:#199e70; --series-b:#c98500;
+    --bad:#e2685f;
     --code-bg:#0e1720;
   }
   *{box-sizing:border-box;}
@@ -48,6 +51,7 @@
   header.top{ display:flex; flex-direction:column; gap:6px; }
   .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
   header.top h1{ margin:0; font-size:clamp(18px,4vw,22px); font-weight:700; text-wrap:balance; line-height:1.3; }
+  header.top .dek{ margin:0; font-size:13.5px; color:var(--ink-dim); line-height:1.6; }
 
   .progress-row{ display:flex; align-items:center; gap:12px; }
   .progress-track{ flex:1; height:4px; border-radius:2px; background:var(--line); overflow:hidden; }
@@ -56,13 +60,23 @@
 
   .stage{ position:relative; }
   .slide{
-    background:var(--panel); border:1px solid var(--line); border-radius:18px;
+    background:var(--panel); border:1px solid var(--line); border-radius:16px;
     padding:24px 22px 22px;
     display:flex; flex-direction:column; gap:12px;
   }
   .slide[hidden]{ display:none !important; }
-  .slide-kicker{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); }
-  .slide h2{ margin:0; font-size:clamp(18px,4vw,22px); font-weight:700; line-height:1.35; text-wrap:balance; }
+  .slide-head{ display:flex; align-items:baseline; gap:10px; }
+  .slide-num{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-ink);
+    background:var(--accent); border-radius:5px; padding:2px 7px; flex:none;
+  }
+  .slide-kicker{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); }
+  .slide h2{ margin:0; font-size:clamp(18px,4vw,21px); font-weight:700; line-height:1.35; text-wrap:balance; }
+  .bridge{
+    font-size:13px; line-height:1.6; color:var(--ink-dim); font-style:normal;
+    border-left:3px solid var(--line-strong); padding-left:10px;
+  }
+  .bridge strong{ color:var(--ink-dim); }
   .slide .lead{ margin:0; font-size:14.5px; line-height:1.65; color:var(--ink-dim); max-width:58ch; }
   .slide ul.points{ margin:0; padding-left:1.15em; font-size:14.5px; line-height:1.75; }
   .slide ul.points li{ margin-bottom:2px; }
@@ -72,6 +86,12 @@
     font-size:12.5px; color:var(--ink-faint); line-height:1.6;
     background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:9px 12px;
   }
+  .callback{
+    font-size:12.5px; color:var(--ink-dim); line-height:1.6;
+    background:linear-gradient(var(--panel-2),var(--panel-2)) padding-box;
+    border:1px dashed var(--line-strong); border-radius:10px; padding:9px 12px;
+  }
+  .callback b{ color:var(--accent); }
   .formula{
     background:var(--code-bg); border:1px solid var(--line); border-radius:10px;
     padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:14px;
@@ -91,9 +111,9 @@
   .navbtn.primary{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
   .navbtn.primary:hover{ filter:brightness(1.06); color:var(--accent-ink); }
 
-  .dots{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
-  .dot{ width:8px; height:8px; border-radius:50%; background:var(--line-strong); border:none; padding:0; cursor:pointer; }
-  .dot.active{ background:var(--accent); width:20px; border-radius:4px; }
+  .dots{ display:flex; gap:5px; flex-wrap:wrap; justify-content:center; }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--line-strong); border:none; padding:0; cursor:pointer; }
+  .dot.active{ background:var(--accent); width:18px; border-radius:4px; }
 
   .step-row{ display:flex; gap:6px; flex-wrap:wrap; }
   .step-btn{
@@ -105,18 +125,11 @@
   .step-btn.active{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
   .step-readout{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--accent); }
 
-  .chart-wrap{ position:relative; width:100%; }
   .legend{ display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--ink-dim); }
   .legend span{ display:inline-flex; align-items:center; gap:6px; }
   .legend i{ width:11px; height:3px; border-radius:2px; display:inline-block; }
-  .tooltip{
-    position:absolute; pointer-events:none; background:var(--panel); border:1px solid var(--line-strong);
-    border-radius:8px; padding:6px 9px; font-family:'IBM Plex Mono',monospace; font-size:11px;
-    color:var(--ink); box-shadow:0 4px 14px rgba(0,0,0,.18); opacity:0; transition:opacity .1s ease;
-    white-space:nowrap; z-index:2;
-  }
 
-  ul.recap{ margin:0; padding-left:1.2em; font-size:14.5px; line-height:1.85; }
+  ul.recap{ margin:0; padding-left:1.2em; font-size:14px; line-height:1.85; }
 
   .swipe-hint{ text-align:center; font-size:11.5px; color:var(--ink-faint); }
 
@@ -134,10 +147,8 @@
     padding:12px; margin-top:-2px;
   }
   .term-detail[hidden]{ display:none; }
-  .term-detail strong{ color:var(--ink); }
-  .term-detail .cap{ text-align:center; font-size:12px; color:var(--ink-dim); margin-top:4px; }
 
-  .play-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .play-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .play-btn{
     font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600;
     padding:6px 12px; border-radius:7px; border:1px solid var(--line-strong);
@@ -157,11 +168,12 @@
   <header class="top">
     <span class="eyebrow">SFC 가이드북 · 한 장씩 보기</span>
     <h1 id="deckTitle">SFC, 정지된 발전기를 어떻게 돌릴까?</h1>
+    <p class="dek">한 가지 질문을 처음부터 끝까지 따라간다 — <strong>"왜 하필 이렇게 해야 하는가?"</strong></p>
   </header>
 
   <div class="progress-row">
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <span class="progress-num mono" id="progressNum">1 / 11</span>
+    <span class="progress-num mono" id="progressNum">1 / 13</span>
   </div>
 
   <div class="stage" id="stage">
@@ -170,100 +182,71 @@
     <section class="slide" id="slide-1">
       <span class="slide-kicker">표지</span>
       <h2>정지된 발전기, 외부 힘 없이는 스스로 못 돈다</h2>
-      <p class="lead">발전기가 멈춰 있을 때 그걸 돌려서 속도를 붙여주는 장치가 <strong>SFC</strong>다.
-        이 자료는 SFC가 어떤 원리로 작동하는지, 화면을 한 장씩 넘기면서 보는 자료다.</p>
+      <p class="lead">이 자료는 사실을 나열하지 않는다. <strong>"왜 이렇게 하지?"</strong>라는 질문이 떠오를
+        때마다, 바로 다음 내용에서 그 답을 준다 — 한 가지 문제에서 출발해 SFC의 모든 설계가
+        논리적으로 이어져 나오는 과정을 끝까지 따라가 본다.</p>
       <div class="visual">
-        <svg viewBox="0 0 420 200" role="img" aria-label="멈춰있는 발전기 옆에 SFC 상자가 있고 화살표로 회전을 만들어주는 모습을 나타낸 간단한 그림">
+        <svg viewBox="0 0 420 190" role="img" aria-label="멈춰있는 발전기 옆에 SFC 상자가 있고 화살표로 회전을 만들어주는 모습을 나타낸 간단한 그림">
           <g font-family="IBM Plex Mono" font-size="13">
-            <circle cx="120" cy="100" r="58" fill="none" stroke="var(--line-strong)" stroke-width="3"></circle>
-            <text x="120" y="106" text-anchor="middle" fill="var(--ink-dim)">발전기</text>
-            <text x="120" y="176" text-anchor="middle" fill="var(--ink-faint)" font-size="11">0 RPM (정지)</text>
+            <circle cx="120" cy="95" r="56" fill="none" stroke="var(--line-strong)" stroke-width="2.5"></circle>
+            <text x="120" y="100" text-anchor="middle" fill="var(--ink-dim)">발전기</text>
+            <text x="120" y="168" text-anchor="middle" fill="var(--ink-faint)" font-size="11">0 RPM (정지)</text>
 
-            <rect x="250" y="65" width="120" height="70" rx="12" fill="var(--panel-2)" stroke="var(--accent)" stroke-width="2.5"></rect>
-            <text x="310" y="105" text-anchor="middle" fill="var(--accent)" font-weight="700">SFC</text>
+            <rect x="248" y="62" width="118" height="66" rx="10" fill="var(--panel-2)" stroke="var(--accent)" stroke-width="2"></rect>
+            <text x="307" y="100" text-anchor="middle" fill="var(--accent)" font-weight="700">SFC</text>
 
-            <path d="M 250 100 A 60 20 0 0 0 182 100" fill="none" stroke="var(--ink-dim)" stroke-width="2.5" marker-end="url(#arrHero)"></path>
+            <path d="M 248 95 A 58 18 0 0 0 184 95" fill="none" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#arrHero)"></path>
             <defs>
-              <marker id="arrHero" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <marker id="arrHero" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-dim)"></path>
               </marker>
             </defs>
-            <text x="216" y="70" text-anchor="middle" fill="var(--ink-faint)" font-size="10.5">회전을 만들어줌</text>
+            <text x="216" y="68" text-anchor="middle" fill="var(--ink-faint)" font-size="10.5">회전을 만들어줌</text>
           </g>
         </svg>
       </div>
-      <p class="swipe-hint">→ 버튼이나 화면을 넘겨서 다음 장으로 (총 11장)</p>
+      <p class="swipe-hint">→ 버튼이나 화면을 넘겨서 다음 장으로 (총 13장)</p>
     </section>
 
     <!-- 2 -->
     <section class="slide" id="slide-2" hidden>
-      <span class="slide-kicker">01 · 기본 개념</span>
-      <h2>SFC(LCI)가 하는 일</h2>
-      <ul class="points">
-        <li>큰 동기발전기는 멈춰 있으면
-          <button class="term-toggle" type="button" aria-expanded="false" data-detail="why-no-torque">스스로 회전 토크를 낼 수 없다<span class="chev">▸</span></button>.
-        </li>
-        <li>그래서 밖에서 억지로 회전하는 힘을 걸어줘야 하는데, 이 일을 하는 장치가 <strong>SFC</strong>.</li>
-        <li>SFC 내부 방식의 이름이 <strong>LCI</strong> (Load Commutated Inverter).</li>
-        <li>움직이는 부품 없이 반도체(싸이리스터)만으로 만든다고 해서 "Static"이라는 이름이 붙었다.</li>
-      </ul>
-      <div class="term-detail" id="detail-why-no-torque" hidden>
-        <div class="visual"><svg id="noTorqueSvg" viewBox="0 0 300 190" role="img" aria-label="가운데 고정된 회전자 화살표 주위를 빠르게 도는 고정자 자계 화살표, 그 아래 두 자속 사이 각도에 따라 좌우로 흔들리는 토크 바늘 애니메이션"></svg></div>
-        <p class="cap mono">고정자계가 계속 돌아도 회전자는 못 따라가서, 미는 힘과 당기는 힘이 반씩 섞여
-          평균 토크 ≈ 0 → 그래서 그냥 전원만 걸면 못 돈다.</p>
-      </div>
+      <div class="slide-head"><span class="slide-num mono">01</span><span class="slide-kicker">문제</span></div>
+      <h2>왜 스스로 못 도는가 — 세기가 아니라 동기화의 문제</h2>
+      <p class="lead">전원을 세게 걸어도 안 된다. 진짜 이유는 <strong>회전자와 회전자계의 속도가 일치하지
+        않으면, 미는 힘과 당기는 힘이 반씩 섞여 평균 토크가 0</strong>이 되기 때문이다.</p>
+      <div class="visual"><svg id="noTorqueSvg" viewBox="0 0 300 190" role="img" aria-label="가운데 고정된 회전자 화살표 주위를 빠르게 도는 고정자 자계 화살표, 그 아래 두 자속 사이 각도에 따라 좌우로 흔들리는 토크 바늘 애니메이션"></svg></div>
+      <div class="slide-note"><strong>결론</strong> — 그래서 회전자계는 회전자가 어디 있든 상관없이
+        "어디서든 회전자를 잡을 수 있는" 게 아니라, 반드시 <strong>회전자와 같은 속도로 시작</strong>해야
+        한다. 정지 상태라면 그 속도는 0이다.</div>
     </section>
 
     <!-- 3 -->
     <section class="slide" id="slide-3" hidden>
-      <span class="slide-kicker">02 · 전체 구조</span>
-      <h2>세 덩어리로 이어진 구조</h2>
-      <p class="lead">정류기 → DC 링크 → 인버터, 이 세 블록이 순서대로 연결되어 있다.</p>
-      <div class="visual">
-        <svg viewBox="0 0 640 170" role="img" aria-label="3상 교류 입력이 정류기, DC 링크, 인버터를 거쳐 가변 주파수 교류로 발전기에 전달되는 블록 다이어그램">
-          <defs>
-            <marker id="fArrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-dim)"></path></marker>
-          </defs>
-          <g font-family="IBM Plex Mono" font-size="12">
-            <text x="6" y="60" fill="var(--ink-dim)">AC</text>
-            <text x="6" y="76" fill="var(--ink-faint)" font-size="10">60Hz 고정</text>
-            <line x1="46" y1="55" x2="84" y2="55" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow2)"></line>
-
-            <rect x="86" y="20" width="132" height="70" rx="10" fill="var(--panel-2)" stroke="var(--series-b)" stroke-width="2.5"></rect>
-            <text x="152" y="52" text-anchor="middle" fill="var(--ink)" font-weight="600">정류기</text>
-            <text x="152" y="70" text-anchor="middle" fill="var(--ink-dim)" font-size="11">AC → DC</text>
-
-            <line x1="218" y1="55" x2="256" y2="55" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow2)"></line>
-
-            <rect x="258" y="20" width="122" height="70" rx="10" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="2.5"></rect>
-            <text x="319" y="52" text-anchor="middle" fill="var(--ink)" font-weight="600">DC 링크</text>
-            <text x="319" y="70" text-anchor="middle" fill="var(--ink-dim)" font-size="11">전류 평활</text>
-
-            <line x1="380" y1="55" x2="418" y2="55" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow2)"></line>
-
-            <rect x="420" y="20" width="132" height="70" rx="10" fill="var(--panel-2)" stroke="var(--series-a)" stroke-width="2.5"></rect>
-            <text x="486" y="52" text-anchor="middle" fill="var(--ink)" font-weight="600">인버터</text>
-            <text x="486" y="70" text-anchor="middle" fill="var(--ink-dim)" font-size="11">DC → 가변 AC</text>
-
-            <line x1="552" y1="55" x2="590" y2="55" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow2)"></line>
-            <text x="596" y="50" fill="var(--ink-dim)">발전기</text>
-            <text x="596" y="66" fill="var(--ink-dim)">고정자</text>
-
-            <text x="152" y="120" text-anchor="middle" fill="var(--series-b)" font-size="11">"얼마나 세게?"</text>
-            <text x="486" y="120" text-anchor="middle" fill="var(--series-a)" font-size="11">"얼마나 빠르게?"</text>
-          </g>
-        </svg>
-      </div>
-      <p class="lead">앞뒤 두 블록은 같은 종류의 회로(싸이리스터 6개)를 쓰지만, <strong>정류기는 크기를,
-        인버터는 속도(주파수)를</strong> 맡는다.</p>
+      <div class="slide-head"><span class="slide-num mono">02</span><span class="slide-kicker">왜 0Hz부터 서서히</span></div>
+      <h2>왜 0Hz에서 시작해서 천천히 올려야 하는가</h2>
+      <p class="bridge"><strong>앞에서:</strong> 회전자계는 회전자와 같은 속도로 시작해야 한다는 걸 봤다.
+        그런데 시작만 맞추면 끝일까? 계속 속도를 올리는 동안에도 문제가 생긴다.</p>
+      <div class="step-row" id="rampSteps"></div>
+      <div class="visual"><svg id="rampSvg" viewBox="0 0 440 220" role="img" aria-label="회전자와 자계 화살표 사이 각도가 천천히 올릴 때는 작게 유지되지만, 급하게 올리면 점점 벌어지다가 90도를 넘어 토크를 잃고 탈조하는 과정을 비교하는 애니메이션"></svg></div>
+      <ul class="points">
+        <li><strong>시작점</strong> — 자계가 회전자보다 조금이라도 빠르면 1절과 같은 문제가 그대로 재현된다.</li>
+        <li><strong>그 다음</strong> — 회전자는 무겁다(관성). 자계 속도를 회전자가 따라올 수 있는 것보다
+          빨리 올리면 뒤처지는 각도가 계속 벌어지다가, 어느 순간(90°) <strong>토크가 오히려 줄면서
+          완전히 놓쳐버린다("탈조")</strong>.</li>
+      </ul>
+      <div class="callback">이 "뒤처지는 각도"는 8절에서 <b>토크각 δ</b>라는 이름으로 다시 나온다 — 정확히
+        같은 현상을 수식으로 확인하게 된다.</div>
     </section>
 
     <!-- 4 -->
     <section class="slide" id="slide-4" hidden>
-      <span class="slide-kicker">03 · 배경지식</span>
-      <h2>전기각과 위상 — 세 선이 어긋난 정도</h2>
+      <div class="slide-head"><span class="slide-num mono">03</span><span class="slide-kicker">회전자계의 정체</span></div>
+      <h2>전기각과 위상 — 세 전류가 만드는 회전</h2>
+      <p class="bridge"><strong>앞에서:</strong> "회전자계를 0Hz부터 서서히 돌린다"고 계속 말해왔다.
+        그런데 이 회전자계는 실제로 무엇으로 만들어지는가?</p>
       <div class="play-row">
-        <button class="play-btn on" id="phasePlay" type="button">일시정지</button>
+        <button class="play-btn on" id="phasePlay" type="button">⏸ 정지</button>
+        <button class="play-btn" id="phaseReset" type="button">⟲ 처음으로</button>
         <span class="step-readout mono" id="phaseReadout"></span>
       </div>
       <div class="visual"><svg id="phaseSvg" viewBox="0 0 460 210" role="img" aria-label="원 위에서 120도씩 떨어진 R S T 세 벡터가 함께 회전하고, 그에 대응하는 세 정현파가 120도 위상차를 두고 나란히 그려지는 애니메이션. R이 먼저 나타나고 S가 120도 뒤, T가 240도 뒤에 나타난 뒤에는 계속 세 개가 함께 남는다"></svg></div>
@@ -273,76 +256,138 @@
 
     <!-- 5 -->
     <section class="slide" id="slide-5" hidden>
-      <span class="slide-kicker">04 · 점호각</span>
-      <h2>점호각(α) — "얼마나 세게 밀까"</h2>
-      <ul class="points">
-        <li>정류기 소자를
-          <button class="term-toggle" type="button" aria-expanded="false" data-detail="why-timing-matters">언제 켤지<span class="chev">▸</span></button>
-          정하는 각도가 점호각(α).</li>
-      </ul>
-      <div class="term-detail" id="detail-why-timing-matters" hidden>
-        <div class="step-row" id="alphaSteps"></div>
-        <div class="visual"><svg id="alphaSvg" viewBox="0 0 460 200" role="img" aria-label="사인파 위에 점호 시점을 표시하고, 그 시점부터 사인파가 끝날 때까지의 면적을 색칠해서 점호각이 클수록 색칠된 면적과 오른쪽 막대의 상대 전압이 줄어드는 것을 보여주는 그림"></svg></div>
+      <div class="slide-head"><span class="slide-num mono">04</span><span class="slide-kicker">두 개의 손잡이</span></div>
+      <h2>이 회전자계를 조절하려면 무엇이 필요한가</h2>
+      <p class="bridge"><strong>앞에서:</strong> R/S/T 세 전류의 위상차가 회전자계를 만든다는 걸 봤다.
+        그런데 이걸 "0Hz부터 서서히, 원하는 세기로" 마음대로 조절하려면 실제로 뭘 만질 수 있어야 할까?</p>
+      <div class="visual">
+        <svg viewBox="0 0 460 150" role="img" aria-label="회전자계라는 하나의 결과를 세기와 속도라는 두 개의 독립된 손잡이로 조절한다는 것을 보여주는 다이어그램">
+          <g font-family="IBM Plex Mono" font-size="12.5">
+            <rect x="150" y="14" width="160" height="40" rx="9" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="1.75"></rect>
+            <text x="230" y="39" text-anchor="middle" fill="var(--ink)" font-weight="700">회전자계</text>
+            <line x1="200" y1="54" x2="150" y2="96" stroke="var(--ink-faint)" stroke-width="1.5"></line>
+            <line x1="260" y1="54" x2="310" y2="96" stroke="var(--ink-faint)" stroke-width="1.5"></line>
+            <rect x="60" y="98" width="180" height="42" rx="9" fill="var(--panel-2)" stroke="var(--series-b)" stroke-width="2"></rect>
+            <text x="150" y="120" text-anchor="middle" fill="var(--series-b)" font-weight="700">세기</text>
+            <text x="150" y="134" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">→ 정류기 점호각(α)</text>
+            <rect x="220" y="98" width="180" height="42" rx="9" fill="var(--panel-2)" stroke="var(--series-a)" stroke-width="2"></rect>
+            <text x="310" y="120" text-anchor="middle" fill="var(--series-a)" font-weight="700">속도</text>
+            <text x="310" y="134" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">→ 인버터 점호 타이밍</text>
+          </g>
+        </svg>
       </div>
-      <div class="formula">Vdc = Vdo · cos α</div>
-      <p class="lead"><strong>Vdo</strong>는 α=0°일 때 정류기가 낼 수 있는 <strong>최대 직류 전압</strong>이다
-        (입력 교류 전압 크기로 정해지는 상수, 이 회로에서는 Vdo ≈ 1.35 × 선간전압).</p>
+      <p class="lead">이 두 손잡이는 <strong>서로 완전히 독립</strong>이다 — 세기를 안 건드리고 속도만
+        바꿀 수 있고, 그 반대도 가능하다. 다음 두 절에서 하나씩 본다.</p>
     </section>
 
     <!-- 6 -->
     <section class="slide" id="slide-6" hidden>
-      <span class="slide-kicker">05 · 점호 타이밍</span>
-      <h2>점호 타이밍 — "얼마나 빠르게 반복할까"</h2>
+      <div class="slide-head"><span class="slide-num mono">05</span><span class="slide-kicker">손잡이 ① 세기</span></div>
+      <h2>점호각(α) — 정류기가 "세기"를 정하는 방법</h2>
+      <p class="bridge"><strong>앞에서:</strong> "세기" 손잡이가 정류기 점호각이라고 했다. 왜 점호
+        "타이밍"이 전류의 "크기"를 정할 수 있는가?</p>
+      <div class="step-row" id="alphaSteps"></div>
+      <div class="visual"><svg id="alphaSvg" viewBox="0 0 460 200" role="img" aria-label="사인파 위에 점호 시점을 표시하고, 그 시점부터 사인파가 끝날 때까지의 면적을 색칠해서 점호각이 클수록 색칠된 면적과 오른쪽 막대의 상대 전압이 줄어드는 것을 보여주는 그림"></svg></div>
+      <div class="slide-note">싸이리스터는 점호 신호를 받고 <strong>전압이 (+) 방향일 때만</strong> 도통을
+        시작한다. 늦게 켤수록(α↑) 사인파의 남은 면적이 줄어들어 평균 전압(Vdc)이 낮아진다.</div>
+      <div class="formula">Vdc = Vdo · cos α</div>
+      <p class="lead"><strong>Vdo</strong>는 α=0°일 때 정류기가 낼 수 있는 <strong>최대 직류 전압</strong>
+        (입력 교류 전압 크기로 정해지는 상수, 이 회로에서는 Vdo ≈ 1.35 × 선간전압).</p>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide" id="slide-7" hidden>
+      <div class="slide-head"><span class="slide-num mono">06</span><span class="slide-kicker">손잡이 ② 속도</span></div>
+      <h2>점호 타이밍 — 인버터가 "속도"를 정하는 방법</h2>
+      <p class="bridge"><strong>앞에서:</strong> 정류기 쪽 손잡이(세기)를 봤다. 이제 인버터 쪽 손잡이(속도) 차례다.</p>
       <ul class="points">
         <li>인버터도 6개 소자를 정해진 순서로 켜고 끈다.</li>
-        <li>그 순서를 <strong>얼마나 빨리 반복하는가</strong>가 출력 주파수를 정한다.</li>
-        <li>전류 크기(α)와는 완전히 별개인, <strong>독립된 손잡이</strong>다.</li>
+        <li>그 순서를 <strong>얼마나 빨리 반복하는가</strong>가 회전자계의 회전 속도(=출력 주파수)를 정한다.</li>
+        <li>정류기 쪽 손잡이(세기)와는 회로도 다르고 완전히 <strong>독립</strong>이다.</li>
       </ul>
       <div class="slide-note">입력은 항상 고정 60Hz, 출력은 이 손잡이로 얼마든지 다른 주파수를 만들
         수 있다 — 직류로 한번 바뀌는 순간 입력 쪽 주파수 정보는 사라지기 때문이다.</div>
     </section>
 
-    <!-- 7 -->
-    <section class="slide" id="slide-7" hidden>
-      <span class="slide-kicker">06 · 직접 만들어보기</span>
-      <h2>점호 타이밍이 파형을 만드는 과정</h2>
+    <!-- 8 -->
+    <section class="slide" id="slide-8" hidden>
+      <div class="slide-head"><span class="slide-num mono">07</span><span class="slide-kicker">실제 구현</span></div>
+      <h2>두 손잡이로 진짜 회전자계를 만드는 법</h2>
+      <p class="bridge"><strong>앞에서:</strong> 3절에서는 매끈하게 도는 이상적인 회전자계(사인파)를 봤다.
+        실제 하드웨어(반도체 스위치 6개)는 이걸 어떻게 흉내낼까?</p>
       <div class="play-row">
         <button class="play-btn" id="wfPlay" type="button">▶ 자동 시뮬레이션</button>
         <div class="step-row" id="wfSteps"></div>
       </div>
       <span class="step-readout mono" id="wfReadout"></span>
       <div class="visual"><svg id="wfSvg" viewBox="0 0 460 320" role="img" aria-label="DC+ DC- 레일과 6개 싸이리스터 사이에서 전류가 흐르는 경로가 한 단계씩 바뀌고, 그에 맞춰 아래쪽 R S T 세 상의 계단형 파형이 쌓여가는 인터랙티브 다이어그램"></svg></div>
-    </section>
-
-    <!-- 8 -->
-    <section class="slide" id="slide-8" hidden>
-      <span class="slide-kicker">07 · 토크</span>
-      <h2>토크는 두 자속의 곱으로 정해진다</h2>
-      <div class="slide-note">2절에서 본 "못 도는 문제"를 풀려면 이 토크가 <strong>0보다 커야</strong> 한다
-        — 토크가 클수록 더 힘차게 가속된다.</div>
-      <div class="play-row">
-        <div class="step-row" id="torqueSteps"></div>
-        <span class="step-readout mono" id="torqueReadout"></span>
-      </div>
-      <div class="visual"><svg id="torqueSvg" viewBox="0 0 380 210" role="img" aria-label="계자자속 벡터와, 회전 방향으로 그보다 앞서 있는 전기자 자속 벡터 사이의 각도 델타를 보여주는 그림. 전류 크기 버튼을 누르면 전기자 자속 벡터의 길이가 바뀌고 토크 값이 함께 바뀐다"></svg></div>
-      <div class="slide-note">전기자 자속은 계자자속과 <strong>더한 것이 아니라</strong>, 순수하게 고정자
-        전류만 만드는 별개의 자속이다. 전류가 클수록 이 벡터가 길어져서 토크도 커진다.</div>
+      <div class="callback">3절의 매끈한 사인파 대신 <b>계단(6단계)</b>으로 근사한 것뿐, 만드는 목적은
+        똑같이 "120°씩 어긋난 회전자계"다.</div>
     </section>
 
     <!-- 9 -->
     <section class="slide" id="slide-9" hidden>
-      <span class="slide-kicker">08 · 왜 맞춰야 할까</span>
-      <h2>속도가 오르면 점호각을 낮춰야 한다</h2>
-      <div class="step-row" id="alignSteps"></div>
-      <div class="visual"><svg id="alignSvg" viewBox="0 0 460 230" role="img" aria-label="역기전력 막대와 정류기 전압 막대를 비교하는 그림. 속도 버튼을 누르면 역기전력 막대가 커지고, 정류기 전압 막대는 그보다 항상 조금 더 높게 유지되도록 점호각이 자동으로 낮아진다"></svg></div>
-      <div class="slide-note">정류기 전압(Vdc)은 항상 역기전력보다 커야 전류가 흐른다. 속도가 오르면
-        역기전력도 오르니, <strong>같은 전류를 유지하려면 α를 낮춰 Vdc를 같이 올려야</strong> 한다.</div>
+      <div class="slide-head"><span class="slide-num mono">08</span><span class="slide-kicker">회전자계 → 토크</span></div>
+      <h2>이 회전자계가 회전자를 실제로 끄는가</h2>
+      <p class="bridge"><strong>앞에서:</strong> 회전자계를 만드는 법을 봤다. 그런데 자계가 돈다고 회전자가
+        저절로 끌려가는 건 아니다 — 실제로 끄는 힘(토크)이 있어야 한다.</p>
+      <div class="step-row" id="torqueSteps"></div>
+      <div class="visual"><svg id="torqueSvg" viewBox="0 0 380 210" role="img" aria-label="계자자속 벡터와, 회전 방향으로 그보다 앞서 있는 전기자 자속 벡터 사이의 각도 델타를 보여주는 그림. 전류 크기 버튼을 누르면 전기자 자속 벡터의 길이가 바뀌고 토크 값이 함께 바뀐다"></svg></div>
+      <span class="step-readout mono" id="torqueReadout"></span>
+      <div class="formula">T ∝ Φ<sub>field</sub> × Φ<sub>armature</sub> × sin δ</div>
+      <ul class="points">
+        <li>계자자속(회전자)과, 고정자 전류가 만드는 전기자 자속(더한 게 아니라 <strong>순수하게 전류로만
+          생기는 별개의 자속</strong>) 사이의 각도가 δ다.</li>
+        <li>전기자 자속이 회전 방향으로 계자자속보다 <strong>앞서 있어야</strong> 앞에서 끌어당겨 토크가
+          나온다.</li>
+      </ul>
+      <div class="visual"><svg id="sinDeltaSvg" viewBox="0 0 460 140" role="img" aria-label="델타가 0에서 180도까지 변할 때 사인델타 값이 90도에서 최대가 되었다가 다시 줄어드는 그래프, 90도를 넘는 위험 구간이 표시됨"></svg></div>
+      <div class="callback">2절에서 본 "뒤처지는 각도"가 바로 이 δ다. 그래프에서 보듯 <b>δ=90°에서 토크가
+        최대</b>이고, 그 이상 벌어지면 sin δ가 줄어들면서 토크도 같이 줄어든다 — 그래서 2절에서 자계
+        속도를 너무 빨리 올리면 안 됐던 것이다.</div>
     </section>
 
     <!-- 10 -->
     <section class="slide" id="slide-10" hidden>
-      <span class="slide-kicker">09 · 기동 시퀀스</span>
-      <h2>기동 시퀀스 한눈에 보기</h2>
+      <div class="slide-head"><span class="slide-num mono">09</span><span class="slide-kicker">가속의 대가</span></div>
+      <h2>속도가 오르면 점호각을 낮춰야 한다</h2>
+      <p class="bridge"><strong>앞에서:</strong> 토크가 나서 회전자가 빨라지기 시작했다. 그런데 빨라진다는
+        것 자체가 새로운 문제를 만든다.</p>
+      <div class="step-row" id="alignSteps"></div>
+      <div class="visual"><svg id="alignSvg" viewBox="0 0 460 230" role="img" aria-label="역기전력 막대와 정류기 전압 막대를 비교하는 그림. 속도 버튼을 누르면 역기전력 막대가 커지고, 정류기 전압 막대는 그보다 항상 조금 더 높게 유지되도록 점호각이 자동으로 낮아진다"></svg></div>
+      <ul class="points">
+        <li>회전자가 빨라질수록 <strong>발전기 스스로 역기전력을 만든다</strong> — 정류기가 미는 방향과
+          반대로 저항하는 셈.</li>
+        <li>5절 공식(Vdc=Vdo·cosα)대로, <strong>같은 전류(=토크)를 유지하려면 α를 낮춰 Vdc를 키워서</strong>
+          커지는 역기전력을 계속 이겨야 한다.</li>
+      </ul>
+      <div class="callback">즉 <b>토크→가속→역기전력↑→α↓</b>가 하나의 사슬로 계속 반복된다 —
+        속도가 오르는 내내 손잡이를 가만히 둘 수 없는 이유다.</div>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" id="slide-11" hidden>
+      <div class="slide-head"><span class="slide-num mono">10</span><span class="slide-kicker">역기전력의 두 얼굴</span></div>
+      <h2>역기전력은 방해꾼이면서 동시에 열쇠다</h2>
+      <p class="bridge"><strong>앞에서:</strong> 역기전력이 정류기를 방해한다고 했다. 그런데 이 똑같은
+        역기전력이, 인버터가 소자를 끄는 데 반드시 필요한 재료이기도 하다.</p>
+      <div class="visual"><svg id="commSvg" viewBox="0 0 460 190" role="img" aria-label="저속에서는 역기전력이 없어 강제로 소자를 꺼야 하고, 고속에서는 역기전력이 충분해 저절로 소자가 꺼지는 두 상황을 나란히 비교하는 그림"></svg></div>
+      <ul class="points">
+        <li>인버터가 다음 소자로 넘어갈 때, 꺼지는 소자에 잠깐 <strong>반대 방향 전압</strong>을 걸어야
+          확실히 꺼진다 — 이걸 발전기 자신의 역기전력에서 그대로 가져다 쓰는 게 <strong>LCI</strong>
+          ("Load Commutated")다.</li>
+        <li>회전자가 거의 멈춰 있으면 역기전력도 거의 0이라 이 방식이 실패한다 → 저속에서는 DC
+          전류를 강제로 끊는 별도 모드로 기동하다가, 역기전력이 충분해지면 자연스러운 LCI 모드로
+          넘어간다.</li>
+      </ul>
+    </section>
+
+    <!-- 12 -->
+    <section class="slide" id="slide-12" hidden>
+      <div class="slide-head"><span class="slide-num mono">11</span><span class="slide-kicker">완결</span></div>
+      <h2>기동 시퀀스 전체 그림</h2>
+      <p class="bridge"><strong>앞에서:</strong> 토크→가속→역기전력→재조정의 사슬이 계속 돈다고 했다.
+        이 사슬은 언제, 어떻게 끝날까?</p>
       <div class="visual">
         <svg viewBox="0 0 500 190" role="img" aria-label="정지 상태에서 시작해 저속 보조 모드, 정상 LCI 모드를 거쳐 정격의 80퍼센트에서 SFC가 분리되는 타임라인">
           <g font-family="IBM Plex Mono" font-size="11">
@@ -366,29 +411,15 @@
           </g>
         </svg>
       </div>
-      <ul class="points">
-        <li>
-          <button class="term-toggle" type="button" aria-expanded="false" data-detail="why-back-emf">왜 역기전력이 있어야 LCI 방식으로 전환되는가<span class="chev">▸</span></button>
-        </li>
-        <li>정격 속도의 <strong>약 80%</strong>까지 가속되면 계통/터빈이 넘겨받고 SFC는 손을 뗀다.</li>
-      </ul>
-      <div class="term-detail" id="detail-why-back-emf" hidden>
-        <div class="visual"><svg id="commSvg" viewBox="0 0 460 190" role="img" aria-label="저속에서는 역기전력이 없어 강제로 소자를 꺼야 하고, 고속에서는 역기전력이 충분해 저절로 소자가 꺼지는 두 상황을 나란히 비교하는 그림"></svg></div>
-      </div>
+      <p class="lead">정격 속도의 <strong>약 80%</strong>까지 가속되면, 이때부터는 계통(또는 터빈 자체
+        힘)이 나머지를 넘겨받을 수 있을 만큼 충분해져서 SFC는 손을 뗀다.</p>
     </section>
 
-    <!-- 11 -->
-    <section class="slide" id="slide-11" hidden>
-      <span class="slide-kicker">핵심 요약</span>
-      <h2>한 장으로 정리</h2>
-      <ul class="recap">
-        <li>정류기 점호각(α) = 전류 크기, 인버터 점호 타이밍 = 주파수 — <strong>서로 다른 손잡이</strong>.</li>
-        <li>세 상(R/S/T)이 120°씩 어긋난 정도가 전기각.</li>
-        <li>인버터가 6개 소자를 순서대로 켜는 게 계단형 파형을 만든다.</li>
-        <li>토크는 계자자속 × 전기자 자속 × sinδ로 정해진다.</li>
-        <li>속도가 오르면 역기전력도 커지므로, 같은 토크를 내려면 점호각을 실시간으로 계속 낮춰야 한다.</li>
-        <li>SFC는 0Hz에서 정격의 약 80%까지 가속시킨 뒤 분리된다.</li>
-      </ul>
+    <!-- 13 -->
+    <section class="slide" id="slide-13" hidden>
+      <div class="slide-head"><span class="slide-num mono">요약</span><span class="slide-kicker">전체 흐름</span></div>
+      <h2>하나로 이어지는 이야기</h2>
+      <div class="visual"><svg id="recapSvg" viewBox="0 0 460 460" role="img" aria-label="문제 제기부터 완결까지 전체 논리 흐름을 화살표로 이어 보여주는 다이어그램"></svg></div>
     </section>
 
   </div>
@@ -409,8 +440,10 @@
     if (parent) parent.appendChild(e);
     return e;
   }
-  function txt(x,y,s,fill,size,anchor,parent){
-    var t = el('text', {x:x,y:y,fill:fill||'var(--ink-dim)', 'font-family':'IBM Plex Mono','font-size':size||11,'text-anchor':anchor||'start'}, parent);
+  function txt(x,y,s,fill,size,anchor,parent,weight){
+    var attrs = {x:x,y:y,fill:fill||'var(--ink-dim)', 'font-family':'IBM Plex Mono','font-size':size||11,'text-anchor':anchor||'start'};
+    if (weight) attrs['font-weight'] = weight;
+    var t = el('text', attrs, parent);
     t.textContent = s;
     return t;
   }
@@ -421,6 +454,21 @@
   }
   function isVisible(id){ var s = document.getElementById(id); return s && !s.hidden; }
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- shared visual vocabulary: every phasor/vector diagram in this deck uses this ----
+  function vecArrow(svg, cx, cy, thetaDeg, len, color, width){
+    var p = pt(thetaDeg, cx, cy, len);
+    var line = el('line', {x1:cx,y1:cy,x2:p.x,y2:p.y, stroke:color, 'stroke-width':width||3, 'stroke-linecap':'round'}, svg);
+    var ring = el('circle', {cx:p.x,cy:p.y,r:6.5, fill:'none', stroke:color, 'stroke-width':1.25, opacity:0.45}, svg);
+    var dot = el('circle', {cx:p.x,cy:p.y,r:3.2, fill:color}, svg);
+    return { line:line, ring:ring, dot:dot, tip:p };
+  }
+  function arrowMarker(svg, id, color){
+    var defs = svg.querySelector('defs') || el('defs',{},svg);
+    var mk = el('marker', {id:id, viewBox:'0 0 10 10', refX:8, refY:5, markerWidth:6.5, markerHeight:6.5, orient:'auto-start-reverse'});
+    el('path', {d:'M0,0 L10,5 L0,10 z', fill:color}, mk);
+    defs.appendChild(mk);
+  }
 
   /* ---------- pager ---------- */
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
@@ -439,6 +487,7 @@
   var nextBtn = document.getElementById('nextBtn');
   var progressFill = document.getElementById('progressFill');
   var progressNum = document.getElementById('progressNum');
+  var onEnterCallbacks = {};
 
   function render(){
     slides.forEach(function(s,i){ s.hidden = (i!==idx); });
@@ -450,6 +499,7 @@
     nextBtn.appendChild(document.createTextNode(idx===total-1 ? ' ↺' : ' ›'));
     progressFill.style.width = ((idx+1)/total*100) + '%';
     progressNum.textContent = (idx+1) + ' / ' + total;
+    if (onEnterCallbacks[idx]) onEnterCallbacks[idx]();
   }
   function go(i){ idx = Math.max(0, Math.min(total-1, i)); render(); }
   prevBtn.addEventListener('click', function(){ go(idx-1); });
@@ -467,7 +517,6 @@
     if (Math.abs(dx) > 40) go(dx<0 ? idx+1 : idx-1);
     touchX = null;
   }, {passive:true});
-  render();
 
   /* ---------- generic "click bold term to expand" disclosures ---------- */
   document.querySelectorAll('.term-toggle').forEach(function(btn){
@@ -477,66 +526,159 @@
       var open = panel.hidden;
       panel.hidden = !open;
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (btn.dataset.detail==='why-back-emf' && open) buildCommDiagram();
     });
   });
 
   /* ================= slide 2: why a standstill machine has zero average torque ================= */
   (function(){
     var svg = document.getElementById('noTorqueSvg');
-    var panel = document.getElementById('detail-why-no-torque');
-    var CX=150, CY=78, ROTOR_LEN=38, FIELD_LEN=55;
-    var trackY=150, trackX0=70, trackX1=230, trackMid=(trackX0+trackX1)/2, trackHalf=(trackX1-trackX0)/2-10;
+    var CX=150, CY=76, ROTOR_LEN=36, FIELD_LEN=55;
+    var trackY=148, trackX0=70, trackX1=230, trackMid=(trackX0+trackX1)/2, trackHalf=(trackX1-trackX0)/2-10;
 
     el('circle', {cx:CX,cy:CY,r:FIELD_LEN+2, fill:'none', stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
-    var rotorLine = el('line', {x1:CX,y1:CY,x2:CX,y2:CY-ROTOR_LEN, stroke:'var(--series-a)','stroke-width':4,'stroke-linecap':'round'}, svg);
-    txt(CX,CY-ROTOR_LEN-8,'회전자','var(--series-a)',11,'middle',svg);
-    var fieldLine = el('line', {x1:CX,y1:CY,x2:CX,y2:CY-FIELD_LEN, stroke:'var(--series-b)','stroke-width':3}, svg);
-    var fieldDot = el('circle', {cx:CX,cy:CY-FIELD_LEN,r:4, fill:'var(--series-b)'}, svg);
-    txt(CX+FIELD_LEN+6,CY-FIELD_LEN+2,'고정자계','var(--series-b)',11,'start',svg);
+    var rv = vecArrow(svg, CX, CY, 0, ROTOR_LEN, 'var(--series-a)', 4);
+    txt(CX,CY-ROTOR_LEN-12,'회전자','var(--series-a)',11,'middle',svg,600);
+    var fv = vecArrow(svg, CX, CY, 35, FIELD_LEN, 'var(--series-b)', 3);
+    txt(CX+FIELD_LEN+10,CY-FIELD_LEN+6,'고정자계','var(--series-b)',11,'start',svg,600);
 
     el('line', {x1:trackX0,y1:trackY,x2:trackX1,y2:trackY, stroke:'var(--line-strong)','stroke-width':2}, svg);
     el('line', {x1:trackMid,y1:trackY-8,x2:trackMid,y2:trackY+8, stroke:'var(--ink-faint)','stroke-width':1}, svg);
-    txt(trackX0-4,trackY+4,'밈','var(--ink-faint)',10.5,'end',svg);
-    txt(trackX1+4,trackY+4,'당김','var(--ink-faint)',10.5,'start',svg);
-    var needle = el('circle', {cx:trackMid,cy:trackY,r:6, fill:'var(--ink)'}, svg);
+    txt(trackX0-4,trackY+4,'미는 힘','var(--ink-faint)',10.5,'end',svg);
+    txt(trackX1+4,trackY+4,'당기는 힘','var(--ink-faint)',10.5,'start',svg);
+    txt(trackMid,trackY+22,'평균 ≈ 0','var(--ink-dim)',11,'middle',svg,600);
+    var needle = el('circle', {cx:trackMid,cy:trackY,r:5.5, fill:'var(--ink)'}, svg);
 
-    var fieldAngle = 0;
-    function frame(now, dt){
-      fieldAngle = (fieldAngle + 260*dt) % 360;
+    var fieldAngle = 35;
+    function frame(dt){
+      fieldAngle = (fieldAngle + 240*dt) % 360;
       var p = pt(fieldAngle, CX, CY, FIELD_LEN);
-      fieldLine.setAttribute('x2', p.x); fieldLine.setAttribute('y2', p.y);
-      fieldDot.setAttribute('cx', p.x); fieldDot.setAttribute('cy', p.y);
-      var torque = Math.sin(fieldAngle*Math.PI/180); // rotor fixed at "up" (angle 0)
+      fv.line.setAttribute('x2', p.x); fv.line.setAttribute('y2', p.y);
+      fv.ring.setAttribute('cx', p.x); fv.ring.setAttribute('cy', p.y);
+      fv.dot.setAttribute('cx', p.x); fv.dot.setAttribute('cy', p.y);
+      var torque = Math.sin(fieldAngle*Math.PI/180);
       needle.setAttribute('cx', trackMid + torque*trackHalf);
     }
-    function snapshot(){
-      var p = pt(35, CX, CY, FIELD_LEN);
-      fieldLine.setAttribute('x2', p.x); fieldLine.setAttribute('y2', p.y);
-      fieldDot.setAttribute('cx', p.x); fieldDot.setAttribute('cy', p.y);
-      needle.setAttribute('cx', trackMid + Math.sin(35*Math.PI/180)*trackHalf);
-    }
-
     var raf = null, lastT = null;
     function loop(now){
-      if (panel.hidden){ raf=null; return; }
+      if (!isVisible('slide-2')){ raf=null; return; }
       if (lastT===null) lastT=now;
-      var dt = Math.min((now-lastT)/1000, 0.05);
+      frame(Math.min((now-lastT)/1000,0.05));
       lastT = now;
-      frame(now, dt);
       raf = requestAnimationFrame(loop);
     }
-    function start(){ if (reduceMotion){ snapshot(); return; } if (!raf){ lastT=null; raf=requestAnimationFrame(loop); } }
-    if (!reduceMotion){
-      var mo = new MutationObserver(function(){ if (!panel.hidden) start(); });
-      mo.observe(panel, {attributes:true, attributeFilter:['hidden']});
-    } else { snapshot(); }
+    function start(){ if (reduceMotion) return; if (!raf){ lastT=null; raf=requestAnimationFrame(loop); } }
+    onEnterCallbacks[1] = start;
   })();
 
-  /* ================= slide 4: 전기각과 위상 (live, persists after intro) ================= */
+  /* ================= slide 3: why 0Hz + gradual ramp ================= */
+  (function(){
+    var svg = document.getElementById('rampSvg');
+    var stepsWrap = document.getElementById('rampSteps');
+    var MODES = ['천천히 올리면','급하게 올리면'];
+    var mode = 0;
+
+    MODES.forEach(function(m,i){
+      var b = document.createElement('button');
+      b.type='button'; b.className='step-btn'; b.textContent=m;
+      b.addEventListener('click', function(){ mode=i; resetAnim(); });
+      stepsWrap.appendChild(b);
+    });
+    var btns = stepsWrap.querySelectorAll('.step-btn');
+
+    var CX=150, CY=110, FIELD_LEN=68, ROTOR_LEN=48;
+    var GX=330, GY0=170, GH=130, GW=90;
+
+    var rotorAngle=0, fieldAngle=0, rotorSpeed=0, t=0, failed=false;
+    var rv, fv, deltaArc, statusTxt, gaugeFill;
+
+    function build(){
+      clearSvg(svg);
+      el('circle', {cx:CX,cy:CY,r:FIELD_LEN+2, fill:'none', stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
+      rv = vecArrow(svg, CX, CY, 0, ROTOR_LEN, 'var(--series-a)', 4);
+      txt(CX,CY-ROTOR_LEN-12,'회전자','var(--series-a)',11,'middle',svg,600);
+      fv = vecArrow(svg, CX, CY, 0, FIELD_LEN, 'var(--series-b)', 3);
+      txt(CX+FIELD_LEN+10,CY-FIELD_LEN+2,'자계','var(--series-b)',11,'start',svg,600);
+      deltaArc = el('path', {d:'', fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5}, svg);
+
+      el('line', {x1:GX,y1:GY0,x2:GX,y2:GY0-GH, stroke:'var(--line-strong)','stroke-width':1.5}, svg);
+      el('line', {x1:GX-GW/2-6,y1:GY0-GH,x2:GX+GW/2+6,y2:GY0-GH, stroke:'var(--bad)','stroke-width':1,'stroke-dasharray':'3 3'}, svg);
+      txt(GX+GW/2+10, GY0-GH+4, '90°(한계)', 'var(--bad)', 10, 'start', svg);
+      gaugeFill = el('rect', {x:GX-GW/2, y:GY0, width:GW, height:0, fill:'var(--series-a)'}, svg);
+      el('rect', {x:GX-GW/2, y:GY0-GH, width:GW, height:GH, fill:'none', stroke:'var(--line)','stroke-width':1}, svg);
+      txt(GX, GY0+18, 'δ(뒤처짐)', 'var(--ink-dim)', 11, 'middle', svg);
+      statusTxt = txt(CX, 205, '', 'var(--ink-dim)', 12.5, 'middle', svg, 600);
+    }
+    build();
+
+    function resetAnim(){
+      rotorAngle=0; fieldAngle=0; rotorSpeed=0; t=0; failed=false;
+      build();
+      btns.forEach(function(b,i){ b.classList.toggle('active', i===mode); });
+    }
+    resetAnim();
+
+    // The rotor has inertia, so its speed can only change at a limited rate
+    // (ROTOR_ACCEL). The field's own acceleration is set by how fast the
+    // operator ramps its frequency (mode). "Slow" keeps the field's ramp rate
+    // under what the rotor can match; "fast" deliberately exceeds it so the
+    // lag (delta) grows without bound instead of settling.
+    var ROTOR_ACCEL = 90; // deg/s^2 the rotor can realistically follow
+    function frame(dt){
+      if (failed){ t += dt; if (t>1.2) resetAnim(); return; }
+      t += dt;
+      var fieldSpeed = mode===0 ? Math.min(40, t*15) : Math.min(220, t*180);
+      fieldAngle += fieldSpeed*dt;
+      var speedGap = fieldSpeed - rotorSpeed;
+      var maxStep = ROTOR_ACCEL*dt;
+      rotorSpeed += Math.max(-maxStep, Math.min(maxStep, speedGap));
+      rotorAngle += rotorSpeed*dt;
+      var delta = ((fieldAngle-rotorAngle)%360+360)%360; if (delta>180) delta -= 360;
+      var absDelta = Math.abs(delta);
+
+      var rp = pt(rotorAngle%360, CX, CY, ROTOR_LEN);
+      rv.line.setAttribute('x2',rp.x); rv.line.setAttribute('y2',rp.y);
+      rv.ring.setAttribute('cx',rp.x); rv.ring.setAttribute('cy',rp.y);
+      rv.dot.setAttribute('cx',rp.x); rv.dot.setAttribute('cy',rp.y);
+      var fp = pt(fieldAngle%360, CX, CY, FIELD_LEN);
+      fv.line.setAttribute('x2',fp.x); fv.line.setAttribute('y2',fp.y);
+      fv.ring.setAttribute('cx',fp.x); fv.ring.setAttribute('cy',fp.y);
+      fv.dot.setAttribute('cx',fp.x); fv.dot.setAttribute('cy',fp.y);
+
+      var r0 = pt(rotorAngle%360,CX,CY,26), r1 = pt(fieldAngle%360,CX,CY,26);
+      var largeArc = absDelta>180?1:0;
+      deltaArc.setAttribute('d','M '+r0.x+' '+r0.y+' A 26 26 0 '+largeArc+' 1 '+r1.x+' '+r1.y);
+
+      var gh = Math.min(1, absDelta/120) * (GH+20);
+      gaugeFill.setAttribute('height', Math.min(gh,GH+30));
+      gaugeFill.setAttribute('y', GY0-Math.min(gh,GH+30));
+      gaugeFill.setAttribute('fill', absDelta>90 ? 'var(--bad)' : 'var(--series-a)');
+
+      if (mode===1 && absDelta>90){
+        failed = true; t=0;
+        statusTxt.textContent = '✕ 탈조 — 뒤처짐이 90°를 넘어 놓쳤다';
+        statusTxt.setAttribute('fill','var(--bad)');
+      } else {
+        statusTxt.textContent = mode===0 ? '✓ 계속 따라간다 (δ가 작게 유지됨)' : '아직 따라가는 중…';
+        statusTxt.setAttribute('fill', mode===0 ? 'var(--series-a)' : 'var(--ink-dim)');
+      }
+    }
+    var raf=null, lastT=null;
+    function loop(now){
+      if (!isVisible('slide-3')){ raf=null; return; }
+      if (lastT===null) lastT=now;
+      frame(Math.min((now-lastT)/1000,0.05));
+      lastT = now;
+      raf = requestAnimationFrame(loop);
+    }
+    function start(){ if (reduceMotion) return; resetAnim(); if(!raf){ lastT=null; raf=requestAnimationFrame(loop);} }
+    onEnterCallbacks[2] = start;
+  })();
+
+  /* ================= slide 4: 전기각과 위상 (live, reset + stop) ================= */
   (function(){
     var svg = document.getElementById('phaseSvg');
     var playBtn = document.getElementById('phasePlay');
+    var resetBtn = document.getElementById('phaseReset');
     var readout = document.getElementById('phaseReadout');
     var CX=100, CY=115, CR=78;
     var WX0=210, WX1=450, WSPAN=WX1-WX0, WY0=115, WAMP=60;
@@ -556,9 +698,9 @@
       var x = WX0 + (a/360)*WSPAN;
       el('line', {x1:x,y1:WY0-70,x2:x,y2:WY0+70, stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
     });
-    txt(100,20,'R',COLOR.R,13,'middle',svg);
-    txt(118,20,'S',COLOR.S,13,'middle',svg);
-    txt(136,20,'T',COLOR.T,13,'middle',svg);
+    txt(100,20,'R',COLOR.R,13,'middle',svg,700);
+    txt(118,20,'S',COLOR.S,13,'middle',svg,700);
+    txt(136,20,'T',COLOR.T,13,'middle',svg,700);
     txt(WX0,25,'← 시간(전기각) →',null,10.5,'start',svg);
     txt(CX,CY+CR+24,'120°씩 떨어진 세 방향',null,10.5,'middle',svg);
 
@@ -574,15 +716,20 @@
     var marker = el('line', {y1:WY0-70,y2:WY0+70, stroke:'var(--ink-faint)','stroke-width':1.25,'stroke-dasharray':'3 3'}, svg);
 
     var angle = 0, playing = true, lastT = null, introDone = false;
-    if (reduceMotion){ playing = false; angle = 260; introDone = true; }
 
     function setPlaying(p){
       playing = p; lastT = null;
-      playBtn.textContent = playing ? '일시정지' : '재생';
+      playBtn.textContent = playing ? '⏸ 정지' : '▶ 재생';
       playBtn.classList.toggle('on', playing);
     }
     playBtn.addEventListener('click', function(){ setPlaying(!playing); });
-    setPlaying(playing);
+    resetBtn.addEventListener('click', function(){
+      angle = 0; introDone = false; lastT = null;
+      setPlaying(!reduceMotion);
+      render();
+    });
+    setPlaying(!reduceMotion);
+    if (reduceMotion){ angle = 260; introDone = true; }
 
     function fullCurve(ph){
       var d = '';
@@ -652,7 +799,7 @@
     requestAnimationFrame(tick);
   })();
 
-  /* ================= slide 5: firing-angle sine/shading diagram ================= */
+  /* ================= slide 6: firing-angle sine/shading diagram ================= */
   (function(){
     var svg = document.getElementById('alphaSvg');
     var stepsWrap = document.getElementById('alphaSteps');
@@ -688,7 +835,7 @@
       var fx = xAt(current);
       el('line', {x1:fx,y1:Y0+8,x2:fx,y2:yAt(current)-6, stroke:'var(--accent)','stroke-width':2}, svg);
       el('circle', {cx:fx,cy:yAt(current),r:4.5, fill:'var(--accent)'}, svg);
-      txt(fx, Y0+24, '점호 α=' + current + '°', 'var(--accent)', 11, 'middle', svg);
+      txt(fx, Y0+24, '점호 α=' + current + '°', 'var(--accent)', 11, 'middle', svg, 600);
       txt(X0, Y0+24, '0°(자연 시점)', 'var(--ink-faint)', 10, 'start', svg);
       txt(X1, Y0+24, '180°', 'var(--ink-faint)', 10, 'end', svg);
 
@@ -697,13 +844,13 @@
       el('rect', {x:BARX-BARW/2, y:BARBASE-BARMAXH, width:BARW, height:BARMAXH, fill:'none', stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 3'}, svg);
       el('rect', {x:BARX-BARW/2, y:BARBASE-barH, width:BARW, height:barH, fill:'var(--series-b)'}, svg);
       txt(BARX, BARBASE-BARMAXH-10, 'Vdc', 'var(--ink-dim)', 11, 'middle', svg);
-      txt(BARX, BARBASE+18, Math.round(relV*100)+'%', 'var(--ink)', 12, 'middle', svg);
+      txt(BARX, BARBASE+18, Math.round(relV*100)+'%', 'var(--ink)', 12, 'middle', svg, 600);
       alphaBtns.forEach(function(b,i){ b.classList.toggle('active', ALPHAS[i]===current); });
     }
     draw();
   })();
 
-  /* ================= slide 7: waveform builder with DC rails + current path ================= */
+  /* ================= slide 8: waveform builder with DC rails + current path ================= */
   (function(){
     var STEPS = [
       { th:['T1','T6'], lv:{R:1,S:-1,T:0} },
@@ -729,6 +876,7 @@
     var playBtn = document.getElementById('wfPlay');
     var current = 1;
     var autoTimer = null;
+    arrowMarker(svg, 'wfArrow', 'var(--ink)');
 
     function stopAuto(){
       if (autoTimer){ clearInterval(autoTimer); autoTimer=null; }
@@ -737,7 +885,7 @@
     function startAuto(){
       playBtn.textContent = '■ 정지'; playBtn.classList.add('on');
       autoTimer = setInterval(function(){
-        if (!isVisible('slide-7')){ stopAuto(); return; }
+        if (!isVisible('slide-8')){ stopAuto(); return; }
         current = current % 6 + 1; draw();
       }, 900);
     }
@@ -759,7 +907,9 @@
     var X0=40, X1=430, XSPAN=X1-X0;
 
     function draw(){
+      var defsBackup = svg.querySelector('defs');
       clearSvg(svg);
+      if (defsBackup) svg.appendChild(defsBackup);
       var step = STEPS[current-1];
       var act = activePhases(step);
 
@@ -774,25 +924,23 @@
         var topId=topOf[ph], botId=botOf[ph];
         var topActive = step.th.indexOf(topId)!==-1, botActive = step.th.indexOf(botId)!==-1;
         el('circle', {cx:x,cy:TOPY,r:13, fill: topActive?'var(--accent)':'var(--panel-2)', stroke: topActive?'var(--accent)':'var(--line-strong)','stroke-width':2}, svg);
-        txt(x,TOPY+4,topId, topActive?'var(--accent-ink)':'var(--ink-faint)', 10.5,'middle', svg);
+        txt(x,TOPY+4,topId, topActive?'var(--accent-ink)':'var(--ink-faint)', 10.5,'middle', svg, 600);
         el('circle', {cx:x,cy:BOTY,r:13, fill: botActive?'var(--accent)':'var(--panel-2)', stroke: botActive?'var(--accent)':'var(--line-strong)','stroke-width':2}, svg);
-        txt(x,BOTY+4,botId, botActive?'var(--accent-ink)':'var(--ink-faint)', 10.5,'middle', svg);
-        txt(x,BOTY+30,ph+'상',COLOR[ph],11,'middle',svg);
+        txt(x,BOTY+4,botId, botActive?'var(--accent-ink)':'var(--ink-faint)', 10.5,'middle', svg, 600);
+        txt(x,BOTY+30,ph+'상',COLOR[ph],11,'middle',svg,600);
       });
 
       if (act.plus && act.minus){
         var xp = COLS[act.plus], xm = COLS[act.minus];
-        var arrow = 'url(#wfArrow)';
-        el('defs', {}, svg).appendChild((function(){ var m=el('marker',{id:'wfArrow', viewBox:'0 0 10 10', refX:8, refY:5, markerWidth:6, markerHeight:6, orient:'auto-start-reverse'}); el('path',{d:'M0,0 L10,5 L0,10 z', fill:'var(--ink)'}, m); return m; })());
-        el('line', {x1:xp,y1:DCPLUS,x2:xp,y2:TOPY-15, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':arrow}, svg);
-        el('line', {x1:xp,y1:MIDY,x2:xm,y2:MIDY, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':arrow}, svg);
-        el('line', {x1:xm,y1:BOTY+15,x2:xm,y2:DCMINUS, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':arrow}, svg);
+        el('line', {x1:xp,y1:DCPLUS,x2:xp,y2:TOPY-15, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#wfArrow)'}, svg);
+        el('line', {x1:xp,y1:MIDY,x2:xm,y2:MIDY, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#wfArrow)'}, svg);
+        el('line', {x1:xm,y1:BOTY+15,x2:xm,y2:DCMINUS, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#wfArrow)'}, svg);
       }
 
       Object.keys(ROWS).forEach(function(ph){
         var y0 = ROWS[ph];
         el('line', {x1:X0,y1:y0,x2:X1,y2:y0, stroke:'var(--ink-faint)','stroke-width':1}, svg);
-        txt(20,y0+4,ph,COLOR[ph],13,'middle', svg);
+        txt(20,y0+4,ph,COLOR[ph],13,'middle', svg, 700);
         var pts = [];
         for (var i=0;i<current;i++){
           var lv = STEPS[i].lv[ph];
@@ -821,12 +969,12 @@
     draw();
   })();
 
-  /* ================= slide 8: torque vectors (computed, smooth arc) ================= */
+  /* ================= slide 9: torque vectors (computed arc) + sin(delta) graph ================= */
   (function(){
     var svg = document.getElementById('torqueSvg');
     var stepsWrap = document.getElementById('torqueSteps');
     var readout = document.getElementById('torqueReadout');
-    var CX=140, CY=170, FIELD_LEN=80, DELTA=48;
+    var CX=145, CY=170, FIELD_LEN=80, DELTA=48;
     var lens = { '전류 작게':42, '전류 크게':70 };
     var current = '전류 크게';
     var torqueBtns = [];
@@ -846,26 +994,23 @@
       var pa = pt(DELTA, CX, CY, armLen);
 
       el('circle', {cx:CX,cy:CY,r:2.5, fill:'var(--ink-dim)'}, svg);
-      el('line', {x1:CX,y1:CY,x2:pf.x,y2:pf.y, stroke:'var(--series-a)','stroke-width':3}, svg);
-      el('circle', {cx:pf.x,cy:pf.y,r:4, fill:'var(--series-a)'}, svg);
-      txt(pf.x-14,pf.y-10,'Φ field','var(--series-a)',12,'end',svg);
-      txt(pf.x-14,pf.y+4,'(회전자)','var(--series-a)',10,'end',svg);
+      var fv = vecArrow(svg, CX, CY, 0, FIELD_LEN, 'var(--series-a)', 3.5);
+      txt(pf.x-16,pf.y-8,'Φ field','var(--series-a)',12,'end',svg,700);
+      txt(pf.x-16,pf.y+6,'(회전자)','var(--series-a)',10,'end',svg);
 
-      el('line', {x1:CX,y1:CY,x2:pa.x,y2:pa.y, stroke:'var(--series-b)','stroke-width':3}, svg);
-      el('circle', {cx:pa.x,cy:pa.y,r:4, fill:'var(--series-b)'}, svg);
-      txt(pa.x+8,pa.y-4,'Φ armature','var(--series-b)',12,'start',svg);
-      txt(pa.x+8,pa.y+10,'(고정자)','var(--series-b)',10,'start',svg);
+      var av = vecArrow(svg, CX, CY, DELTA, armLen, 'var(--series-b)', 3.5);
+      txt(pa.x+10,pa.y-4,'Φ armature','var(--series-b)',12,'start',svg,700);
+      txt(pa.x+10,pa.y+10,'(고정자)','var(--series-b)',10,'start',svg);
 
       var r0 = pt(0,CX,CY,38), r1 = pt(DELTA,CX,CY,38);
       el('path', {d:'M '+r0.x+' '+r0.y+' A 38 38 0 0 1 '+r1.x+' '+r1.y, fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5}, svg);
       var rMid = pt(DELTA/2,CX,CY,50);
-      txt(rMid.x,rMid.y,'δ','var(--ink-faint)',12,'middle',svg);
+      txt(rMid.x,rMid.y,'δ','var(--ink-faint)',12,'middle',svg,600);
 
-      var rot0=pt(-70,CX,CY,FIELD_LEN+18), rot1=pt(-30,CX,CY,FIELD_LEN+18);
-      el('path', {d:'M '+rot0.x+' '+rot0.y+' A '+(FIELD_LEN+18)+' '+(FIELD_LEN+18)+' 0 0 1 '+rot1.x+' '+rot1.y, fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5,'marker-end':'url(#rotArrow2)'}, svg);
-      var defs = el('defs',{},svg);
-      var mk = el('marker',{id:'rotArrow2', viewBox:'0 0 10 10', refX:8, refY:5, markerWidth:6, markerHeight:6, orient:'auto-start-reverse'}); el('path',{d:'M0,0 L10,5 L0,10 z', fill:'var(--ink-faint)'}, mk); defs.appendChild(mk);
-      var rotL = pt(-50,CX,CY,FIELD_LEN+30);
+      var rot0=pt(-70,CX,CY,FIELD_LEN+16), rot1=pt(-30,CX,CY,FIELD_LEN+16);
+      arrowMarker(svg,'rotArrow2','var(--ink-faint)');
+      el('path', {d:'M '+rot0.x+' '+rot0.y+' A '+(FIELD_LEN+16)+' '+(FIELD_LEN+16)+' 0 0 1 '+rot1.x+' '+rot1.y, fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5,'marker-end':'url(#rotArrow2)'}, svg);
+      var rotL = pt(-50,CX,CY,FIELD_LEN+28);
       txt(rotL.x,rotL.y,'회전 방향','var(--ink-faint)',10,'middle',svg);
 
       var rel = (armLen/70) * Math.sin(DELTA*Math.PI/180);
@@ -873,9 +1018,27 @@
       torqueBtns.forEach(function(b){ b.classList.toggle('active', b.textContent===current); });
     }
     draw();
+
+    // sin(delta) companion graph
+    var gsvg = document.getElementById('sinDeltaSvg');
+    var GX0=40, GX1=420, GY0=110, GAMP=80, GXSPAN=GX1-GX0;
+    function gx(d){ return GX0 + (d/180)*GXSPAN; }
+    function gy(d){ return GY0 - GAMP*Math.sin(d*Math.PI/180); }
+    el('line', {x1:GX0,y1:GY0,x2:GX1,y2:GY0, stroke:'var(--ink-faint)','stroke-width':1}, gsvg);
+    var dangerX0 = gx(90), dangerX1 = gx(180);
+    el('rect', {x:dangerX0, y:GY0-GAMP-6, width:dangerX1-dangerX0, height:GAMP+16, fill:'var(--bad)', opacity:0.08}, gsvg);
+    var curve='';
+    for (var d=0; d<=180; d+=3){ curve += (d===0?'M ':'L ') + gx(d) + ' ' + gy(d) + ' '; }
+    el('path', {d:curve, fill:'none', stroke:'var(--series-b)','stroke-width':2.5}, gsvg);
+    el('line', {x1:gx(90),y1:GY0,x2:gx(90),y2:gy(90), stroke:'var(--ink-faint)','stroke-width':1,'stroke-dasharray':'3 3'}, gsvg);
+    txt(gx(0),GY0+18,'δ=0°','var(--ink-faint)',10,'start',gsvg);
+    txt(gx(90),GY0+18,'δ=90° (최대)','var(--ink)',10.5,'middle',gsvg,600);
+    txt(gx(180),GY0+18,'δ=180°','var(--ink-faint)',10,'end',gsvg);
+    txt((dangerX0+dangerX1)/2, gy(135)-10, '탈조 위험', 'var(--bad)', 10.5, 'middle', gsvg, 600);
+    txt(GX0, 20, 'sin δ (상대 토크)', 'var(--ink-dim)', 11, 'start', gsvg);
   })();
 
-  /* ================= slide 9: voltage-budget bars ================= */
+  /* ================= slide 10: voltage-budget bars ================= */
   (function(){
     var svg = document.getElementById('alignSvg');
     var stepsWrap = document.getElementById('alignSteps');
@@ -903,13 +1066,13 @@
 
       var beH = (be/100)*MAXH;
       el('rect', {x:X_BE-W/2, y:BASE-beH, width:W, height:beH, fill:'var(--series-a)'}, svg);
-      txt(X_BE,BASE-beH-10,be+'%','var(--ink)',13,'middle',svg);
-      txt(X_BE,BASE+20,'역기전력','var(--series-a)',12,'middle',svg);
+      txt(X_BE,BASE-beH-10,be+'%','var(--ink)',13,'middle',svg,700);
+      txt(X_BE,BASE+20,'역기전력','var(--series-a)',12,'middle',svg,600);
 
       var vdcH = (vdc/100)*MAXH;
       el('rect', {x:X_VDC-W/2, y:BASE-vdcH, width:W, height:vdcH, fill:'var(--series-b)'}, svg);
-      txt(X_VDC,BASE-vdcH-10,vdc+'%','var(--ink)',13,'middle',svg);
-      txt(X_VDC,BASE+20,'정류기 전압(Vdc)','var(--series-b)',12,'middle',svg);
+      txt(X_VDC,BASE-vdcH-10,vdc+'%','var(--ink)',13,'middle',svg,700);
+      txt(X_VDC,BASE+20,'정류기 전압(Vdc)','var(--series-b)',12,'middle',svg,600);
       txt(X_VDC,BASE+36,'α ≈ '+alphaDeg.toFixed(0)+'°','var(--ink-faint)',11,'middle',svg);
 
       el('line', {x1:X_BE+W/2+8,y1:BASE-beH,x2:X_VDC-W/2-8,y2:BASE-beH, stroke:'var(--ink-faint)','stroke-width':1,'stroke-dasharray':'2 3'}, svg);
@@ -918,28 +1081,53 @@
     draw();
   })();
 
-  /* ================= slide 10 (expandable): commutation comparison ================= */
-  var commBuilt = false;
-  function buildCommDiagram(){
-    if (commBuilt) return; commBuilt = true;
+  /* ================= slide 11: commutation comparison ================= */
+  (function(){
     var svg = document.getElementById('commSvg');
-    clearSvg(svg);
     function panel(cx, title, hasBackEmf){
-      txt(cx, 22, title, 'var(--ink)', 13, 'middle', svg);
+      txt(cx, 22, title, 'var(--ink)', 13, 'middle', svg, 700);
       el('circle', {cx:cx-30,cy:80,r:18, fill:'var(--panel-2)', stroke:'var(--line-strong)','stroke-width':2}, svg);
       txt(cx-30,84,'꺼짐','var(--ink-faint)',10.5,'middle',svg);
       el('circle', {cx:cx+30,cy:80,r:18, fill:'var(--accent)', stroke:'var(--accent)','stroke-width':2}, svg);
       txt(cx+30,84,'켜짐','var(--accent-ink)',10.5,'middle',svg);
       el('line', {x1:cx-12,y1:80,x2:cx+12,y2:80, stroke: hasBackEmf?'var(--series-a)':'var(--line)', 'stroke-width':2.5, 'stroke-dasharray': hasBackEmf?'none':'3 3'}, svg);
-      txt(cx, 118, hasBackEmf?'역전압 충분':'역전압 없음', hasBackEmf?'var(--series-a)':'var(--ink-faint)', 11.5, 'middle', svg);
+      txt(cx, 118, hasBackEmf?'역전압 충분':'역전압 없음', hasBackEmf?'var(--series-a)':'var(--ink-faint)', 11.5, 'middle', svg, 600);
       txt(cx, 136, hasBackEmf?'저절로 꺼짐 (LCI)':'강제로 꺼야 함', 'var(--ink-dim)', 11, 'middle', svg);
-      var markColor = hasBackEmf ? 'var(--series-a)' : 'var(--series-b)';
-      txt(cx, 60, hasBackEmf?'✓':'✕', markColor, 16, 'middle', svg);
+      txt(cx, 60, hasBackEmf?'✓':'✕', hasBackEmf?'var(--series-a)':'var(--bad)', 16, 'middle', svg, 700);
     }
     panel(120, '저속 (역기전력 ≈ 0)', false);
     panel(340, '고속 (역기전력 충분)', true);
     el('line', {x1:230,y1:10,x2:230,y2:150, stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
     txt(230, 172, '속도가 오르면 왼쪽 → 오른쪽으로 자연스럽게 전환된다', 'var(--ink-faint)', 11, 'middle', svg);
-  }
+  })();
+
+  /* ================= slide 13: recap as a causal-chain map ================= */
+  (function(){
+    var svg = document.getElementById('recapSvg');
+    var NODES = [
+      {t:'문제', s:'정지 상태 → 평균 토크 0', c:'var(--ink-faint)'},
+      {t:'조건', s:'회전자와 같은 속도(0Hz)로 시작, 서서히 가속', c:'var(--series-a)'},
+      {t:'메커니즘', s:'R/S/T 120° 위상차 → 회전자계', c:'var(--series-b)'},
+      {t:'구현', s:'점호각(세기) + 점호 타이밍(속도) → 6단계 스위칭', c:'var(--accent)'},
+      {t:'결과', s:'토크 = 계자자속×전기자자속×sinδ', c:'var(--series-b)'},
+      {t:'되먹임', s:'가속 → 역기전력↑ → 점호각↓', c:'var(--series-a)'},
+      {t:'전환', s:'역기전력이 충분해지면 자연 커뮤테이션(LCI)', c:'var(--accent)'},
+      {t:'완결', s:'정격 80% → SFC 분리', c:'var(--ink-faint)'}
+    ];
+    var x0=30, x1=430, y0=24, rowH=54, boxH=40;
+    NODES.forEach(function(n,i){
+      var y = y0 + i*rowH;
+      el('rect', {x:x0, y:y, width:x1-x0, height:boxH, rx:9, fill:'var(--panel-2)', stroke:n.c, 'stroke-width':1.75}, svg);
+      txt(x0+14, y+17, n.t, n.c, 12, 'start', svg, 700);
+      txt(x0+14, y+32, n.s, 'var(--ink-dim)', 11, 'start', svg);
+      if (i<NODES.length-1){
+        var midx = x0+(x1-x0)/2;
+        el('line', {x1:midx, y1:y+boxH, x2:midx, y2:y+rowH, stroke:'var(--ink-faint)','stroke-width':1.5, 'marker-end':'url(#recapArrow)'}, svg);
+      }
+    });
+    arrowMarker(svg, 'recapArrow', 'var(--ink-faint)');
+  })();
+
+  render();
 })();
 </script>
