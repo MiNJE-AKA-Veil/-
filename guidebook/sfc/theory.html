@@ -65,7 +65,12 @@
     display:flex; flex-direction:column; gap:12px;
   }
   .slide[hidden]{ display:none !important; }
-  .slide-head{ display:flex; align-items:baseline; gap:10px; }
+  .slide-head{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .slide-part{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:700; letter-spacing:.04em;
+    color:var(--ink-dim); background:var(--panel-2); border:1px solid var(--line); border-radius:5px;
+    padding:2px 7px; flex:none;
+  }
   .slide-num{
     font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-ink);
     background:var(--accent); border-radius:5px; padding:2px 7px; flex:none;
@@ -133,21 +138,6 @@
 
   .swipe-hint{ text-align:center; font-size:11.5px; color:var(--ink-faint); }
 
-  .term-toggle{
-    font:inherit; font-weight:600; color:var(--ink); background:none; border:none; padding:0;
-    cursor:pointer; text-decoration:underline; text-decoration-style:dotted;
-    text-decoration-color:var(--accent); text-underline-offset:3px;
-  }
-  .term-toggle:hover{ color:var(--accent); }
-  .term-toggle .chev{ display:inline-block; font-size:.75em; margin-left:2px; transition:transform .15s ease; }
-  .term-toggle[aria-expanded="true"] .chev{ transform:rotate(90deg); }
-  .term-detail{
-    font-size:12.5px; line-height:1.6; color:var(--ink-dim);
-    background:var(--panel-2); border:1px dashed var(--line-strong); border-radius:10px;
-    padding:12px; margin-top:-2px;
-  }
-  .term-detail[hidden]{ display:none; }
-
   .play-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .play-btn{
     font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600;
@@ -173,12 +163,12 @@
 
   <div class="progress-row">
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <span class="progress-num mono" id="progressNum">1 / 12</span>
+    <span class="progress-num mono" id="progressNum">1 / 13</span>
   </div>
 
   <div class="stage" id="stage">
 
-    <!-- 1 -->
+    <!-- 1: cover -->
     <section class="slide" id="slide-1">
       <span class="slide-kicker">표지</span>
       <h2>정지된 발전기, 외부 힘 없이는 스스로 못 돈다</h2>
@@ -205,12 +195,12 @@
           </g>
         </svg>
       </div>
-      <p class="swipe-hint">→ 버튼이나 화면을 넘겨서 다음 장으로 (총 12장)</p>
+      <p class="swipe-hint">→ 버튼이나 화면을 넘겨서 다음 장으로 (총 13장, 5개 파트)</p>
     </section>
 
-    <!-- 2 -->
+    <!-- 2: PART1 문제 -->
     <section class="slide" id="slide-2" hidden>
-      <div class="slide-head"><span class="slide-num mono">01</span><span class="slide-kicker">문제</span></div>
+      <div class="slide-head"><span class="slide-part mono">PART 1</span><span class="slide-num mono">01</span><span class="slide-kicker">문제</span></div>
       <h2>왜 스스로 못 도는가 — 세기가 아니라 동기화의 문제</h2>
       <p class="lead">전원을 세게 걸어도 안 된다. 회전자계가 회전자보다 <strong>빨리 돌면, 회전자계가
         회전자를 앞질렀다 뒤처졌다를 반복</strong>하면서 회전자를 미는 방향도 계속 뒤집힌다.</p>
@@ -223,31 +213,32 @@
         한다. 정지 상태라면 그 속도는 0이다.</div>
     </section>
 
-    <!-- 3 -->
+    <!-- 3: PART2 전자석 (NEW) -->
     <section class="slide" id="slide-3" hidden>
-      <div class="slide-head"><span class="slide-num mono">02</span><span class="slide-kicker">왜 0Hz부터 서서히</span></div>
-      <h2>왜 0Hz에서 시작해서 천천히 올려야 하는가</h2>
-      <p class="bridge"><strong>앞에서:</strong> 회전자계는 회전자와 같은 속도로 시작해야 한다는 걸 봤다.
-        그런데 시작만 맞추면 끝일까? 계속 속도를 올리는 동안에도 문제가 생긴다.</p>
-      <div class="step-row" id="rampSteps"></div>
-      <div class="visual"><svg id="rampSvg" viewBox="0 0 440 220" role="img" aria-label="회전자와 자계 화살표 사이 각도가 천천히 올릴 때는 작게 유지되지만, 급하게 올리면 점점 벌어지다가 90도를 넘어 토크를 잃고 탈조하는 과정을 비교하는 애니메이션"></svg></div>
+      <div class="slide-head"><span class="slide-part mono">PART 2</span><span class="slide-num mono">02</span><span class="slide-kicker">전자석이 되는 회전자</span></div>
+      <h2>계자전류가 흐르면 회전자는 전자석이 된다</h2>
+      <p class="bridge"><strong>앞에서:</strong> 정지 상태에서 왜 못 도는지 봤다. 그런데 애초에 "회전자"는
+        왜 자석처럼 밀고 당겨지는가?</p>
       <ul class="points">
-        <li><strong>시작점</strong> — 자계가 회전자보다 조금이라도 빠르면 1절과 같은 문제가 그대로 재현된다.</li>
-        <li><strong>그 다음</strong> — 회전자는 무겁다(관성). 자계 속도를 회전자가 따라올 수 있는 것보다
-          빨리 올리면 뒤처지는 각도가 계속 벌어지다가, 어느 순간(90°) <strong>토크가 오히려 줄면서
-          완전히 놓쳐버린다("탈조")</strong>.</li>
+        <li>코일에 <strong>직류</strong>를 흘리면 그 코일 전체가 하나의 자석처럼 행동한다 — 한쪽은
+          N극, 반대쪽은 S극이 된다 (전자석의 기본 원리).</li>
+        <li>회전자에도 이런 코일(계자권선)이 감겨 있고, 여기에 <strong>직류인 계자전류</strong>가
+          흐른다.</li>
+        <li>그래서 회전자는 도는 내내 <strong>N극과 S극이 고정된 하나의 전자석</strong>으로 행동한다.</li>
       </ul>
-      <div class="callback">이 "뒤처지는 각도"는 7절에서 <b>토크각 δ</b>라는 이름으로 다시 나온다 — 정확히
-        같은 현상을 수식으로 확인하게 된다.</div>
+      <div class="visual"><svg id="electromagnetSvg" viewBox="0 0 400 285" role="img" aria-label="회전자 코일에 직류인 계자전류가 원형으로 흐르고, 그 결과 회전자 중심을 관통하는 화살표(계자자속) 방향으로 N극과 S극이 생기는 것을 보여주는 그림"></svg></div>
+      <div class="slide-note">이 화살표(<strong>Φ<sub>field</sub>, 계자자속</strong>)가 앞으로 이 자료에서
+        "회전자"를 나타낼 때마다 계속 등장한다 — 즉 회전자는 이제부터 <strong>"방향이 있는 자석"</strong>으로
+        생각하면 된다.</div>
     </section>
 
-    <!-- 4 -->
+    <!-- 4: PART3 회전자계 형성 -->
     <section class="slide" id="slide-4" hidden>
-      <div class="slide-head"><span class="slide-num mono">03</span><span class="slide-kicker">회전자계의 정체</span></div>
+      <div class="slide-head"><span class="slide-part mono">PART 3</span><span class="slide-num mono">03</span><span class="slide-kicker">회전자계의 정체</span></div>
       <h2>전원이 인가되어 회전자계가 되기까지</h2>
-      <p class="bridge"><strong>앞에서:</strong> "회전자계를 0Hz부터 서서히 돌린다"고 계속 말해왔다.
-        그런데 이 회전자계는 실제로 어떻게 만들어지는가? 전원이 SFC에 들어오는 순간부터 끝까지
-        따라가보자.</p>
+      <p class="bridge"><strong>앞에서:</strong> 회전자가 전자석이 된다는 걸 봤다. 그런데 이 전자석을
+        실제로 돌려줄 <strong>회전자계</strong>는 어떻게 만들어지는가? 전원이 SFC에 들어오는 순간부터
+        끝까지 따라가보자.</p>
 
       <div class="visual">
         <svg viewBox="0 0 460 110" role="img" aria-label="3상 교류 입력이 SFC를 거쳐 발전기 고정자의 R S T 단자(Y결선)로 이어지는 결선도">
@@ -288,7 +279,7 @@
 
     <!-- 5 -->
     <section class="slide" id="slide-5" hidden>
-      <div class="slide-head"><span class="slide-num mono">04</span><span class="slide-kicker">두 개의 손잡이</span></div>
+      <div class="slide-head"><span class="slide-part mono">PART 3</span><span class="slide-num mono">04</span><span class="slide-kicker">두 개의 손잡이</span></div>
       <h2>이 회전자계를 조절하려면 무엇이 필요한가</h2>
       <p class="bridge"><strong>앞에서:</strong> SFC가 3상 전원을 받아 구형파로 바꾸고, 그 구형파가
         고정자 코일을 통해 회전자계가 되는 과정을 봤다. 그런데 이걸 "0Hz부터 서서히, 원하는
@@ -315,7 +306,7 @@
 
     <!-- 6 -->
     <section class="slide" id="slide-6" hidden>
-      <div class="slide-head"><span class="slide-num mono">05</span><span class="slide-kicker">손잡이 ① 세기</span></div>
+      <div class="slide-head"><span class="slide-part mono">PART 3</span><span class="slide-num mono">05</span><span class="slide-kicker">손잡이 ① 세기</span></div>
       <h2>점호각(α) — 정류기가 "세기"를 정하는 방법</h2>
       <p class="bridge"><strong>앞에서:</strong> "세기" 손잡이가 정류기 점호각이라고 했다. 왜 점호
         "타이밍"이 전류의 "크기"를 정할 수 있는가?</p>
@@ -349,12 +340,12 @@
       <div class="slide-note">리액터(큰 인덕터)는 <strong>전압 차이만큼 전류를 밀어올린다</strong>
         (V=L·di/dt) — Vdc가 부하(발전기 역기전력)보다 큰 만큼 전류가 계속 세지려 하고, 원하는
         전류에 도달하면 그 전류를 유지하도록 α가 계속 조정된다. 결국 <strong>α → Vdc → 전류</strong>
-        순서로 이어지는 것이다. (8절에서 이 조정이 왜 계속 필요한지 다시 나온다.)</div>
+        순서로 이어지는 것이다. (9절에서 이 조정이 왜 계속 필요한지 다시 나온다.)</div>
     </section>
 
     <!-- 7 -->
     <section class="slide" id="slide-7" hidden>
-      <div class="slide-head"><span class="slide-num mono">06</span><span class="slide-kicker">손잡이 ② 속도</span></div>
+      <div class="slide-head"><span class="slide-part mono">PART 3</span><span class="slide-num mono">06</span><span class="slide-kicker">손잡이 ② 속도</span></div>
       <h2>점호 타이밍 — 인버터가 "속도"를 정하는 방법</h2>
       <p class="bridge"><strong>앞에서:</strong> 정류기 쪽 손잡이(세기)를 봤다. 이제 인버터 쪽 손잡이(속도) 차례다.</p>
       <ul class="points">
@@ -366,31 +357,51 @@
         수 있다 — 직류로 한번 바뀌는 순간 입력 쪽 주파수 정보는 사라지기 때문이다.</div>
     </section>
 
-    <!-- 8 -->
+    <!-- 8: PART4 토크 -->
     <section class="slide" id="slide-8" hidden>
-      <div class="slide-head"><span class="slide-num mono">07</span><span class="slide-kicker">회전자계 → 토크</span></div>
-      <h2>이 회전자계가 회전자를 실제로 끄는가</h2>
-      <p class="bridge"><strong>앞에서:</strong> 회전자계를 만드는 법을 봤다. 그런데 자계가 돈다고 회전자가
-        저절로 끌려가는 건 아니다 — 실제로 끄는 힘(토크)이 있어야 한다.</p>
+      <div class="slide-head"><span class="slide-part mono">PART 4</span><span class="slide-num mono">07</span><span class="slide-kicker">회전자계 → 토크</span></div>
+      <h2>전자석이 된 회전자가 회전자계와 함께 회전한다</h2>
+      <p class="bridge"><strong>앞에서:</strong> 회전자계를 만드는 법을 봤고, 회전자가 전자석이라는 것도
+        봤다. 그런데 자계가 돈다고 이 전자석이 저절로 끌려가는 건 아니다 — 실제로 끄는 힘(토크)이
+        있어야 한다.</p>
       <div class="step-row" id="torqueSteps"></div>
       <div class="visual"><svg id="torqueSvg" viewBox="0 0 380 210" role="img" aria-label="계자자속 벡터와, 회전 방향으로 그보다 앞서 있는 전기자 자속 벡터 사이의 각도 델타를 보여주는 그림. 전류 크기 버튼을 누르면 전기자 자속 벡터의 길이가 바뀌고 토크 값이 함께 바뀐다"></svg></div>
       <span class="step-readout mono" id="torqueReadout"></span>
       <div class="formula">T ∝ Φ<sub>field</sub> × Φ<sub>armature</sub> × sin δ</div>
       <ul class="points">
-        <li>계자자속(회전자)과, 고정자 전류가 만드는 전기자 자속(더한 게 아니라 <strong>순수하게 전류로만
-          생기는 별개의 자속</strong>) 사이의 각도가 δ다.</li>
-        <li>전기자 자속이 회전 방향으로 계자자속보다 <strong>앞서 있어야</strong> 앞에서 끌어당겨 토크가
-          나온다.</li>
+        <li><strong>Φ<sub>field</sub></strong>는 2절에서 본 회전자(전자석)의 계자자속, <strong>Φ<sub>armature</sub></strong>는
+          고정자 전류가 만드는 전기자 자속(더한 게 아니라 <strong>순수하게 전류로만 생기는 별개의
+          자속</strong>)이다 — 이 둘 사이 각도가 δ다.</li>
+        <li>전기자 자속(회전자계)이 회전 방향으로 계자자속(회전자)보다 <strong>앞서 있어야</strong>
+          앞에서 끌어당겨 토크가 나온다 — 전자석이 그 앞선 자석을 따라가려는 것이다.</li>
       </ul>
       <div class="visual"><svg id="sinDeltaSvg" viewBox="0 0 460 140" role="img" aria-label="델타가 0에서 180도까지 변할 때 사인델타 값이 90도에서 최대가 되었다가 다시 줄어드는 그래프, 90도를 넘는 위험 구간이 표시됨"></svg></div>
-      <div class="callback">2절에서 본 "뒤처지는 각도"가 바로 이 δ다. 그래프에서 보듯 <b>δ=90°에서 토크가
-        최대</b>이고, 그 이상 벌어지면 sin δ가 줄어들면서 토크도 같이 줄어든다 — 그래서 2절에서 자계
-        속도를 너무 빨리 올리면 안 됐던 것이다.</div>
+      <div class="callback">그래프에서 보듯 <b>δ=90°에서 토크가 최대</b>이고, 그 이상 벌어지면 sin δ가
+        줄어들면서 토크도 같이 줄어든다 — 이게 왜 중요한지는 바로 다음 절에서 확인한다.</div>
     </section>
 
-    <!-- 9 -->
+    <!-- 9: PART4 왜 서서히 (moved) -->
     <section class="slide" id="slide-9" hidden>
-      <div class="slide-head"><span class="slide-num mono">08</span><span class="slide-kicker">가속의 대가</span></div>
+      <div class="slide-head"><span class="slide-part mono">PART 4</span><span class="slide-num mono">08</span><span class="slide-kicker">회전자가 따라가는 조건</span></div>
+      <h2>왜 0Hz에서 시작해서 천천히 올려야 하는가</h2>
+      <p class="bridge"><strong>앞에서:</strong> 7절에서 배운 <b>토크각 δ</b>가 바로 회전자(전자석)가
+        회전자계에 뒤처지는 각도다. δ=90°를 넘으면 sin δ가 줄어들며 토크를 잃는다는 걸 그래프로
+        봤다 — 이게 실제로 어떤 상황에서 문제가 되는지 보자.</p>
+      <div class="step-row" id="rampSteps"></div>
+      <div class="visual"><svg id="rampSvg" viewBox="0 0 440 220" role="img" aria-label="회전자와 자계 화살표 사이 각도가 천천히 올릴 때는 작게 유지되지만, 급하게 올리면 점점 벌어지다가 90도를 넘어 토크를 잃고 탈조하는 과정을 비교하는 애니메이션"></svg></div>
+      <ul class="points">
+        <li><strong>시작점</strong> — 자계가 회전자보다 조금이라도 빠르면 1절과 같은 문제가 그대로 재현된다.</li>
+        <li><strong>그 다음</strong> — 회전자는 무겁다(관성). 자계 속도를 회전자가 따라올 수 있는 것보다
+          빨리 올리면 뒤처지는 각도 δ가 계속 벌어지다가, 90°를 넘는 순간 <strong>토크가 오히려 줄면서
+          완전히 놓쳐버린다("탈조")</strong>.</li>
+      </ul>
+      <div class="callback">그래서 회전자계는 회전자가 <strong>따라올 수 있는 만큼만</strong> 천천히
+        속도를 올려야 한다 — 이게 SFC가 0Hz 근처부터 시작해서 서서히 가속하는 이유다.</div>
+    </section>
+
+    <!-- 10: PART4 가속의 대가 -->
+    <section class="slide" id="slide-10" hidden>
+      <div class="slide-head"><span class="slide-part mono">PART 4</span><span class="slide-num mono">09</span><span class="slide-kicker">가속의 대가</span></div>
       <h2>속도가 오르면 점호각을 낮춰야 한다</h2>
       <p class="bridge"><strong>앞에서:</strong> 토크가 나서 회전자가 빨라지기 시작했다. 그런데 빨라진다는
         것 자체가 새로운 문제를 만든다.</p>
@@ -421,9 +432,9 @@
         속도가 오르는 내내 손잡이를 가만히 둘 수 없는 이유다.</div>
     </section>
 
-    <!-- 10 -->
-    <section class="slide" id="slide-10" hidden>
-      <div class="slide-head"><span class="slide-num mono">09</span><span class="slide-kicker">역기전력의 두 얼굴</span></div>
+    <!-- 11: PART4 역기전력 두 얼굴 -->
+    <section class="slide" id="slide-11" hidden>
+      <div class="slide-head"><span class="slide-part mono">PART 4</span><span class="slide-num mono">10</span><span class="slide-kicker">역기전력의 두 얼굴</span></div>
       <h2>역기전력은 방해꾼이면서 동시에 열쇠다</h2>
       <p class="bridge"><strong>앞에서:</strong> 역기전력이 정류기를 방해한다고 했다. 그런데 이 똑같은
         역기전력이, 인버터가 소자를 끄는 데 반드시 필요한 재료이기도 하다.</p>
@@ -438,9 +449,9 @@
       </ul>
     </section>
 
-    <!-- 11 -->
-    <section class="slide" id="slide-11" hidden>
-      <div class="slide-head"><span class="slide-num mono">10</span><span class="slide-kicker">완결</span></div>
+    <!-- 12: PART5 완결 -->
+    <section class="slide" id="slide-12" hidden>
+      <div class="slide-head"><span class="slide-part mono">PART 5</span><span class="slide-num mono">11</span><span class="slide-kicker">완결</span></div>
       <h2>기동 시퀀스 전체 그림</h2>
       <p class="bridge"><strong>앞에서:</strong> 토크→가속→역기전력→재조정의 사슬이 계속 돈다고 했다.
         이 사슬은 언제, 어떻게 끝날까?</p>
@@ -471,11 +482,11 @@
         힘)이 나머지를 넘겨받을 수 있을 만큼 충분해져서 SFC는 손을 뗀다.</p>
     </section>
 
-    <!-- 12 -->
-    <section class="slide" id="slide-12" hidden>
-      <div class="slide-head"><span class="slide-num mono">요약</span><span class="slide-kicker">전체 흐름</span></div>
+    <!-- 13: 요약 -->
+    <section class="slide" id="slide-13" hidden>
+      <div class="slide-head"><span class="slide-part mono">PART 5</span><span class="slide-num mono">요약</span><span class="slide-kicker">전체 흐름</span></div>
       <h2>하나로 이어지는 이야기</h2>
-      <div class="visual"><svg id="recapSvg" viewBox="0 0 460 460" role="img" aria-label="문제 제기부터 완결까지 전체 논리 흐름을 화살표로 이어 보여주는 다이어그램"></svg></div>
+      <div class="visual"><svg id="recapSvg" viewBox="0 0 460 560" role="img" aria-label="문제 제기부터 완결까지 전체 논리 흐름을 화살표로 이어 보여주는 다이어그램"></svg></div>
     </section>
 
   </div>
@@ -574,17 +585,6 @@
     touchX = null;
   }, {passive:true});
 
-  /* ---------- generic "click bold term to expand" disclosures ---------- */
-  document.querySelectorAll('.term-toggle').forEach(function(btn){
-    var panel = document.getElementById('detail-' + btn.dataset.detail);
-    if (!panel) return;
-    btn.addEventListener('click', function(){
-      var open = panel.hidden;
-      panel.hidden = !open;
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-  });
-
   /* ================= slide 2: why a standstill machine has zero average torque ================= */
   (function(){
     var svg = document.getElementById('noTorqueSvg');
@@ -637,108 +637,35 @@
     onEnterCallbacks[1] = start;
   })();
 
-  /* ================= slide 3: why 0Hz + gradual ramp ================= */
+  /* ================= slide 3: rotor as electromagnet ================= */
   (function(){
-    var svg = document.getElementById('rampSvg');
-    var stepsWrap = document.getElementById('rampSteps');
-    var MODES = ['천천히 올리면','급하게 올리면'];
-    var mode = 0;
+    var svg = document.getElementById('electromagnetSvg');
+    var CX=200, CY=140, ROTOR_R=70, WIND_R=95, ARROW_LEN=50;
 
-    MODES.forEach(function(m,i){
-      var b = document.createElement('button');
-      b.type='button'; b.className='step-btn'; b.textContent=m;
-      b.addEventListener('click', function(){ mode=i; resetAnim(); });
-      stepsWrap.appendChild(b);
+    el('circle', {cx:CX,cy:CY,r:WIND_R, fill:'none', stroke:'var(--line-strong)','stroke-width':1.5,'stroke-dasharray':'4 4'}, svg);
+    el('circle', {cx:CX,cy:CY,r:ROTOR_R, fill:'var(--panel-2)', stroke:'var(--ink-dim)','stroke-width':2}, svg);
+
+    arrowMarker(svg, 'emArrow', 'var(--ink-dim)');
+    [0,90,180,270].forEach(function(a){
+      var p0 = pt(a-14, CX, CY, WIND_R), p1 = pt(a+14, CX, CY, WIND_R);
+      el('path', {d:'M '+p0.x+' '+p0.y+' A '+WIND_R+' '+WIND_R+' 0 0 1 '+p1.x+' '+p1.y, fill:'none', stroke:'var(--ink-dim)','stroke-width':2,'marker-end':'url(#emArrow)'}, svg);
     });
-    var btns = stepsWrap.querySelectorAll('.step-btn');
+    var lblP = pt(45, CX, CY, WIND_R+20);
+    txt(lblP.x, lblP.y, '계자전류 (직류)', 'var(--ink-dim)', 11.5, 'middle', svg, 600);
 
-    var CX=150, CY=110, FIELD_LEN=68, ROTOR_LEN=48;
-    var GX=330, GY0=170, GH=130, GW=90;
+    var southPt = pt(180, CX, CY, ARROW_LEN);
+    var northPt = pt(0, CX, CY, ARROW_LEN);
+    el('line', {x1:southPt.x,y1:southPt.y,x2:northPt.x,y2:northPt.y, stroke:'var(--series-a)','stroke-width':5,'stroke-linecap':'round'}, svg);
+    el('circle', {cx:northPt.x,cy:northPt.y,r:7, fill:'none', stroke:'var(--series-a)','stroke-width':1.5, opacity:0.45}, svg);
+    el('circle', {cx:northPt.x,cy:northPt.y,r:3.5, fill:'var(--series-a)'}, svg);
 
-    var rotorAngle=0, fieldAngle=0, rotorSpeed=0, t=0, failed=false;
-    var rv, fv, deltaArc, statusTxt, gaugeFill;
+    txt(northPt.x, northPt.y-16, 'N', 'var(--series-b)', 16, 'middle', svg, 700);
+    txt(southPt.x, southPt.y+22, 'S', 'var(--series-a)', 16, 'middle', svg, 700);
+    txt(CX+16, CY-10, 'Φ', 'var(--series-a)', 13, 'start', svg, 700);
+    txt(CX+30, CY-10, 'field', 'var(--series-a)', 9, 'start', svg);
 
-    function build(){
-      clearSvg(svg);
-      el('circle', {cx:CX,cy:CY,r:FIELD_LEN+2, fill:'none', stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
-      rv = vecArrow(svg, CX, CY, 0, ROTOR_LEN, 'var(--series-a)', 4);
-      txt(CX,CY-ROTOR_LEN-12,'회전자','var(--series-a)',11,'middle',svg,600);
-      fv = vecArrow(svg, CX, CY, 0, FIELD_LEN, 'var(--series-b)', 3);
-      txt(CX+FIELD_LEN+10,CY-FIELD_LEN+2,'회전자계','var(--series-b)',11,'start',svg,600);
-      deltaArc = el('path', {d:'', fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5}, svg);
-
-      el('line', {x1:GX,y1:GY0,x2:GX,y2:GY0-GH, stroke:'var(--line-strong)','stroke-width':1.5}, svg);
-      el('line', {x1:GX-GW/2-6,y1:GY0-GH,x2:GX+GW/2+6,y2:GY0-GH, stroke:'var(--bad)','stroke-width':1,'stroke-dasharray':'3 3'}, svg);
-      txt(GX+GW/2+10, GY0-GH+4, '90°(한계)', 'var(--bad)', 10, 'start', svg);
-      gaugeFill = el('rect', {x:GX-GW/2, y:GY0, width:GW, height:0, fill:'var(--series-a)'}, svg);
-      el('rect', {x:GX-GW/2, y:GY0-GH, width:GW, height:GH, fill:'none', stroke:'var(--line)','stroke-width':1}, svg);
-      txt(GX, GY0+18, 'δ(뒤처짐)', 'var(--ink-dim)', 11, 'middle', svg);
-      statusTxt = txt(CX, 205, '', 'var(--ink-dim)', 12.5, 'middle', svg, 600);
-    }
-    build();
-
-    function resetAnim(){
-      rotorAngle=0; fieldAngle=0; rotorSpeed=0; t=0; failed=false;
-      build();
-      btns.forEach(function(b,i){ b.classList.toggle('active', i===mode); });
-    }
-    resetAnim();
-
-    // The rotor has inertia, so its speed can only change at a limited rate
-    // (ROTOR_ACCEL). The field's own acceleration is set by how fast the
-    // operator ramps its frequency (mode). "Slow" keeps the field's ramp rate
-    // under what the rotor can match; "fast" deliberately exceeds it so the
-    // lag (delta) grows without bound instead of settling.
-    var ROTOR_ACCEL = 90; // deg/s^2 the rotor can realistically follow
-    function frame(dt){
-      if (failed){ t += dt; if (t>1.2) resetAnim(); return; }
-      t += dt;
-      var fieldSpeed = mode===0 ? Math.min(40, t*15) : Math.min(220, t*180);
-      fieldAngle += fieldSpeed*dt;
-      var speedGap = fieldSpeed - rotorSpeed;
-      var maxStep = ROTOR_ACCEL*dt;
-      rotorSpeed += Math.max(-maxStep, Math.min(maxStep, speedGap));
-      rotorAngle += rotorSpeed*dt;
-      var delta = ((fieldAngle-rotorAngle)%360+360)%360; if (delta>180) delta -= 360;
-      var absDelta = Math.abs(delta);
-
-      var rp = pt(rotorAngle%360, CX, CY, ROTOR_LEN);
-      rv.line.setAttribute('x2',rp.x); rv.line.setAttribute('y2',rp.y);
-      rv.ring.setAttribute('cx',rp.x); rv.ring.setAttribute('cy',rp.y);
-      rv.dot.setAttribute('cx',rp.x); rv.dot.setAttribute('cy',rp.y);
-      var fp = pt(fieldAngle%360, CX, CY, FIELD_LEN);
-      fv.line.setAttribute('x2',fp.x); fv.line.setAttribute('y2',fp.y);
-      fv.ring.setAttribute('cx',fp.x); fv.ring.setAttribute('cy',fp.y);
-      fv.dot.setAttribute('cx',fp.x); fv.dot.setAttribute('cy',fp.y);
-
-      var r0 = pt(rotorAngle%360,CX,CY,26), r1 = pt(fieldAngle%360,CX,CY,26);
-      var largeArc = absDelta>180?1:0;
-      deltaArc.setAttribute('d','M '+r0.x+' '+r0.y+' A 26 26 0 '+largeArc+' 1 '+r1.x+' '+r1.y);
-
-      var gh = Math.min(1, absDelta/120) * (GH+20);
-      gaugeFill.setAttribute('height', Math.min(gh,GH+30));
-      gaugeFill.setAttribute('y', GY0-Math.min(gh,GH+30));
-      gaugeFill.setAttribute('fill', absDelta>90 ? 'var(--bad)' : 'var(--series-a)');
-
-      if (mode===1 && absDelta>90){
-        failed = true; t=0;
-        statusTxt.textContent = '✕ 탈조 — 뒤처짐이 90°를 넘어 놓쳤다';
-        statusTxt.setAttribute('fill','var(--bad)');
-      } else {
-        statusTxt.textContent = mode===0 ? '✓ 계속 따라간다 (δ가 작게 유지됨)' : '아직 따라가는 중…';
-        statusTxt.setAttribute('fill', mode===0 ? 'var(--series-a)' : 'var(--ink-dim)');
-      }
-    }
-    var raf=null, lastT=null;
-    function loop(now){
-      if (!isVisible('slide-3')){ raf=null; return; }
-      if (lastT===null) lastT=now;
-      frame(Math.min((now-lastT)/1000,0.05));
-      lastT = now;
-      raf = requestAnimationFrame(loop);
-    }
-    function start(){ if (reduceMotion) return; resetAnim(); if(!raf){ lastT=null; raf=requestAnimationFrame(loop);} }
-    onEnterCallbacks[2] = start;
+    txt(CX, CY+ROTOR_R+34, '계자권선(점선)에 직류가 흐르면', 'var(--ink-faint)', 10.5, 'middle', svg);
+    txt(CX, CY+ROTOR_R+50, '회전자 중심을 관통하는 자속(N→S)이 생긴다', 'var(--ink-faint)', 10.5, 'middle', svg);
   })();
 
   /* ================= slide 4: power-in -> SFC -> stepped wave -> stator field (one shared step) ================= */
@@ -954,7 +881,7 @@
     draw();
   })();
 
-  /* ================= slide 9: torque vectors (computed arc) + sin(delta) graph ================= */
+  /* ================= slide 8: torque vectors (computed arc) + sin(delta) graph ================= */
   (function(){
     var svg = document.getElementById('torqueSvg');
     var stepsWrap = document.getElementById('torqueSteps');
@@ -1023,6 +950,110 @@
     txt(GX0, 20, 'sin δ (상대 토크)', 'var(--ink-dim)', 11, 'start', gsvg);
   })();
 
+  /* ================= slide 9: why 0Hz + gradual ramp (moved after torque) ================= */
+  (function(){
+    var svg = document.getElementById('rampSvg');
+    var stepsWrap = document.getElementById('rampSteps');
+    var MODES = ['천천히 올리면','급하게 올리면'];
+    var mode = 0;
+
+    MODES.forEach(function(m,i){
+      var b = document.createElement('button');
+      b.type='button'; b.className='step-btn'; b.textContent=m;
+      b.addEventListener('click', function(){ mode=i; resetAnim(); });
+      stepsWrap.appendChild(b);
+    });
+    var btns = stepsWrap.querySelectorAll('.step-btn');
+
+    var CX=150, CY=110, FIELD_LEN=68, ROTOR_LEN=48;
+    var GX=330, GY0=170, GH=130, GW=90;
+
+    var rotorAngle=0, fieldAngle=0, rotorSpeed=0, t=0, failed=false;
+    var rv, fv, deltaArc, statusTxt, gaugeFill;
+
+    function build(){
+      clearSvg(svg);
+      el('circle', {cx:CX,cy:CY,r:FIELD_LEN+2, fill:'none', stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
+      rv = vecArrow(svg, CX, CY, 0, ROTOR_LEN, 'var(--series-a)', 4);
+      txt(CX,CY-ROTOR_LEN-12,'회전자','var(--series-a)',11,'middle',svg,600);
+      fv = vecArrow(svg, CX, CY, 0, FIELD_LEN, 'var(--series-b)', 3);
+      txt(CX+FIELD_LEN+10,CY-FIELD_LEN+2,'회전자계','var(--series-b)',11,'start',svg,600);
+      deltaArc = el('path', {d:'', fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5}, svg);
+
+      el('line', {x1:GX,y1:GY0,x2:GX,y2:GY0-GH, stroke:'var(--line-strong)','stroke-width':1.5}, svg);
+      el('line', {x1:GX-GW/2-6,y1:GY0-GH,x2:GX+GW/2+6,y2:GY0-GH, stroke:'var(--bad)','stroke-width':1,'stroke-dasharray':'3 3'}, svg);
+      txt(GX+GW/2+10, GY0-GH+4, '90°(한계)', 'var(--bad)', 10, 'start', svg);
+      gaugeFill = el('rect', {x:GX-GW/2, y:GY0, width:GW, height:0, fill:'var(--series-a)'}, svg);
+      el('rect', {x:GX-GW/2, y:GY0-GH, width:GW, height:GH, fill:'none', stroke:'var(--line)','stroke-width':1}, svg);
+      txt(GX, GY0+18, 'δ(뒤처짐)', 'var(--ink-dim)', 11, 'middle', svg);
+      statusTxt = txt(CX, 205, '', 'var(--ink-dim)', 12.5, 'middle', svg, 600);
+    }
+    build();
+
+    function resetAnim(){
+      rotorAngle=0; fieldAngle=0; rotorSpeed=0; t=0; failed=false;
+      build();
+      btns.forEach(function(b,i){ b.classList.toggle('active', i===mode); });
+    }
+    resetAnim();
+
+    // The rotor has inertia, so its speed can only change at a limited rate
+    // (ROTOR_ACCEL). The field's own acceleration is set by how fast the
+    // operator ramps its frequency (mode). "Slow" keeps the field's ramp rate
+    // under what the rotor can match; "fast" deliberately exceeds it so the
+    // lag (delta) grows without bound instead of settling.
+    var ROTOR_ACCEL = 90; // deg/s^2 the rotor can realistically follow
+    function frame(dt){
+      if (failed){ t += dt; if (t>1.2) resetAnim(); return; }
+      t += dt;
+      var fieldSpeed = mode===0 ? Math.min(40, t*15) : Math.min(220, t*180);
+      fieldAngle += fieldSpeed*dt;
+      var speedGap = fieldSpeed - rotorSpeed;
+      var maxStep = ROTOR_ACCEL*dt;
+      rotorSpeed += Math.max(-maxStep, Math.min(maxStep, speedGap));
+      rotorAngle += rotorSpeed*dt;
+      var delta = ((fieldAngle-rotorAngle)%360+360)%360; if (delta>180) delta -= 360;
+      var absDelta = Math.abs(delta);
+
+      var rp = pt(rotorAngle%360, CX, CY, ROTOR_LEN);
+      rv.line.setAttribute('x2',rp.x); rv.line.setAttribute('y2',rp.y);
+      rv.ring.setAttribute('cx',rp.x); rv.ring.setAttribute('cy',rp.y);
+      rv.dot.setAttribute('cx',rp.x); rv.dot.setAttribute('cy',rp.y);
+      var fp = pt(fieldAngle%360, CX, CY, FIELD_LEN);
+      fv.line.setAttribute('x2',fp.x); fv.line.setAttribute('y2',fp.y);
+      fv.ring.setAttribute('cx',fp.x); fv.ring.setAttribute('cy',fp.y);
+      fv.dot.setAttribute('cx',fp.x); fv.dot.setAttribute('cy',fp.y);
+
+      var r0 = pt(rotorAngle%360,CX,CY,26), r1 = pt(fieldAngle%360,CX,CY,26);
+      var largeArc = absDelta>180?1:0;
+      deltaArc.setAttribute('d','M '+r0.x+' '+r0.y+' A 26 26 0 '+largeArc+' 1 '+r1.x+' '+r1.y);
+
+      var gh = Math.min(1, absDelta/120) * (GH+20);
+      gaugeFill.setAttribute('height', Math.min(gh,GH+30));
+      gaugeFill.setAttribute('y', GY0-Math.min(gh,GH+30));
+      gaugeFill.setAttribute('fill', absDelta>90 ? 'var(--bad)' : 'var(--series-a)');
+
+      if (mode===1 && absDelta>90){
+        failed = true; t=0;
+        statusTxt.textContent = '✕ 탈조 — 뒤처짐이 90°를 넘어 놓쳤다';
+        statusTxt.setAttribute('fill','var(--bad)');
+      } else {
+        statusTxt.textContent = mode===0 ? '✓ 계속 따라간다 (δ가 작게 유지됨)' : '아직 따라가는 중…';
+        statusTxt.setAttribute('fill', mode===0 ? 'var(--series-a)' : 'var(--ink-dim)');
+      }
+    }
+    var raf=null, lastT=null;
+    function loop(now){
+      if (!isVisible('slide-9')){ raf=null; return; }
+      if (lastT===null) lastT=now;
+      frame(Math.min((now-lastT)/1000,0.05));
+      lastT = now;
+      raf = requestAnimationFrame(loop);
+    }
+    function start(){ if (reduceMotion) return; resetAnim(); if(!raf){ lastT=null; raf=requestAnimationFrame(loop);} }
+    onEnterCallbacks[8] = start;
+  })();
+
   /* ================= slide 10: voltage-budget bars ================= */
   (function(){
     var svg = document.getElementById('alignSvg');
@@ -1066,7 +1097,7 @@
     draw();
   })();
 
-  /* ================= slide 9: why back-EMF rises linearly with speed ================= */
+  /* ================= slide 10: why back-EMF rises linearly with speed ================= */
   (function(){
     var svg = document.getElementById('backEmfSvg');
     var X0=48, X1=420, Y0=130, AMP=100;
@@ -1087,7 +1118,7 @@
     txt(xAt(70)+8,yAt(70)-6,'E ∝ 속도','var(--series-a)',12,'start',svg,700);
   })();
 
-  /* ================= slide 9: closed-loop current control (how alpha gets readjusted) ================= */
+  /* ================= slide 10: closed-loop current control (how alpha gets readjusted) ================= */
   (function(){
     var svg = document.getElementById('feedbackSvg');
     arrowMarker(svg,'fbArrow','var(--ink-dim)');
@@ -1152,10 +1183,11 @@
     var svg = document.getElementById('recapSvg');
     var NODES = [
       {t:'문제', s:'정지 상태 → 평균 토크 0', c:'var(--ink-faint)'},
-      {t:'조건', s:'회전자와 같은 속도(0Hz)로 시작, 서서히 가속', c:'var(--series-a)'},
+      {t:'전자석', s:'계자전류 → 회전자가 전자석이 됨', c:'var(--series-a)'},
       {t:'메커니즘', s:'3상 전원 → SFC → 구형파 → 회전자계', c:'var(--series-b)'},
       {t:'구현', s:'점호각(세기) + 점호 타이밍(속도) → 6단계 스위칭', c:'var(--accent)'},
       {t:'결과', s:'토크 = 계자자속×전기자자속×sinδ', c:'var(--series-b)'},
+      {t:'조건', s:'δ가 90°를 넘으면 탈조 → 서서히 가속해야 함', c:'var(--series-a)'},
       {t:'되먹임', s:'가속 → 역기전력↑ → 점호각↓', c:'var(--series-a)'},
       {t:'전환', s:'역기전력이 충분해지면 자연 커뮤테이션(LCI)', c:'var(--accent)'},
       {t:'완결', s:'정격 80% → SFC 분리', c:'var(--ink-faint)'}
