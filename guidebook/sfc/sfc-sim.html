@@ -131,7 +131,7 @@
 
   <section class="panel">
     <h2 class="stepTitle"><span class="idx">3</span>SFC 출력 — 계단형 전류 파형</h2>
-    <svg viewBox="0 0 400 205" role="img" aria-label="고정된 200ms 시간창 위에 R상 S상 T상의 계단형 전류 파형을 그린 그래프. 출력 주파수가 높을수록 같은 200ms 안에 더 많은 주기가 들어가 스텝 폭이 좁아지고, 주파수가 낮을수록 스텝 폭이 넓어짐. 프리셋 버튼으로 주파수를 바꾸면 이 그림이 다시 그려짐">
+    <svg viewBox="0 0 400 205" role="img" aria-label="약 200ms 폭의 시간창(선택한 주파수의 출력 주기 정수배로 맞춰 2단계와 항상 같은 위상을 가리킴) 위에 R상 S상 T상의 계단형 전류 파형을 그린 그래프. 출력 주파수가 높을수록 같은 시간창 안에 더 많은 주기가 들어가 스텝 폭이 좁아지고, 주파수가 낮을수록 스텝 폭이 넓어짐. 프리셋 버튼으로 주파수를 바꾸면 이 그림이 다시 그려짐">
       <g id="outChart"></g>
     </svg>
   </section>
@@ -262,16 +262,27 @@
   var curMid = document.getElementById('curMid');
   var curBot = document.getElementById('curBot');
 
-  // ===== Step 3: stepped output current, drawn over a FIXED 200ms real-time window =====
+  // ===== Step 3: stepped output current, drawn over a real-time window ~200ms wide =====
   // Unlike step 2 (which reflects angleOut directly), this chart's x-axis is real time,
   // not electrical angle — so raising the output frequency visibly packs more (narrower)
-  // cycles into the same 200ms window instead of just sweeping a marker across a static
-  // one-cycle picture. The dynamic pieces are rebuilt by buildOutChart() whenever the
-  // frequency preset changes.
+  // cycles into the window instead of just sweeping a marker across a static one-cycle
+  // picture. The window itself is always a whole number of output cycles (windowMsFor),
+  // so it never falls out of sync with step 2 — see WINDOW_MS above. The dynamic pieces
+  // are rebuilt by buildOutChart()/buildTimeAxis() whenever the frequency preset changes.
   var outChart = document.getElementById('outChart');
   var OUT_X0=56, OUT_X1=384, OUT_XSPAN=OUT_X1-OUT_X0;
   var OUT_ROWS = { R:38, S:92, T:146 };
-  var WINDOW_MS = 200;
+  // Hz values, not abstract %: 20/40/60/80% of a 60Hz-rated machine, grounded in the
+  // ~80%-of-rated disconnect point verified earlier — never an arbitrary 0-100 range.
+  var FREQ_PRESETS = [12, 24, 36, 48];
+  var activeFreqHz = 24; // default: 40% preset
+  // The window must hold a WHOLE number of output cycles. If it didn't, wrapping
+  // section 3's marker at WINDOW_MS would land on a phase that section 2 (driven
+  // continuously by angleOut, never wrapped at WINDOW_MS) has already moved past —
+  // the two sections would show different, mismatched SCR/sextant states. Snapping
+  // to the closest whole-cycle count near 200ms keeps them exactly in sync always.
+  function windowMsFor(hz){ var period = 1000/hz; return Math.max(1, Math.round(200/period)) * period; }
+  var WINDOW_MS = windowMsFor(activeFreqHz);
   var outStepG = {};
 
   Object.keys(OUT_ROWS).forEach(function(ph){
@@ -305,24 +316,32 @@
     outStepG[ph] = g;
   });
 
-  // bottom time axis (0 / 50 / 100 / 150 / 200 ms) — frequency independent
+  // bottom time axis — rebuilt on every frequency change since WINDOW_MS now varies
+  // (it's always a whole number of output cycles, snapped close to 200ms; see windowMsFor)
   var timeAxisY = OUT_ROWS.T + 34;
-  [0,50,100,150,200].forEach(function(ms){
-    var x = OUT_X0 + (ms/WINDOW_MS)*OUT_XSPAN;
-    var tick = document.createElementNS('http://www.w3.org/2000/svg','line');
-    tick.setAttribute('x1',x); tick.setAttribute('x2',x); tick.setAttribute('y1',timeAxisY-4); tick.setAttribute('y2',timeAxisY);
-    tick.setAttribute('stroke','var(--ink-dim)');
-    outChart.appendChild(tick);
-    var tt = document.createElementNS('http://www.w3.org/2000/svg','text');
-    tt.setAttribute('x',x); tt.setAttribute('y',timeAxisY+11);
-    tt.setAttribute('text-anchor', ms===0 ? 'start' : (ms===200 ? 'end' : 'middle'));
-    tt.setAttribute('font-size','8.5'); tt.setAttribute('font-family','IBM Plex Mono'); tt.setAttribute('fill','var(--ink-dim)');
-    tt.textContent = ms+'ms';
-    outChart.appendChild(tt);
-  });
+  var timeAxisG = document.createElementNS('http://www.w3.org/2000/svg','g');
+  outChart.appendChild(timeAxisG);
+  function buildTimeAxis(windowMs){
+    while (timeAxisG.firstChild) timeAxisG.removeChild(timeAxisG.firstChild);
+    [0, 0.25, 0.5, 0.75, 1].forEach(function(frac){
+      var x = OUT_X0 + frac*OUT_XSPAN;
+      var tick = document.createElementNS('http://www.w3.org/2000/svg','line');
+      tick.setAttribute('x1',x); tick.setAttribute('x2',x); tick.setAttribute('y1',timeAxisY-4); tick.setAttribute('y2',timeAxisY);
+      tick.setAttribute('stroke','var(--ink-dim)');
+      timeAxisG.appendChild(tick);
+      var tt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      tt.setAttribute('x',x); tt.setAttribute('y',timeAxisY+11);
+      tt.setAttribute('text-anchor', frac===0 ? 'start' : (frac===1 ? 'end' : 'middle'));
+      tt.setAttribute('font-size','8.5'); tt.setAttribute('font-family','IBM Plex Mono'); tt.setAttribute('fill','var(--ink-dim)');
+      tt.textContent = (frac*windowMs).toFixed(0)+'ms';
+      timeAxisG.appendChild(tt);
+    });
+  }
+  buildTimeAxis(WINDOW_MS);
 
-  // rebuilds the R/S/T step rects+polylines for a 200ms window at the given output
-  // frequency — higher freqHz means a shorter period, so more (narrower) repeats fit
+  // rebuilds the R/S/T step rects+polylines for the WINDOW_MS window at the given
+  // output frequency — higher freqHz means a shorter period, so more (narrower,
+  // but always a whole number of) repeats fit
   function buildOutChart(freqHz){
     var stepMs = 1000/(6*freqHz);
     Object.keys(OUT_ROWS).forEach(function(ph){
@@ -379,7 +398,7 @@
   function stepIntervalMs(hz){ return 1000 / (6*hz); }
   function freqLabel(hz){ return hz + 'Hz(' + stepIntervalMs(hz).toFixed(1) + 'ms)'; }
   var angleIn = 0, angleOut = 0, lastT = null;
-  var sweepMs = 0; // real-time clock (independent of angleOut) driving step-3's marker sweep across its fixed 200ms window
+  var sweepMs = 0; // real-time clock (independent of angleOut) driving step-3's marker sweep across its WINDOW_MS-wide window
   // At real speed a 12-48Hz output steps every 3.5-13.9ms — faster than a 60fps screen
   // (16.7ms) can show, so steps 2-3 flicker. Slow-motion divides BOTH output clocks
   // (angleOut and sweepMs) by the same factor so they stay in sync; the Hz(ms) labels and
@@ -403,10 +422,6 @@
 
   var freqRow = document.getElementById('freqRow');
   var freqBtns = [];
-  // Hz values, not abstract %: 20/40/60/80% of a 60Hz-rated machine, grounded in the
-  // ~80%-of-rated disconnect point verified earlier — never an arbitrary 0-100 range.
-  var FREQ_PRESETS = [12, 24, 36, 48];
-  var activeFreqHz = 24; // default: 40% preset
   var outDegPerSec = degPerSecFromHz(activeFreqHz);
   FREQ_PRESETS.forEach(function(hz){
     var b = document.createElement('button');
@@ -415,7 +430,9 @@
     b.addEventListener('click', function(){
       activeFreqHz = hz;
       outDegPerSec = degPerSecFromHz(hz);
+      WINDOW_MS = windowMsFor(hz);
       buildOutChart(hz);
+      buildTimeAxis(WINDOW_MS);
       freqBtns.forEach(function(fb,i){ fb.classList.toggle('active', FREQ_PRESETS[i]===hz); });
     });
     freqRow.appendChild(b);
@@ -550,8 +567,9 @@
     curBot.setAttribute('x1', xM); curBot.setAttribute('y1', 121);
     curBot.setAttribute('x2', xM); curBot.setAttribute('y2', 205);
 
-    // step 3's marker sweeps the fixed 200ms window on its own real-time clock —
-    // NOT normOut — since the window's timescale is constant regardless of frequency
+    // step 3's marker sweeps the WINDOW_MS window on its own real-time clock — NOT
+    // normOut. WINDOW_MS is a whole number of output cycles, so wrapping it here
+    // always lands on the same sextant that step 2's angleOut-driven state shows.
     var tw = sweepMs % WINDOW_MS;
     var omx = OUT_X0 + (tw/WINDOW_MS)*OUT_XSPAN;
     outMarker.setAttribute('x1', omx); outMarker.setAttribute('x2', omx);
