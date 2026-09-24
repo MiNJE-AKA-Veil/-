@@ -398,11 +398,10 @@
   function stepIntervalMs(hz){ return 1000 / (6*hz); }
   function freqLabel(hz){ return hz + 'Hz(' + stepIntervalMs(hz).toFixed(1) + 'ms)'; }
   var angleIn = 0, angleOut = 0, lastT = null;
-  var sweepMs = 0; // real-time clock (independent of angleOut) driving step-3's marker sweep across its WINDOW_MS-wide window
   // At real speed a 12-48Hz output steps every 3.5-13.9ms — faster than a 60fps screen
-  // (16.7ms) can show, so steps 2-3 flicker. Slow-motion divides BOTH output clocks
-  // (angleOut and sweepMs) by the same factor so they stay in sync; the Hz(ms) labels and
-  // the 200ms axis keep their real values, and 12/24/36/48Hz keep their relative speeds.
+  // (16.7ms) can show, so steps 2-3 flicker. Slow-motion divides angleOut's rate by
+  // slowFactor; the Hz(ms) labels keep their real values, and 12/24/36/48Hz keep
+  // their relative speeds.
   var SLOW_PRESETS = [100, 200, 400];
   var slowFactor = 200;
   // one-way latch: the 0-360° intro (R, then S at 120°, then T at 240°, each
@@ -567,11 +566,19 @@
     curBot.setAttribute('x1', xM); curBot.setAttribute('y1', 121);
     curBot.setAttribute('x2', xM); curBot.setAttribute('y2', 205);
 
-    // step 3's marker sweeps the WINDOW_MS window on its own real-time clock — NOT
-    // normOut. WINDOW_MS is a whole number of output cycles, so wrapping it here
-    // always lands on the same sextant that step 2's angleOut-driven state shows.
-    var tw = sweepMs % WINDOW_MS;
-    var omx = OUT_X0 + (tw/WINDOW_MS)*OUT_XSPAN;
+    // step 3's marker position is derived directly from angleOut every frame —
+    // NOT from a separately-accumulated clock. A separate clock only stays
+    // proportional to angleOut if frequency never changes and angleOut is never
+    // set directly; the "구간별 정지" jump buttons and the frequency presets
+    // both break that assumption, desyncing the two sections. Deriving the
+    // position purely from the current angleOut + activeFreqHz makes it
+    // impossible for the two sections to disagree, regardless of how angleOut
+    // got its value. (sextantPos stays in degree/60 units throughout — never
+    // round-tripped through ms — to avoid floating-point error at exact
+    // 60°-boundary values, which the step-jump buttons land on exactly.)
+    var totalSextants = 6 * (WINDOW_MS / stepIntervalMs(activeFreqHz));
+    var sextantPos = ((angleOut/60) % totalSextants + totalSextants) % totalSextants;
+    var omx = OUT_X0 + (sextantPos/totalSextants)*OUT_XSPAN;
     outMarker.setAttribute('x1', omx); outMarker.setAttribute('x2', omx);
   }
 
@@ -582,7 +589,6 @@
     if (playing){
       angleIn += IN_DEG_PER_SEC * dt;
       angleOut += outDegPerSec * dt / slowFactor;
-      sweepMs += dt * 1000 / slowFactor;
     }
     if (!introDone && angleIn >= 360) introDone = true;
     render();
