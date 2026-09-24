@@ -212,9 +212,12 @@
     <section class="slide" id="slide-2" hidden>
       <div class="slide-head"><span class="slide-num mono">01</span><span class="slide-kicker">문제</span></div>
       <h2>왜 스스로 못 도는가 — 세기가 아니라 동기화의 문제</h2>
-      <p class="lead">전원을 세게 걸어도 안 된다. 진짜 이유는 <strong>회전자와 회전자계의 속도가 일치하지
-        않으면, 미는 힘과 당기는 힘이 반씩 섞여 평균 토크가 0</strong>이 되기 때문이다.</p>
-      <div class="visual"><svg id="noTorqueSvg" viewBox="0 0 300 190" role="img" aria-label="가운데 고정된 회전자 화살표 주위를 빠르게 도는 고정자 자계 화살표, 그 아래 두 자속 사이 각도에 따라 좌우로 흔들리는 토크 바늘 애니메이션"></svg></div>
+      <p class="lead">전원을 세게 걸어도 안 된다. 회전자계가 회전자보다 <strong>빨리 돌면, 회전자계가
+        회전자를 앞질렀다 뒤처졌다를 반복</strong>하면서 회전자를 미는 방향도 계속 뒤집힌다.</p>
+      <div class="visual"><svg id="noTorqueSvg" viewBox="0 0 300 200" role="img" aria-label="가운데 고정된 회전자 화살표 주위를 빠르게 도는 회전자계 화살표, 그 아래 두 자속 사이 각도에 따라 가속과 제동을 오가는 토크 바늘 애니메이션"></svg></div>
+      <div class="slide-note">회전자계가 회전자를 <strong>앞에서 끌어당길 때는 가속</strong>, 한 바퀴
+        더 돌아 <strong>뒤에서 잡아당길 때는 제동</strong> — 회전자계가 너무 빨리 돌면 이 둘이 똑같은
+        비율로 번갈아 나타나서 평균 토크가 0이 된다.</div>
       <div class="slide-note"><strong>결론</strong> — 그래서 회전자계는 회전자가 어디 있든 상관없이
         "어디서든 회전자를 잡을 수 있는" 게 아니라, 반드시 <strong>회전자와 같은 속도로 시작</strong>해야
         한다. 정지 상태라면 그 속도는 0이다.</div>
@@ -241,7 +244,7 @@
     <!-- 4 -->
     <section class="slide" id="slide-4" hidden>
       <div class="slide-head"><span class="slide-num mono">03</span><span class="slide-kicker">회전자계의 정체</span></div>
-      <h2>전기각과 위상 — 세 전류가 만드는 회전</h2>
+      <h2>위상과 전기각 — 세 전류가 만드는 회전</h2>
       <p class="bridge"><strong>앞에서:</strong> "회전자계를 0Hz부터 서서히 돌린다"고 계속 말해왔다.
         그런데 이 회전자계는 실제로 무엇으로 만들어지는가?</p>
       <div class="play-row">
@@ -250,8 +253,16 @@
         <span class="step-readout mono" id="phaseReadout"></span>
       </div>
       <div class="visual"><svg id="phaseSvg" viewBox="0 0 460 210" role="img" aria-label="원 위에서 120도씩 떨어진 R S T 세 벡터가 함께 회전하고, 그에 대응하는 세 정현파가 120도 위상차를 두고 나란히 그려지는 애니메이션. R이 먼저 나타나고 S가 120도 뒤, T가 240도 뒤에 나타난 뒤에는 계속 세 개가 함께 남는다"></svg></div>
-      <div class="slide-note"><strong>전기각 vs 기계각</strong> — 회전자가 실제로 도는 물리적 각도는
-        "기계각", 전류·자속 파형의 위상은 "전기각"이라 부른다. 극 수가 P개면 전기각 = 기계각 × (P/2).</div>
+      <p class="bridge"><strong>그런데:</strong> 위 애니메이션은 "위상만" 보여준다. 위상이 어긋난
+        전류 세 개가 있다고 저절로 회전자계가 생기지는 않는다 — 그 전류가 흐르는 <strong>코일이
+        실제로 어디에 감겨 있는지</strong>도 똑같이 중요하다.</p>
+      <div class="visual"><svg id="statorSvg" viewBox="0 0 340 300" role="img" aria-label="고정자 안쪽에 120도 간격으로 감긴 R S T 세 코일과 그 가운데 있는 회전자를 보여주는 단면도. 세 코일의 자속이 합쳐지면서 회전 방향 화살표를 따라 도는 모습"></svg></div>
+      <div class="slide-note"><strong>회전자계 = 공간적 120° 배치 + 시간적 120° 위상차</strong> — R/S/T
+        코일이 고정자 안쪽에 <strong>기계적으로 120°씩 떨어져</strong> 감겨 있고, 거기에 120° 위상차
+        나는 전류가 흐른다. 그러면 세 코일이 각자 자리에서 만드는 자속이 벡터로 합쳐지면서, 합쳐진
+        자속의 <strong>방향 자체가 시간에 따라 빙글빙글 돈다</strong> — 이게 회전자계의 실체다.
+        (코일이 전부 한 자리에 감겨 있었다면 위상이 아무리 어긋나도 제자리에서 세기만 바뀌는
+        맥동자계에 그쳤을 것이다.)</div>
     </section>
 
     <!-- 5 -->
@@ -261,18 +272,18 @@
       <p class="bridge"><strong>앞에서:</strong> R/S/T 세 전류의 위상차가 회전자계를 만든다는 걸 봤다.
         그런데 이걸 "0Hz부터 서서히, 원하는 세기로" 마음대로 조절하려면 실제로 뭘 만질 수 있어야 할까?</p>
       <div class="visual">
-        <svg viewBox="0 0 460 150" role="img" aria-label="회전자계라는 하나의 결과를 세기와 속도라는 두 개의 독립된 손잡이로 조절한다는 것을 보여주는 다이어그램">
+        <svg viewBox="0 0 460 160" role="img" aria-label="회전자계라는 하나의 결과를 세기와 속도라는 두 개의 독립된, 서로 떨어진 손잡이로 조절한다는 것을 보여주는 다이어그램">
           <g font-family="IBM Plex Mono" font-size="12.5">
-            <rect x="150" y="14" width="160" height="40" rx="9" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="1.75"></rect>
+            <rect x="145" y="14" width="170" height="40" rx="9" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="1.75"></rect>
             <text x="230" y="39" text-anchor="middle" fill="var(--ink)" font-weight="700">회전자계</text>
-            <line x1="200" y1="54" x2="150" y2="96" stroke="var(--ink-faint)" stroke-width="1.5"></line>
-            <line x1="260" y1="54" x2="310" y2="96" stroke="var(--ink-faint)" stroke-width="1.5"></line>
-            <rect x="60" y="98" width="180" height="42" rx="9" fill="var(--panel-2)" stroke="var(--series-b)" stroke-width="2"></rect>
-            <text x="150" y="120" text-anchor="middle" fill="var(--series-b)" font-weight="700">세기</text>
-            <text x="150" y="134" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">→ 정류기 점호각(α)</text>
-            <rect x="220" y="98" width="180" height="42" rx="9" fill="var(--panel-2)" stroke="var(--series-a)" stroke-width="2"></rect>
-            <text x="310" y="120" text-anchor="middle" fill="var(--series-a)" font-weight="700">속도</text>
-            <text x="310" y="134" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">→ 인버터 점호 타이밍</text>
+            <line x1="183" y1="54" x2="122" y2="96" stroke="var(--ink-faint)" stroke-width="1.5"></line>
+            <line x1="277" y1="54" x2="338" y2="96" stroke="var(--ink-faint)" stroke-width="1.5"></line>
+            <rect x="30" y="98" width="185" height="46" rx="9" fill="var(--panel-2)" stroke="var(--series-b)" stroke-width="2"></rect>
+            <text x="122" y="120" text-anchor="middle" fill="var(--series-b)" font-weight="700">세기</text>
+            <text x="122" y="136" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">→ 정류기 점호각(α)</text>
+            <rect x="245" y="98" width="185" height="46" rx="9" fill="var(--panel-2)" stroke="var(--series-a)" stroke-width="2"></rect>
+            <text x="337" y="120" text-anchor="middle" fill="var(--series-a)" font-weight="700">속도</text>
+            <text x="337" y="136" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">→ 인버터 점호 타이밍</text>
           </g>
         </svg>
       </div>
@@ -293,6 +304,30 @@
       <div class="formula">Vdc = Vdo · cos α</div>
       <p class="lead"><strong>Vdo</strong>는 α=0°일 때 정류기가 낼 수 있는 <strong>최대 직류 전압</strong>
         (입력 교류 전압 크기로 정해지는 상수, 이 회로에서는 Vdo ≈ 1.35 × 선간전압).</p>
+      <p class="bridge"><strong>그런데:</strong> 지금까지 정한 건 전압(Vdc)이다. 정작 토크를 만드는 건
+        전류인데, 이 전압이 어떻게 전류로 이어지는가?</p>
+      <div class="visual">
+        <svg viewBox="0 0 460 90" role="img" aria-label="정류기 전압이 DC 링크 리액터를 거쳐 전류로 바뀌는 과정을 보여주는 흐름도">
+          <defs><marker id="v2iArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-dim)"></path></marker></defs>
+          <g font-family="IBM Plex Mono" font-size="12">
+            <rect x="6" y="20" width="120" height="48" rx="9" fill="var(--panel-2)" stroke="var(--series-b)" stroke-width="2"></rect>
+            <text x="66" y="42" text-anchor="middle" fill="var(--series-b)" font-weight="700">전압 Vdc</text>
+            <text x="66" y="58" text-anchor="middle" fill="var(--ink-dim)" font-size="10">(α로 조절)</text>
+            <line x1="130" y1="44" x2="168" y2="44" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#v2iArrow)"></line>
+            <rect x="172" y="20" width="120" height="48" rx="9" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="2"></rect>
+            <text x="232" y="42" text-anchor="middle" fill="var(--ink)" font-weight="700">DC 리액터</text>
+            <text x="232" y="58" text-anchor="middle" fill="var(--ink-dim)" font-size="10">전압차를 전류로</text>
+            <line x1="296" y1="44" x2="334" y2="44" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#v2iArrow)"></line>
+            <rect x="338" y="20" width="116" height="48" rx="9" fill="var(--panel-2)" stroke="var(--series-a)" stroke-width="2"></rect>
+            <text x="396" y="42" text-anchor="middle" fill="var(--series-a)" font-weight="700">전류 Idc</text>
+            <text x="396" y="58" text-anchor="middle" fill="var(--ink-dim)" font-size="10">= 토크의 재료</text>
+          </g>
+        </svg>
+      </div>
+      <div class="slide-note">리액터(큰 인덕터)는 <strong>전압 차이만큼 전류를 밀어올린다</strong>
+        (V=L·di/dt) — Vdc가 부하(발전기 역기전력)보다 큰 만큼 전류가 계속 세지려 하고, 원하는
+        전류에 도달하면 그 전류를 유지하도록 α가 계속 조정된다. 결국 <strong>α → Vdc → 전류</strong>
+        순서로 이어지는 것이다. (9절에서 이 조정이 왜 계속 필요한지 다시 나온다.)</div>
     </section>
 
     <!-- 7 -->
@@ -537,15 +572,16 @@
 
     el('circle', {cx:CX,cy:CY,r:FIELD_LEN+2, fill:'none', stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
     var rv = vecArrow(svg, CX, CY, 0, ROTOR_LEN, 'var(--series-a)', 4);
-    txt(CX,CY-ROTOR_LEN-12,'회전자','var(--series-a)',11,'middle',svg,600);
+    txt(CX,CY-ROTOR_LEN-12,'회전자(계자)','var(--series-a)',11,'middle',svg,600);
     var fv = vecArrow(svg, CX, CY, 35, FIELD_LEN, 'var(--series-b)', 3);
-    txt(CX+FIELD_LEN+10,CY-FIELD_LEN+6,'고정자계','var(--series-b)',11,'start',svg,600);
+    txt(CX+FIELD_LEN+10,CY-FIELD_LEN+6,'회전자계','var(--series-b)',11,'start',svg,600);
 
     el('line', {x1:trackX0,y1:trackY,x2:trackX1,y2:trackY, stroke:'var(--line-strong)','stroke-width':2}, svg);
     el('line', {x1:trackMid,y1:trackY-8,x2:trackMid,y2:trackY+8, stroke:'var(--ink-faint)','stroke-width':1}, svg);
-    txt(trackX0-4,trackY+4,'미는 힘','var(--ink-faint)',10.5,'end',svg);
-    txt(trackX1+4,trackY+4,'당기는 힘','var(--ink-faint)',10.5,'start',svg);
-    txt(trackMid,trackY+22,'평균 ≈ 0','var(--ink-dim)',11,'middle',svg,600);
+    txt(trackX0-4,trackY+4,'◂ 제동(역방향)','var(--ink-faint)',10.5,'end',svg);
+    txt(trackX1+4,trackY+4,'가속(순방향) ▸','var(--ink-faint)',10.5,'start',svg);
+    var statusTxt = txt(trackMid,trackY-20,'','var(--ink-dim)',12,'middle',svg,600);
+    var avgTxt = txt(trackMid,trackY+22,'왔다갔다 평균 ≈ 0','var(--ink-dim)',11,'middle',svg,600);
     var needle = el('circle', {cx:trackMid,cy:trackY,r:5.5, fill:'var(--ink)'}, svg);
 
     var fieldAngle = 35;
@@ -557,6 +593,16 @@
       fv.dot.setAttribute('cx', p.x); fv.dot.setAttribute('cy', p.y);
       var torque = Math.sin(fieldAngle*Math.PI/180);
       needle.setAttribute('cx', trackMid + torque*trackHalf);
+      if (torque>0.08){
+        statusTxt.textContent = '지금: 회전자를 앞으로 밀어줌';
+        statusTxt.setAttribute('fill','var(--series-a)');
+      } else if (torque<-0.08){
+        statusTxt.textContent = '지금: 반대로 당겨서 브레이크가 됨';
+        statusTxt.setAttribute('fill','var(--bad)');
+      } else {
+        statusTxt.textContent = '지금: 거의 0';
+        statusTxt.setAttribute('fill','var(--ink-faint)');
+      }
     }
     var raf = null, lastT = null;
     function loop(now){
@@ -597,7 +643,7 @@
       rv = vecArrow(svg, CX, CY, 0, ROTOR_LEN, 'var(--series-a)', 4);
       txt(CX,CY-ROTOR_LEN-12,'회전자','var(--series-a)',11,'middle',svg,600);
       fv = vecArrow(svg, CX, CY, 0, FIELD_LEN, 'var(--series-b)', 3);
-      txt(CX+FIELD_LEN+10,CY-FIELD_LEN+2,'자계','var(--series-b)',11,'start',svg,600);
+      txt(CX+FIELD_LEN+10,CY-FIELD_LEN+2,'회전자계','var(--series-b)',11,'start',svg,600);
       deltaArc = el('path', {d:'', fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5}, svg);
 
       el('line', {x1:GX,y1:GY0,x2:GX,y2:GY0-GH, stroke:'var(--line-strong)','stroke-width':1.5}, svg);
@@ -797,6 +843,31 @@
     }
     render();
     requestAnimationFrame(tick);
+  })();
+
+  /* ================= slide 4b: stator cross-section (spatial 120° winding layout) ================= */
+  (function(){
+    var svg = document.getElementById('statorSvg');
+    var CX=150, CY=150, R=85;
+    var WCOLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
+    var WPHASE = { R:0, S:120, T:240 };
+
+    el('circle', {cx:CX,cy:CY,r:R, fill:'none', stroke:'var(--line-strong)','stroke-width':2}, svg);
+    el('circle', {cx:CX,cy:CY,r:30, fill:'var(--panel-2)', stroke:'var(--ink-dim)','stroke-width':2}, svg);
+    txt(CX,CY+4,'회전자','var(--ink-dim)',11,'middle',svg,600);
+
+    arrowMarker(svg,'statorRot','var(--ink-faint)');
+    var a0=pt(-22,CX,CY,R+16), a1=pt(22,CX,CY,R+16);
+    el('path', {d:'M '+a0.x+' '+a0.y+' A '+(R+16)+' '+(R+16)+' 0 0 1 '+a1.x+' '+a1.y, fill:'none', stroke:'var(--ink-faint)','stroke-width':1.5,'marker-end':'url(#statorRot)'}, svg);
+
+    Object.keys(WPHASE).forEach(function(ph){
+      var p1 = pt(WPHASE[ph],CX,CY,R-16), p2 = pt(WPHASE[ph],CX,CY,R+16);
+      el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke:WCOLOR[ph], 'stroke-width':7, 'stroke-linecap':'round'}, svg);
+      var lp = pt(WPHASE[ph],CX,CY,R+38);
+      txt(lp.x,lp.y+4,ph+'상 코일',WCOLOR[ph],12,'middle',svg,700);
+    });
+
+    txt(CX,268,'세 코일이 120°씩 떨어져 있다 + 화살표 방향으로 회전자계가 돈다','var(--ink-faint)',10.5,'middle',svg);
   })();
 
   /* ================= slide 6: firing-angle sine/shading diagram ================= */
