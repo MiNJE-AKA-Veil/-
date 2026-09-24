@@ -33,494 +33,620 @@
     --code-bg:#0e1720;
   }
   *{box-sizing:border-box;}
+  html,body{ height:100%; }
   body{
     margin:0; background:var(--paper); color:var(--ink);
     font-family:'IBM Plex Sans KR','Noto Sans KR',system-ui,sans-serif;
-    padding-inline:16px; padding-block:36px 64px;
+    padding-inline:16px; padding-block:20px;
     display:flex; justify-content:center;
   }
   .mono{ font-family:'IBM Plex Mono',ui-monospace,monospace; }
-  .page{ width:100%; max-width:760px; }
+  .deck{ width:100%; max-width:720px; display:flex; flex-direction:column; gap:14px; }
   a{ color:var(--accent); }
-
-  header.hero{ display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
-  .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
-  h1{ margin:0; font-size:clamp(24px,5vw,32px); font-weight:700; text-wrap:balance; line-height:1.25; }
-  .dek{ margin:0; color:var(--ink-dim); font-size:15px; line-height:1.6; max-width:62ch; }
-  .meta-row{ display:flex; flex-wrap:wrap; gap:8px 16px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); margin-top:4px; }
-
-  nav.toc{
-    background:var(--panel); border:1px solid var(--line); border-radius:14px;
-    padding:16px 18px; margin-bottom:32px;
-  }
-  nav.toc .toc-label{ font-size:11px; font-family:'IBM Plex Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 10px; }
-  nav.toc ol{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:6px 20px; }
-  @media (max-width:520px){ nav.toc ol{ grid-template-columns:1fr; } }
-  nav.toc li a{
-    display:flex; gap:8px; align-items:baseline; text-decoration:none; color:var(--ink);
-    font-size:13.5px; padding:3px 0; border-radius:6px;
-  }
-  nav.toc li a:hover{ color:var(--accent); }
-  nav.toc .n{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); flex:none; width:1.4em; }
-
-  section.sec{ margin-bottom:6px; scroll-margin-top:16px; }
-  .sec-card{
-    background:var(--panel); border:1px solid var(--line); border-radius:16px;
-    padding:24px 22px 26px; margin-bottom:22px;
-  }
-  .sec-head{ display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
-  .idx{
-    flex:none; display:inline-flex; align-items:center; justify-content:center;
-    width:28px; height:28px; border-radius:50%; margin-top:1px;
-    background:var(--accent); color:var(--accent-ink); font-family:'IBM Plex Mono',monospace;
-    font-size:13px; font-weight:700;
-  }
-  h2{ margin:0; font-size:18px; font-weight:700; line-height:1.4; text-wrap:balance; }
-  .sec-card p{ margin:0 0 12px; font-size:14.5px; line-height:1.75; color:var(--ink); }
-  .sec-card p:last-child{ margin-bottom:0; }
-  .sec-card ul{ margin:0 0 12px; padding-left:1.2em; font-size:14.5px; line-height:1.75; }
-  .sec-card li{ margin-bottom:4px; }
-  .sec-card li:last-child{ margin-bottom:0; }
   strong{ color:var(--ink); font-weight:600; }
-  .callout{
-    background:var(--panel-2); border:1px solid var(--line); border-radius:10px;
-    padding:12px 14px; font-size:13.5px; line-height:1.65; color:var(--ink-dim); margin:14px 0;
+
+  header.top{ display:flex; flex-direction:column; gap:6px; }
+  .eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  header.top h1{ margin:0; font-size:clamp(18px,4vw,22px); font-weight:700; text-wrap:balance; line-height:1.3; }
+
+  .progress-row{ display:flex; align-items:center; gap:12px; }
+  .progress-track{ flex:1; height:4px; border-radius:2px; background:var(--line); overflow:hidden; }
+  .progress-fill{ height:100%; background:var(--accent); border-radius:2px; transition:width .25s ease; }
+  .progress-num{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-dim); white-space:nowrap; }
+
+  .stage{ position:relative; overflow:hidden; }
+  .slide{
+    background:var(--panel); border:1px solid var(--line); border-radius:18px;
+    padding:26px 24px 24px; min-height:420px;
+    display:flex; flex-direction:column; gap:14px;
   }
-  .callout b{ color:var(--ink); }
+  .slide[hidden]{ display:none !important; }
+  .slide-kicker{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); }
+  .slide h2{ margin:0; font-size:clamp(19px,4vw,23px); font-weight:700; line-height:1.35; text-wrap:balance; }
+  .slide .lead{ margin:0; font-size:15px; line-height:1.7; color:var(--ink-dim); max-width:56ch; }
+  .slide ul.points{ margin:0; padding-left:1.15em; font-size:15px; line-height:1.85; }
+  .slide ul.points li{ margin-bottom:2px; }
+  .slide .visual{ flex:1; display:flex; align-items:center; justify-content:center; min-height:0; }
+  .slide .visual svg{ width:100%; height:auto; max-height:100%; display:block; }
+  .slide-note{
+    font-size:12.5px; color:var(--ink-faint); line-height:1.6;
+    background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:9px 12px;
+  }
   .formula{
     background:var(--code-bg); border:1px solid var(--line); border-radius:10px;
-    padding:12px 16px; font-family:'IBM Plex Mono',monospace; font-size:14px;
-    color:var(--ink); margin:14px 0; overflow-x:auto; white-space:nowrap;
+    padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:14px;
+    color:var(--ink); overflow-x:auto; white-space:nowrap; align-self:flex-start;
   }
-  .formula .sub{ color:var(--ink-dim); font-size:12px; }
   .formula sub{ font-size:0.72em; }
 
-  figure{ margin:16px 0; }
-  figure svg{ width:100%; height:auto; display:block; }
-  figcaption{ font-size:12px; color:var(--ink-faint); margin-top:8px; text-align:center; }
-
-  table.ctable{ width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; }
-  table.ctable caption{ caption-side:top; text-align:left; font-size:12px; color:var(--ink-faint); margin-bottom:6px; }
-  table.ctable th, table.ctable td{
-    border:1px solid var(--line); padding:7px 9px; text-align:center;
-    font-family:'IBM Plex Mono',monospace;
+  nav.controls{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .navbtn{
+    font-family:'IBM Plex Sans KR',sans-serif; font-size:13.5px; font-weight:600;
+    padding:9px 16px; border-radius:9px; border:1px solid var(--line-strong);
+    background:var(--panel); color:var(--ink); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
   }
-  table.ctable th{ background:var(--panel-2); color:var(--ink-dim); font-weight:600; }
-  table.ctable td.lv-plus{ color:var(--series-b); font-weight:600; }
-  table.ctable td.lv-minus{ color:var(--series-a); font-weight:600; }
-  .tbl-wrap{ overflow-x:auto; }
+  .navbtn:hover{ border-color:var(--accent); color:var(--accent); }
+  .navbtn:disabled{ opacity:.35; cursor:default; border-color:var(--line); color:var(--ink-faint); }
+  .navbtn.primary{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .navbtn.primary:hover{ filter:brightness(1.06); color:var(--accent-ink); }
 
-  .chart-wrap{ position:relative; }
-  .legend{ display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-dim); margin-top:2px; }
+  .dots{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
+  .dot{ width:8px; height:8px; border-radius:50%; background:var(--line-strong); border:none; padding:0; cursor:pointer; }
+  .dot.active{ background:var(--accent); width:20px; border-radius:4px; }
+
+  .step-row{ display:flex; gap:6px; flex-wrap:wrap; }
+  .step-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600;
+    padding:6px 11px; border-radius:7px; border:1px solid var(--line-strong);
+    background:var(--panel-2); color:var(--ink-dim); cursor:pointer;
+  }
+  .step-btn:hover{ border-color:var(--accent); color:var(--ink); }
+  .step-btn.active{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .step-readout{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--accent); }
+
+  .chart-wrap{ position:relative; width:100%; }
+  .legend{ display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--ink-dim); }
   .legend span{ display:inline-flex; align-items:center; gap:6px; }
-  .legend i{ width:12px; height:3px; border-radius:2px; display:inline-block; }
+  .legend i{ width:11px; height:3px; border-radius:2px; display:inline-block; }
   .tooltip{
     position:absolute; pointer-events:none; background:var(--panel); border:1px solid var(--line-strong);
-    border-radius:8px; padding:6px 9px; font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    border-radius:8px; padding:6px 9px; font-family:'IBM Plex Mono',monospace; font-size:11px;
     color:var(--ink); box-shadow:0 4px 14px rgba(0,0,0,.18); opacity:0; transition:opacity .1s ease;
     white-space:nowrap; z-index:2;
   }
 
-  .recap{
-    background:var(--panel); border:1px solid var(--line); border-radius:16px;
-    padding:24px 22px; margin-top:8px;
+  ul.recap{ margin:0; padding-left:1.2em; font-size:14.5px; line-height:1.85; }
+
+  .swipe-hint{ text-align:center; font-size:11.5px; color:var(--ink-faint); }
+
+  @media (max-width:480px){
+    .slide{ min-height:0; padding:20px 16px; }
+    nav.controls .navbtn span.label{ display:none; }
   }
-  .recap h2{ margin-bottom:14px; }
-  .recap ul{ margin:0; padding-left:1.2em; font-size:14px; line-height:1.85; }
-
-  footer.src{ margin-top:22px; font-size:11.5px; color:var(--ink-faint); line-height:1.8; }
-  footer.src a{ color:var(--ink-faint); text-decoration:underline; }
-
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
 </style>
 
-<div class="page">
-  <header class="hero">
-    <span class="eyebrow">SFC 가이드북 · 이론 개괄</span>
-    <h1>SFC 기동 이론 개괄 — 정지된 발전기를 어떻게 돌리는가</h1>
-    <p class="dek">인터랙티브 애니메이션(전기각 · 6-펄스 브릿지 · 계단형 파형)에서 다룬 개별 장면을 하나의
-      이론 흐름으로 정리한 자료. 신입사원 · 일반직원(전공지식 없음) 기준으로, 실제 용어를 그대로 쓰되
-      필요한 배경부터 순서대로 설명한다.</p>
-    <div class="meta-row">
-      <span>대상 설비: ITNECO 지역난방/발전 SFC(LCI) 기동 시스템</span>
-      <span>최종 갱신: 2026-09-24</span>
-    </div>
+<div class="deck">
+  <header class="top">
+    <span class="eyebrow">SFC 가이드북 · 한 장씩 보기</span>
+    <h1 id="deckTitle">SFC, 정지된 발전기를 어떻게 돌릴까?</h1>
   </header>
 
-  <nav class="toc" aria-label="목차">
-    <p class="toc-label">목차</p>
-    <ol>
-      <li><a href="#s1"><span class="n mono">01</span>SFC(LCI)란 무엇인가</a></li>
-      <li><a href="#s2"><span class="n mono">02</span>전체 구조 세 덩어리</a></li>
-      <li><a href="#s3"><span class="n mono">03</span>점호각 α — 전류 크기</a></li>
-      <li><a href="#s4"><span class="n mono">04</span>점호 타이밍 — 출력 주파수</a></li>
-      <li><a href="#s5"><span class="n mono">05</span>왜 둘을 맞춰야 하는가</a></li>
-      <li><a href="#s6"><span class="n mono">06</span>6-펄스 도통 순서</a></li>
-      <li><a href="#s7"><span class="n mono">07</span>계단형 출력 파형</a></li>
-      <li><a href="#s8"><span class="n mono">08</span>입력·출력 주파수 분리</a></li>
-      <li><a href="#s9"><span class="n mono">09</span>전기각 vs 기계각</a></li>
-      <li><a href="#s10"><span class="n mono">10</span>기동 시퀀스 전체 그림</a></li>
-    </ol>
-  </nav>
-
-  <!-- 01 -->
-  <section class="sec" id="s1"><div class="sec-card">
-    <div class="sec-head"><span class="idx">1</span><h2>SFC(LCI)란 무엇인가</h2></div>
-    <p><strong>SFC(Static Frequency Converter)</strong>는 화력·복합화력 발전소의 대형 동기발전기를
-      <strong>정지 상태(0RPM)에서부터 회전시켜 가속</strong>시키는 전용 기동 장치다. 내부적으로는
-      <strong>LCI(Load Commutated Inverter, 부하시전류형성 인버터)</strong> 방식의 6-펄스 싸이리스터
-      회로를 쓴다.</p>
-    <p>대형 동기기는 스스로 기동 토크를 낼 수 없다. 회전자의 직류 여자자속은 고정되어 있고, 고정자가
-      정지해 있으면 회전 토크가 생기지 않기 때문이다. 그래서 외부에서 회전하는 자계를 강제로 만들어
-      발전기를 밀어줘야 하는데, 이 역할을 SFC가 맡는다.</p>
-    <div class="callout"><b>왜 "Static"인가</b> — 회전 기계(유도전동기 등)로 기동시키는 방식과 달리
-      싸이리스터 반도체 소자만으로 정지된(static) 상태에서 가변주파수 전원을 만들어내기 때문에 이런
-      이름이 붙었다.</div>
-  </div></section>
-
-  <!-- 02 -->
-  <section class="sec" id="s2"><div class="sec-card">
-    <div class="sec-head"><span class="idx">2</span><h2>전체 구조 — 세 덩어리로 나눠 보기</h2></div>
-    <p>SFC는 아래 세 블록이 순서대로 이어진 구조다. 앞뒤 두 브릿지는 물리적으로 같은 6-펄스 싸이리스터
-      회로지만, 맡은 역할이 서로 다르다.</p>
-    <figure>
-      <svg viewBox="0 0 720 190" role="img" aria-label="3상 60Hz 입력이 정류기, DC 링크, 인버터를 거쳐 가변주파수 3상 출력으로 발전기 고정자에 전달되는 블록 다이어그램">
-        <defs>
-          <marker id="fArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-dim)"></path></marker>
-        </defs>
-        <g font-family="IBM Plex Mono" font-size="11.5">
-          <!-- input -->
-          <text x="10" y="60" fill="var(--ink-dim)">3상 AC</text>
-          <text x="10" y="75" fill="var(--ink-dim)">60Hz 고정</text>
-          <line x1="70" y1="68" x2="110" y2="68" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow)"></line>
-
-          <!-- rectifier box -->
-          <rect x="112" y="30" width="140" height="76" rx="10" fill="var(--panel-2)" stroke="var(--series-b)" stroke-width="2"></rect>
-          <text x="182" y="60" text-anchor="middle" fill="var(--ink)" font-weight="600">정류기</text>
-          <text x="182" y="76" text-anchor="middle" fill="var(--ink-dim)">위상제어 SCR</text>
-          <text x="182" y="92" text-anchor="middle" fill="var(--series-b)">점호각 α</text>
-
-          <line x1="252" y1="68" x2="292" y2="68" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow)"></line>
-
-          <!-- dc link box -->
-          <rect x="294" y="30" width="132" height="76" rx="10" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="2"></rect>
-          <text x="360" y="60" text-anchor="middle" fill="var(--ink)" font-weight="600">DC 링크</text>
-          <text x="360" y="76" text-anchor="middle" fill="var(--ink-dim)">리액터로</text>
-          <text x="360" y="92" text-anchor="middle" fill="var(--ink-dim)">전류 평활</text>
-
-          <line x1="426" y1="68" x2="466" y2="68" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow)"></line>
-
-          <!-- inverter box -->
-          <rect x="468" y="30" width="140" height="76" rx="10" fill="var(--panel-2)" stroke="var(--series-a)" stroke-width="2"></rect>
-          <text x="538" y="60" text-anchor="middle" fill="var(--ink)" font-weight="600">인버터</text>
-          <text x="538" y="76" text-anchor="middle" fill="var(--ink-dim)">부하시전류형성</text>
-          <text x="538" y="92" text-anchor="middle" fill="var(--series-a)">점호 타이밍</text>
-
-          <line x1="608" y1="68" x2="648" y2="68" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow)"></line>
-
-          <text x="650" y="60" fill="var(--ink-dim)">3상 가변</text>
-          <text x="650" y="75" fill="var(--ink-dim)">주파수</text>
-          <text x="650" y="90" fill="var(--ink-dim)">→ 발전기</text>
-
-          <!-- lower labels -->
-          <text x="182" y="132" text-anchor="middle" fill="var(--ink-faint)" font-size="10.5">Vdc/Idc 크기 조절</text>
-          <text x="538" y="132" text-anchor="middle" fill="var(--ink-faint)" font-size="10.5">출력 주파수 결정</text>
-
-          <text x="182" y="156" text-anchor="middle" fill="var(--ink-faint)" font-size="10.5">AC → DC</text>
-          <text x="538" y="156" text-anchor="middle" fill="var(--ink-faint)" font-size="10.5">DC → 가변주파수 AC</text>
-        </g>
-      </svg>
-      <figcaption>정류기(전류 크기)와 인버터(주파수)는 같은 회로 구조를 공유하지만 서로 독립된 제어 축이다.</figcaption>
-    </figure>
-    <p>정류기는 <strong>위상제어 정류</strong>(점호각으로 전압/전류 크기 조절)를, 인버터는
-      <strong>부하시전류형성</strong>(발전기 자체의 역기전력으로 자연스럽게 전류를 넘겨받는 방식,
-      LCI의 "L")을 담당한다. 이 두 블록의 역할 차이를 아는 것이 이후 모든 내용의 출발점이다.</p>
-  </div></section>
-
-  <!-- 03 -->
-  <section class="sec" id="s3"><div class="sec-card">
-    <div class="sec-head"><span class="idx">3</span><h2>정류기 점호각(α)이 조절하는 것</h2></div>
-    <p>정류기의 점호각 α는 DC 링크의 전압 크기를 정한다:</p>
-    <div class="formula">Vdc = Vdo · cos α <span class="sub">(α가 커질수록 Vdc가 줄어든다)</span></div>
-    <p>DC 링크의 큰 리액터가 이 전압을 매끈한 <strong>전류(Idc)</strong>로 바꿔준다. 이 Idc가 인버터를
-      거쳐 그대로 발전기 고정자에 주입되는 <strong>전류의 크기(진폭)</strong>가 된다 — 즉 점호각 α는
-      "발전기를 얼마나 강하게 밀어줄 수 있는가"(가용 토크의 크기)를 결정하는 손잡이다.</p>
-  </div></section>
-
-  <!-- 04 -->
-  <section class="sec" id="s4"><div class="sec-card">
-    <div class="sec-head"><span class="idx">4</span><h2>인버터 점호 타이밍이 조절하는 것</h2></div>
-    <p>인버터의 6개 싸이리스터는 60° 간격으로 정해진 순서(T1→T2→…→T6)를 반복해서 점호된다.
-      <strong>이 순서가 반복되는 속도</strong>가 출력 주파수를 정한다:</p>
-    <div class="formula">점호 간격 = 1000 / (6 × f) ms <span class="sub">(f = 출력 주파수)</span></div>
-    <p>이건 "전류를 얼마나 세게 미는가"와는 완전히 무관한, <strong>"언제 스위칭하는가"</strong>의
-      문제다. 정류기(크기)와 인버터(주파수)는 회로상으로도, 제어상으로도 독립된 두 개의 손잡이다.</p>
-  </div></section>
-
-  <!-- 05 -->
-  <section class="sec" id="s5"><div class="sec-card">
-    <div class="sec-head"><span class="idx">5</span><h2>그런데 왜 이 둘을 서로 맞춰야 하는가</h2></div>
-    <p>두 손잡이가 독립적이라고 해서 마음대로 따로 놀려도 되는 건 아니다. 발전기가 실제로 가속하는
-      동안에는 <strong>속도(=주파수)가 변할 때마다 점호각도 그에 맞춰 실시간으로 조정</strong>해야
-      원하는 토크가 유지된다. 그 이유를 토크가 만들어지는 방식부터 따라가 보자.</p>
-
-    <p><strong>① 토크는 두 자속의 곱으로 정해진다.</strong> 동기기의 토크는 회전자의
-      <strong>계자자속</strong>(여자권선이 만드는 자속)과, 고정자 R/S/T 3상 전류가 합성해 만드는
-      <strong>전기자 자속</strong> 사이의 상호작용으로 생긴다:</p>
-    <div class="formula">T ∝ Φ<sub>field</sub> × Φ<sub>armature</sub> × sin δ <span class="sub">(δ = 두 자속 사이 각도, 토크각)</span></div>
-    <figure>
-      <svg viewBox="0 0 320 190" role="img" aria-label="계자자속 벡터와 전기자 자속 벡터가 토크각 델타만큼 벌어져 있는 모습을 보여주는 다이어그램">
-        <g font-family="IBM Plex Mono" font-size="12">
-          <circle cx="90" cy="150" r="2.5" fill="var(--ink-dim)"></circle>
-          <line x1="90" y1="150" x2="90" y2="40" stroke="var(--series-a)" stroke-width="3"></line>
-          <polygon points="90,34 84,46 96,46" fill="var(--series-a)"></polygon>
-          <text x="70" y="30" fill="var(--series-a)">Φ field</text>
-
-          <line x1="90" y1="150" x2="205" y2="62" stroke="var(--series-b)" stroke-width="3"></line>
-          <polygon points="211,58 197,58 202,70" fill="var(--series-b)" transform="rotate(20 205 62)"></polygon>
-          <text x="212" y="58" fill="var(--series-b)">Φ armature</text>
-
-          <path d="M 90 110 A 40 40 0 0 1 122 92" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"></path>
-          <text x="112" y="102" fill="var(--ink-faint)" font-size="11">δ</text>
-        </g>
-      </svg>
-      <figcaption>계자자속(회전자, 고정)과 전기자 자속(고정자 3상 전류가 합성) 사이 각도 δ가 토크를 결정한다.</figcaption>
-    </figure>
-
-    <p><strong>② 계자자속은 "항상 고정"이 아니라 구간별로 스케줄링된다.</strong> 흔히 "계자자속을 일정하게
-      유지한다"고 단순화하지만, 실제 SFC 기동에서는 계자전류 자체가 다음처럼 구간을 나눠 관리된다:</p>
-    <ul>
-      <li>저속 구간: 정격 계자전류의 <strong>약 10%</strong> 수준만 인가</li>
-      <li>가속 후반, 정격속도의 <strong>약 95%</strong> 부근에서 정격 계자전류까지 끌어올림</li>
-      <li>이 전 구간에서 <strong>고정자(전기자) 측 전압/주파수 비율(V/Hz)을 일정하게 유지</strong>해서
-        철심 자속이 과포화되거나 부족 여자되지 않도록 관리</li>
-    </ul>
-    <figure class="chart-wrap">
-      <svg id="scheduleChart" viewBox="0 0 620 260" role="img" aria-label="속도 0%에서 100%까지 가속하는 동안 전기자 V/Hz 비율은 100%로 일정하게 유지되고, 계자전류 지령은 10%로 낮게 유지되다가 속도 85%부터 100%로 올라가는 꺾은선 그래프">
-      </svg>
-      <div class="tooltip mono" id="scheduleTip"></div>
-      <div class="legend">
-        <span><i style="background:var(--series-b)"></i>전기자 V/Hz 비율(정격 대비)</span>
-        <span><i style="background:var(--series-a)"></i>계자전류 지령(정격 대비)</span>
-      </div>
-      <figcaption>가속 구간(속도 0→100%)에 따른 두 지령값의 변화. 값 위에 마우스를 올리면 지점별 수치가 보인다.</figcaption>
-    </figure>
-
-    <p><strong>③ 점호각과 점호 타이밍을 실제로 묶어주는 것은 폐루프 전류(토크) 제어다.</strong> 속도(=출력
-      주파수)가 올라가면 발전기 자체의 역기전력과, 주파수에 비례하는 리액턴스 전압강하(X = 2πfL)가 함께
-      커진다. 같은 전류 Idc(=토크)를 유지하려면 커지는 역기전력을 이기고 같은 전류를 밀어넣도록
-      <strong>점호각 α를 계속 따라서 올려줘야</strong> 한다. 실제 LCI 제어기는 "DC 링크 전류 피드백을
-      지령값과 비교해 점호각을 조정하는" 폐루프로 이걸 구현한다 — 두 손잡이가 별개라는 사실은 그대로지만,
-      운전 중에는 하나(주파수)가 움직일 때마다 다른 하나(α)를 실시간으로 맞춰줘야 원하는 토크가
-      유지된다는 뜻이다.</p>
-    <div class="callout"><b>정리</b> — "계자자속 고정"보다는 <b>전기자 측 V/Hz 유지 + 계자전류 구간별
-      스케줄 + 점호각의 실시간 폐루프 보정</b>, 이 세 가지가 함께 작동해서 가속 전 구간에서 원하는
-      토크를 만들어낸다.</div>
-  </div></section>
-
-  <!-- 06 -->
-  <section class="sec" id="s6"><div class="sec-card">
-    <div class="sec-head"><span class="idx">6</span><h2>6-펄스 브릿지 도통 순서</h2></div>
-    <p>인버터의 6개 싸이리스터는 아래 표의 순서를 반복한다. 항상 <strong>상측 1개 + 하측 1개, 총 2개
-      소자만 동시 도통</strong>하며, 각 소자는 전기각 <strong>120° 통전 + 60° 휴지</strong>를
-      반복한다.</p>
-    <div class="tbl-wrap">
-      <table class="ctable">
-        <caption>1구간 = 전기각 60°. 표는 한 사이클(360°)마다 반복된다.</caption>
-        <thead><tr><th>구간</th><th>도통 소자</th><th>R</th><th>S</th><th>T</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>T1, T6</td><td class="lv-plus">+1</td><td class="lv-minus">−1</td><td>0</td></tr>
-          <tr><td>2</td><td>T1, T2</td><td class="lv-plus">+1</td><td>0</td><td class="lv-minus">−1</td></tr>
-          <tr><td>3</td><td>T3, T2</td><td>0</td><td class="lv-plus">+1</td><td class="lv-minus">−1</td></tr>
-          <tr><td>4</td><td>T3, T4</td><td class="lv-minus">−1</td><td class="lv-plus">+1</td><td>0</td></tr>
-          <tr><td>5</td><td>T5, T4</td><td class="lv-minus">−1</td><td>0</td><td class="lv-plus">+1</td></tr>
-          <tr><td>6</td><td>T5, T6</td><td>0</td><td class="lv-minus">−1</td><td class="lv-plus">+1</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>상 표기는 한국 산업 관행에 따라 <strong>R/S/T</strong>(A/B/C 아님)를 쓰며, 세 상은 120° 간격으로
-      배치된다.</p>
-  </div></section>
-
-  <!-- 07 -->
-  <section class="sec" id="s7"><div class="sec-card">
-    <div class="sec-head"><span class="idx">7</span><h2>계단형 출력 전류 파형</h2></div>
-    <p>위 표의 레벨(+1 / 0 / −1)이 시간에 따라 그대로 이어지기 때문에, 출력 전류는 순수 사각파도 순수
-      펄스파도 아닌 <strong>계단형(stepped) 유사구형파</strong> 모양이 된다.</p>
-    <figure>
-      <svg viewBox="0 0 560 130" role="img" aria-label="R상 전류가 시간에 따라 +1, 0, -1 세 레벨을 계단 모양으로 오르내리는 파형">
-        <g font-family="IBM Plex Mono" font-size="10.5" fill="var(--ink-faint)">
-          <line x1="30" y1="65" x2="540" y2="65" stroke="var(--line-strong)" stroke-width="1"></line>
-          <text x="6" y="30" text-anchor="start">+I</text>
-          <text x="6" y="69" text-anchor="start">0</text>
-          <text x="6" y="105" text-anchor="start">−I</text>
-          <polyline points="30,65 30,25 115,25 115,65 200,65 200,105 285,105 285,65 370,65 370,25 455,25 455,65 540,65"
-            fill="none" stroke="var(--series-b)" stroke-width="2.5" stroke-linejoin="round"></polyline>
-          <text x="285" y="122" text-anchor="middle">R상 (한 사이클 = 6구간)</text>
-        </g>
-      </svg>
-      <figcaption>정류기 α가 이 계단의 "높이"(전류 크기)를, 인버터 점호 타이밍이 "폭"(구간 지속시간, 곧 주파수)을 정한다.</figcaption>
-    </figure>
-  </div></section>
-
-  <!-- 08 -->
-  <section class="sec" id="s8"><div class="sec-card">
-    <div class="sec-head"><span class="idx">8</span><h2>입력과 출력 주파수는 서로 분리된다</h2></div>
-    <p>입력(고정 60Hz)과 출력(SFC가 만드는 가변 주파수)은 서로 <strong>디커플링(decoupled)</strong>되어
-      있다. 정류해서 DC로 바꾸는 순간 입력의 주파수 정보는 완전히 사라지고, 인버터가 점호 시퀀스
-      타이밍만으로 <strong>완전히 새로운 주파수를 합성</strong>하기 때문이다. 이 가변주파수 출력 능력이
-      SFC의 핵심 기능이다.</p>
-  </div></section>
-
-  <!-- 09 -->
-  <section class="sec" id="s9"><div class="sec-card">
-    <div class="sec-head"><span class="idx">9</span><h2>전기각 vs 기계각, R/S/T 표기</h2></div>
-    <p><strong>전기각(electrical angle)</strong>은 자속/전류 파형의 위상을, <strong>기계각(mechanical
-      angle)</strong>은 회전자가 실제로 돈 물리적 각도를 말한다. 극수가 P개인 기계에서는
-      전기각 = 기계각 × (P/2) 관계가 성립한다 — 이 문서와 애니메이션에서 다루는 각도는 별도 표기가
-      없는 한 전부 <strong>전기각</strong> 기준이다.</p>
-    <p>상 표기는 R/S/T를 쓰며 120° 간격으로 배치된다는 점은 6절의 도통 표와 그대로 이어진다.</p>
-  </div></section>
-
-  <!-- 10 -->
-  <section class="sec" id="s10"><div class="sec-card">
-    <div class="sec-head"><span class="idx">10</span><h2>기동 시퀀스 전체 그림</h2></div>
-    <ul>
-      <li><strong>0Hz(정지)</strong>에서 시작. 회전자가 거의 멈춰 있어 발전기 자체의 역기전력이
-        너무 작거나 없어 인버터가 자연스럽게(부하시전류형성으로) 전류를 넘길 수 없다.</li>
-      <li>그래서 저속 구간(대략 정격의 10% 미만)에서는 DC 링크 전류를 강제로 끊어주는 방식 등
-        <strong>전류형성을 보조하는 별도 모드</strong>로 기동한다.</li>
-      <li>속도가 올라가 역기전력이 충분해지면 정상적인 <strong>부하시전류형성(LCI)</strong> 방식으로
-        전환된다.</li>
-      <li>이후 점호각(전류 크기)과 점호 타이밍(주파수)을 5절에서 설명한 방식으로 계속 맞춰가며 가속을
-        이어간다.</li>
-      <li>발전기가 <strong>정격의 약 80%</strong> 속도까지 가속되면, 계통(또는 터빈 자체 힘)이 넘겨받고
-        SFC는 분리된다.</li>
-    </ul>
-  </div></section>
-
-  <div class="recap">
-    <h2>핵심 요약</h2>
-    <ul>
-      <li>정류기 점호각(α) = 전류/토크의 <strong>크기</strong>, 인버터 점호 타이밍 = 출력
-        <strong>주파수</strong> — 서로 다른 두 개의 독립된 손잡이.</li>
-      <li>토크는 계자자속 × 전기자(고정자 합성) 자속 × sinδ로 정해진다.</li>
-      <li>"계자자속을 늘 고정"하는 게 아니라, 전기자측 V/Hz를 일정하게 유지하면서 계자전류는 저속
-        10% → 고속 부근 100%로 스케줄링된다.</li>
-      <li>속도가 오르면 역기전력·리액턴스 전압강하가 함께 커지므로, 같은 전류(토크)를 유지하려면
-        점호각을 실시간 폐루프로 계속 보정해야 한다 — 이게 "둘을 맞춰야 하는" 진짜 이유.</li>
-      <li>입력 60Hz와 출력 가변주파수는 DC 링크에서 완전히 분리된다.</li>
-      <li>SFC는 0Hz에서 정격의 약 80%까지 가속시킨 뒤 계통/터빈에 분리된다.</li>
-    </ul>
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-num mono" id="progressNum">1 / 11</span>
   </div>
 
-  <footer class="src">
-    참고: 동기기 토크식 및 로드-커뮤테이티드 인버터(LCI) 제어 구조는 공개 특허 문헌·전기기기 교재를
-    바탕으로 검증함. SFC 기동 시퀀스의 계자전류 스케줄(저속 10% → 고속 부근 95~100%) 및 V/Hz 유지
-    관행은 실제 대형 가스터빈 발전기 SFC 기동 사례(GE 9FA 계열) 자료를 참고함.
-  </footer>
+  <div class="stage" id="stage">
+
+    <!-- 1 -->
+    <section class="slide" id="slide-1">
+      <span class="slide-kicker">표지</span>
+      <h2>정지된 발전기, 외부 힘 없이는 스스로 못 돈다</h2>
+      <p class="lead">발전기가 멈춰 있을 때 그걸 돌려서 속도를 붙여주는 장치가 <strong>SFC</strong>다.
+        이 자료는 SFC가 어떤 원리로 작동하는지, 화면을 한 장씩 넘기면서 보는 자료다.</p>
+      <div class="visual">
+        <svg viewBox="0 0 420 200" role="img" aria-label="멈춰있는 발전기 옆에 SFC 상자가 있고 화살표로 회전을 만들어주는 모습을 나타낸 간단한 그림">
+          <g font-family="IBM Plex Mono" font-size="13">
+            <circle cx="120" cy="100" r="58" fill="none" stroke="var(--line-strong)" stroke-width="3"></circle>
+            <text x="120" y="106" text-anchor="middle" fill="var(--ink-dim)">발전기</text>
+            <text x="120" y="176" text-anchor="middle" fill="var(--ink-faint)" font-size="11">0 RPM (정지)</text>
+
+            <rect x="250" y="65" width="120" height="70" rx="12" fill="var(--panel-2)" stroke="var(--accent)" stroke-width="2.5"></rect>
+            <text x="310" y="105" text-anchor="middle" fill="var(--accent)" font-weight="700">SFC</text>
+
+            <path d="M 250 100 A 60 20 0 0 0 182 100" fill="none" stroke="var(--ink-dim)" stroke-width="2.5" marker-end="url(#arrHero)"></path>
+            <defs>
+              <marker id="arrHero" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-dim)"></path>
+              </marker>
+            </defs>
+            <text x="216" y="70" text-anchor="middle" fill="var(--ink-faint)" font-size="10.5">회전을 만들어줌</text>
+          </g>
+        </svg>
+      </div>
+      <p class="swipe-hint">→ 버튼이나 화면을 넘겨서 다음 장으로 (총 11장)</p>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide" id="slide-2" hidden>
+      <span class="slide-kicker">01 · 기본 개념</span>
+      <h2>SFC(LCI)가 하는 일</h2>
+      <ul class="points">
+        <li>큰 동기발전기는 멈춰 있으면 <strong>스스로 회전 토크를 낼 수 없다.</strong></li>
+        <li>그래서 밖에서 억지로 회전하는 힘을 걸어줘야 하는데, 이 일을 하는 장치가 <strong>SFC</strong>.</li>
+        <li>SFC 내부 방식의 이름이 <strong>LCI</strong> (Load Commutated Inverter).</li>
+        <li>움직이는 부품 없이 반도체(싸이리스터)만으로 만든다고 해서 "Static"이라는 이름이 붙었다.</li>
+      </ul>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" id="slide-3" hidden>
+      <span class="slide-kicker">02 · 전체 구조</span>
+      <h2>세 덩어리로 이어진 구조</h2>
+      <p class="lead">정류기 → DC 링크 → 인버터, 이 세 블록이 순서대로 연결되어 있다.</p>
+      <div class="visual">
+        <svg viewBox="0 0 620 170" role="img" aria-label="3상 교류 입력이 정류기, DC 링크, 인버터를 거쳐 가변 주파수 교류로 발전기에 전달되는 블록 다이어그램">
+          <defs>
+            <marker id="fArrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-dim)"></path></marker>
+          </defs>
+          <g font-family="IBM Plex Mono" font-size="12">
+            <text x="6" y="60" fill="var(--ink-dim)">AC</text>
+            <text x="6" y="76" fill="var(--ink-faint)" font-size="10">60Hz 고정</text>
+            <line x1="42" y1="55" x2="80" y2="55" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow2)"></line>
+
+            <rect x="82" y="20" width="132" height="70" rx="10" fill="var(--panel-2)" stroke="var(--series-b)" stroke-width="2.5"></rect>
+            <text x="148" y="52" text-anchor="middle" fill="var(--ink)" font-weight="600">정류기</text>
+            <text x="148" y="70" text-anchor="middle" fill="var(--ink-dim)" font-size="11">AC → DC</text>
+
+            <line x1="214" y1="55" x2="252" y2="55" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow2)"></line>
+
+            <rect x="254" y="20" width="122" height="70" rx="10" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="2.5"></rect>
+            <text x="315" y="52" text-anchor="middle" fill="var(--ink)" font-weight="600">DC 링크</text>
+            <text x="315" y="70" text-anchor="middle" fill="var(--ink-dim)" font-size="11">전류 평활</text>
+
+            <line x1="376" y1="55" x2="414" y2="55" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow2)"></line>
+
+            <rect x="416" y="20" width="132" height="70" rx="10" fill="var(--panel-2)" stroke="var(--series-a)" stroke-width="2.5"></rect>
+            <text x="482" y="52" text-anchor="middle" fill="var(--ink)" font-weight="600">인버터</text>
+            <text x="482" y="70" text-anchor="middle" fill="var(--ink-dim)" font-size="11">DC → 가변 AC</text>
+
+            <line x1="548" y1="55" x2="586" y2="55" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#fArrow2)"></line>
+            <text x="590" y="50" fill="var(--ink-dim)">발전기</text>
+            <text x="590" y="66" fill="var(--ink-dim)">고정자</text>
+
+            <text x="148" y="120" text-anchor="middle" fill="var(--series-b)" font-size="11">"얼마나 세게?"</text>
+            <text x="482" y="120" text-anchor="middle" fill="var(--series-a)" font-size="11">"얼마나 빠르게?"</text>
+          </g>
+        </svg>
+      </div>
+      <p class="lead">앞뒤 두 블록은 같은 종류의 회로(싸이리스터 6개)를 쓰지만, <strong>정류기는 크기를,
+        인버터는 속도(주파수)를</strong> 맡는다는 점이 다르다. 이 구분이 이 자료 전체의 핵심 뼈대다.</p>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide" id="slide-4" hidden>
+      <span class="slide-kicker">03 · 배경지식</span>
+      <h2>전기각과 위상 — 세 선이 어긋난 정도</h2>
+      <p class="lead">발전기는 R, S, T 세 개의 선으로 전기를 주고받는다. 세 선의 전류는 모양이 완전히
+        똑같은데, <strong>타이밍만 120°씩 밀려 있다.</strong> 이 "밀린 정도"를 각도로 나타낸 게 전기각이다.</p>
+      <div class="visual"><svg id="phaseSvg" viewBox="0 0 460 210" role="img" aria-label="원 위에서 120도씩 떨어진 R S T 세 벡터와, 그에 대응하는 세 정현파가 120도 위상차를 두고 나란히 그려진 정지 다이어그램"></svg></div>
+      <div class="slide-note"><strong>전기각 vs 기계각</strong> — 회전자가 실제로 도는 물리적 각도는
+        "기계각", 전류·자속 파형의 위상은 "전기각"이라 부른다. 극 수가 P개면 전기각 = 기계각 × (P/2).
+        이 자료의 각도는 별도 표시가 없는 한 전부 전기각이다.</div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" id="slide-5" hidden>
+      <span class="slide-kicker">04 · 점호각</span>
+      <h2>점호각(α) — "얼마나 세게 밀까"</h2>
+      <ul class="points">
+        <li>정류기 소자를 <strong>언제 켤지</strong> 정하는 각도가 점호각(α).</li>
+        <li>α가 작을수록 DC 링크의 전압·전류가 커진다.</li>
+        <li>이 전류 크기가 그대로 발전기에 들어가는 전류의 세기, 즉 <strong>가용 토크의 크기</strong>가 된다.</li>
+      </ul>
+      <div class="formula">Vdc = Vdo · cos α</div>
+      <p class="lead">α = 0°에 가까울수록 전압이 최대, α가 커질수록 전압이 줄어든다.</p>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide" id="slide-6" hidden>
+      <span class="slide-kicker">05 · 점호 타이밍</span>
+      <h2>점호 타이밍 — "얼마나 빠르게 반복할까"</h2>
+      <ul class="points">
+        <li>인버터도 6개 소자를 정해진 순서로 켜고 끈다.</li>
+        <li>그 순서를 <strong>얼마나 빨리 반복하는가</strong>가 출력 주파수를 정한다.</li>
+        <li>전류 크기(α)와는 완전히 별개인, <strong>독립된 손잡이</strong>다.</li>
+      </ul>
+      <div class="slide-note">입력은 항상 고정 60Hz, 출력은 이 손잡이로 얼마든지 다른 주파수를 만들
+        수 있다 — 직류로 한번 바뀌는 순간 입력 쪽 주파수 정보는 사라지기 때문이다.</div>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide" id="slide-7" hidden>
+      <span class="slide-kicker">06 · 직접 만들어보기</span>
+      <h2>점호 타이밍이 파형을 만드는 과정</h2>
+      <p class="lead">아래 번호를 눌러 한 구간씩 진행해보자. 소자가 하나씩 켜질 때마다 파형이 계단처럼
+        쌓이는 걸 볼 수 있다.</p>
+      <div class="step-row" id="wfSteps"></div>
+      <span class="step-readout mono" id="wfReadout"></span>
+      <div class="visual"><svg id="wfSvg" viewBox="0 0 460 260" role="img" aria-label="6개 구간을 한 단계씩 눌러가며 R S T 세 상의 계단형 파형이 쌓여가는 것을 보여주는 인터랙티브 다이어그램"></svg></div>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide" id="slide-8" hidden>
+      <span class="slide-kicker">07 · 토크</span>
+      <h2>토크는 두 자속의 곱으로 정해진다</h2>
+      <ul class="points">
+        <li>회전자에는 <strong>계자자속</strong>(여자권선이 만드는, 자석 같은 자속)이 있다.</li>
+        <li>고정자 R/S/T 전류가 합쳐지면 또 하나의 자속, <strong>전기자 자속</strong>이 생긴다.</li>
+        <li>이 둘 사이 각도(δ)가 벌어질수록 토크가 커진다 (δ=90°까지).</li>
+      </ul>
+      <div class="formula">T ∝ Φ<sub>field</sub> × Φ<sub>armature</sub> × sin δ</div>
+      <div class="visual">
+        <svg viewBox="0 0 300 170" role="img" aria-label="계자자속 벡터와 전기자 자속 벡터가 토크각 델타만큼 벌어져 있는 모습">
+          <g font-family="IBM Plex Mono" font-size="12">
+            <circle cx="80" cy="135" r="2.5" fill="var(--ink-dim)"></circle>
+            <line x1="80" y1="135" x2="80" y2="30" stroke="var(--series-a)" stroke-width="3"></line>
+            <polygon points="80,24 74,36 86,36" fill="var(--series-a)"></polygon>
+            <text x="58" y="20" fill="var(--series-a)">Φ field</text>
+
+            <line x1="80" y1="135" x2="195" y2="52" stroke="var(--series-b)" stroke-width="3"></line>
+            <polygon points="201,48 187,48 192,60" fill="var(--series-b)" transform="rotate(20 195 52)"></polygon>
+            <text x="202" y="48" fill="var(--series-b)">Φ armature</text>
+
+            <path d="M 80 95 A 40 40 0 0 1 112 77" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"></path>
+            <text x="102" y="88" fill="var(--ink-faint)" font-size="11">δ</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="slide" id="slide-9" hidden>
+      <span class="slide-kicker">08 · 왜 맞춰야 할까</span>
+      <h2>속도가 오르면 점호각도 따라 올려야 한다</h2>
+      <ul class="points">
+        <li>발전기가 빨리 돌수록, 발전기 스스로 만드는 <strong>역전압(역기전력)</strong>도 커진다.</li>
+        <li>같은 전류(=토크)를 유지하려면, 커지는 역전압을 이기도록 <strong>점호각을 계속 따라 올려야</strong> 한다.</li>
+        <li>계자전류는 저속에서 약 10%로 낮게 있다가, 가속 후반(정격 속도 95% 부근)에 정격까지 오른다.</li>
+      </ul>
+      <div class="visual chart-wrap">
+        <svg id="scheduleChart" viewBox="0 0 460 190" role="img" aria-label="속도 0%에서 100%까지 가속하는 동안 전기자 V/Hz 비율은 100%로 일정하게 유지되고, 계자전류 지령은 10%로 낮게 유지되다가 속도 80%부터 100%로 올라가는 꺾은선 그래프"></svg>
+        <div class="tooltip mono" id="scheduleTip"></div>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--series-b)"></i>전기자 V/Hz 비율</span>
+        <span><i style="background:var(--series-a)"></i>계자전류 지령</span>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" id="slide-10" hidden>
+      <span class="slide-kicker">09 · 기동 시퀀스</span>
+      <h2>기동 시퀀스 한눈에 보기</h2>
+      <div class="visual">
+        <svg viewBox="0 0 500 190" role="img" aria-label="정지 상태에서 시작해 저속 보조 모드, 정상 LCI 모드를 거쳐 정격의 80퍼센트에서 SFC가 분리되는 타임라인">
+          <g font-family="IBM Plex Mono" font-size="11">
+            <line x1="30" y1="90" x2="470" y2="90" stroke="var(--line-strong)" stroke-width="2"></line>
+            <circle cx="30" cy="90" r="5" fill="var(--ink-dim)"></circle>
+            <circle cx="170" cy="90" r="5" fill="var(--series-b)"></circle>
+            <circle cx="330" cy="90" r="5" fill="var(--series-a)"></circle>
+            <circle cx="460" cy="90" r="5" fill="var(--accent)"></circle>
+
+            <text x="30" y="65" text-anchor="middle" fill="var(--ink-dim)">0Hz</text>
+            <text x="30" y="115" text-anchor="middle" fill="var(--ink-faint)" font-size="10">완전 정지</text>
+
+            <text x="170" y="65" text-anchor="middle" fill="var(--series-b)">저속 보조 모드</text>
+            <text x="170" y="115" text-anchor="middle" fill="var(--ink-faint)" font-size="10">전류 강제 형성</text>
+
+            <text x="330" y="65" text-anchor="middle" fill="var(--series-a)">정상 LCI 모드</text>
+            <text x="330" y="115" text-anchor="middle" fill="var(--ink-faint)" font-size="10">자연스러운 전류형성</text>
+
+            <text x="460" y="65" text-anchor="middle" fill="var(--accent)">약 80%</text>
+            <text x="460" y="115" text-anchor="middle" fill="var(--ink-faint)" font-size="10">SFC 분리</text>
+          </g>
+        </svg>
+      </div>
+      <ul class="points">
+        <li>회전자가 거의 멈춰 있으면 역기전력이 없어 자연스러운 전류형성이 안 된다 → 저속 구간은
+          특수(보조) 모드로 기동.</li>
+        <li>역기전력이 충분해지면 정상적인 LCI 방식(부하시전류형성)으로 전환.</li>
+        <li>정격 속도의 <strong>약 80%</strong>까지 가속되면 계통/터빈이 넘겨받고 SFC는 손을 뗀다.</li>
+      </ul>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" id="slide-11" hidden>
+      <span class="slide-kicker">핵심 요약</span>
+      <h2>한 장으로 정리</h2>
+      <ul class="recap">
+        <li>정류기 점호각(α) = 전류 크기, 인버터 점호 타이밍 = 주파수 — <strong>서로 다른 손잡이</strong>.</li>
+        <li>세 상(R/S/T)이 120°씩 어긋난 정도가 전기각.</li>
+        <li>인버터가 6개 소자를 순서대로 켜는 게 계단형 파형을 만든다.</li>
+        <li>토크는 계자자속 × 전기자 자속 × sinδ로 정해진다.</li>
+        <li>속도가 오르면 역기전력도 커지므로, 같은 토크를 내려면 점호각을 실시간으로 계속 맞춰야 한다.</li>
+        <li>SFC는 0Hz에서 정격의 약 80%까지 가속시킨 뒤 분리된다.</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <nav class="controls">
+    <button class="navbtn" id="prevBtn" type="button">‹ <span class="label">이전</span></button>
+    <div class="dots" id="dots"></div>
+    <button class="navbtn primary" id="nextBtn" type="button"><span class="label">다음</span> ›</button>
+  </nav>
 </div>
 
 <script>
 (function(){
-  var svg = document.getElementById('scheduleChart');
   var NS = 'http://www.w3.org/2000/svg';
-  var X0=54, X1=590, Y0=30, Y1=200, XSPAN=X1-X0, YSPAN=Y1-Y0;
-
-  function xAt(pct){ return X0 + (pct/100)*XSPAN; }
-  function yAt(pct){ return Y1 - (pct/100)*YSPAN; }
-
-  function el(tag, attrs){
+  function el(tag, attrs, parent){
     var e = document.createElementNS(NS, tag);
     for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
     return e;
   }
-
-  // axes
-  svg.appendChild(el('line', {x1:X0,y1:Y1,x2:X1,y2:Y1, stroke:'var(--line-strong)', 'stroke-width':1}));
-  svg.appendChild(el('line', {x1:X0,y1:Y0,x2:X0,y2:Y1, stroke:'var(--line-strong)', 'stroke-width':1}));
-
-  [0,25,50,75,100].forEach(function(p){
-    var y = yAt(p);
-    svg.appendChild(el('line', {x1:X0,y1:y,x2:X1,y2:y, stroke:'var(--line)', 'stroke-width':1, 'stroke-dasharray':'2 4'}));
-    var t = el('text', {x:X0-8, y:y+4, 'text-anchor':'end', 'font-size':10.5, 'font-family':'IBM Plex Mono', fill:'var(--ink-faint)'});
-    t.textContent = p+'%';
-    svg.appendChild(t);
-  });
-  [0,25,50,75,100].forEach(function(p){
-    var x = xAt(p);
-    var t = el('text', {x:x, y:Y1+18, 'text-anchor':'middle', 'font-size':10.5, 'font-family':'IBM Plex Mono', fill:'var(--ink-faint)'});
-    t.textContent = p+'%';
-    svg.appendChild(t);
-  });
-  var xlab = el('text', {x:(X0+X1)/2, y:Y1+36, 'text-anchor':'middle', 'font-size':11, 'font-family':'IBM Plex Mono', fill:'var(--ink-dim)'});
-  xlab.textContent = '속도 (정격 대비 %)';
-  svg.appendChild(xlab);
-
-  // series data: [speedPct, valuePct]
-  var vhz = [[0,100],[100,100]]; // held constant
-  var field = [[0,10],[80,10],[95,100],[100,100]]; // low until 80%, ramp to full by ~95%
-
-  function pathFor(pts){
-    return pts.map(function(p,i){ return (i===0?'M ':'L ') + xAt(p[0]) + ' ' + yAt(p[1]); }).join(' ');
+  function txt(x,y,s,fill,size,anchor,parent){
+    var t = el('text', {x:x,y:y,fill:fill||'var(--ink-dim)', 'font-family':'IBM Plex Mono','font-size':size||11,'text-anchor':anchor||'start'}, parent);
+    t.textContent = s;
+    return t;
   }
 
-  var pVhz = el('path', {d:pathFor(vhz), fill:'none', stroke:'var(--series-b)', 'stroke-width':2.5, 'stroke-linecap':'round', 'stroke-linejoin':'round'});
-  var pField = el('path', {d:pathFor(field), fill:'none', stroke:'var(--series-a)', 'stroke-width':2.5, 'stroke-linecap':'round', 'stroke-linejoin':'round'});
-  svg.appendChild(pVhz);
-  svg.appendChild(pField);
+  /* ---------- pager ---------- */
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var idx = 0;
+  var dotsWrap = document.getElementById('dots');
+  var dotEls = slides.map(function(_, i){
+    var b = document.createElement('button');
+    b.className = 'dot'; b.type = 'button';
+    b.setAttribute('aria-label', (i+1) + '번 슬라이드로 이동');
+    b.addEventListener('click', function(){ go(i); });
+    dotsWrap.appendChild(b);
+    return b;
+  });
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var progressFill = document.getElementById('progressFill');
+  var progressNum = document.getElementById('progressNum');
 
-  // end labels
-  var lblVhz = el('text', {x:X1-4, y:yAt(100)-8, 'text-anchor':'end', 'font-size':11, 'font-family':'IBM Plex Mono', fill:'var(--series-b)'});
-  lblVhz.textContent = 'V/Hz 100%';
-  svg.appendChild(lblVhz);
-  var lblField = el('text', {x:xAt(80)-6, y:yAt(10)-8, 'text-anchor':'end', 'font-size':11, 'font-family':'IBM Plex Mono', fill:'var(--series-a)'});
-  lblField.textContent = '계자전류 10%';
-  svg.appendChild(lblField);
+  function render(){
+    slides.forEach(function(s,i){ s.hidden = (i!==idx); });
+    dotEls.forEach(function(d,i){ d.classList.toggle('active', i===idx); });
+    prevBtn.disabled = (idx===0);
+    nextBtn.textContent = '';
+    var label = document.createElement('span'); label.className='label'; label.textContent = (idx===total-1?'처음으로':'다음');
+    nextBtn.appendChild(label);
+    nextBtn.appendChild(document.createTextNode(idx===total-1 ? ' ↺' : ' ›'));
+    progressFill.style.width = ((idx+1)/total*100) + '%';
+    progressNum.textContent = (idx+1) + ' / ' + total;
+  }
+  function go(i){ idx = Math.max(0, Math.min(total-1, i)); render(); }
+  prevBtn.addEventListener('click', function(){ go(idx-1); });
+  nextBtn.addEventListener('click', function(){ go(idx===total-1 ? 0 : idx+1); });
+  document.addEventListener('keydown', function(e){
+    if (e.key==='ArrowRight') go(idx+1);
+    if (e.key==='ArrowLeft') go(idx-1);
+  });
+  var stage = document.getElementById('stage');
+  var touchX = null;
+  stage.addEventListener('touchstart', function(e){ touchX = e.touches[0].clientX; }, {passive:true});
+  stage.addEventListener('touchend', function(e){
+    if (touchX===null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) go(dx<0 ? idx+1 : idx-1);
+    touchX = null;
+  }, {passive:true});
+  render();
 
-  // hover crosshair + tooltip
-  var cross = el('line', {x1:0,y1:Y0,x2:0,y2:Y1, stroke:'var(--ink-faint)', 'stroke-width':1, 'stroke-dasharray':'3 3', opacity:0});
-  svg.appendChild(cross);
-  var dotVhz = el('circle', {r:4, fill:'var(--series-b)', opacity:0});
-  var dotField = el('circle', {r:4, fill:'var(--series-a)', opacity:0});
-  svg.appendChild(dotVhz); svg.appendChild(dotField);
+  /* ---------- slide 4: 전기각과 위상 (static snapshot, same math as the live sim) ---------- */
+  (function(){
+    var svg = document.getElementById('phaseSvg');
+    var CX=100, CY=115, CR=78;
+    var WX0=210, WX1=450, WSPAN=WX1-WX0, WY0=115, WAMP=60;
+    var PHASE = { R:0, S:120, T:240 };
+    var COLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
+    var SNAP = 50; // fixed instant, electrical degrees
 
-  function interp(pts, x){
-    for (var i=0;i<pts.length-1;i++){
-      if (x>=pts[i][0] && x<=pts[i+1][0]){
-        var t=(x-pts[i][0])/(pts[i+1][0]-pts[i][0]);
-        return pts[i][1] + t*(pts[i+1][1]-pts[i][1]);
-      }
+    function pt(thetaDeg, cx, cy, r){
+      var rad = (thetaDeg-90)*Math.PI/180;
+      return { x: cx + r*Math.cos(rad), y: cy + r*Math.sin(rad) };
     }
-    return pts[pts.length-1][1];
-  }
+    function heightAt(thetaDeg, amp, base){ return base + amp*Math.sin((thetaDeg-90)*Math.PI/180); }
 
-  var tip = document.getElementById('scheduleTip');
-  var wrap = svg.parentElement;
+    el('circle', {cx:CX,cy:CY,r:CR, fill:'none', stroke:'var(--line-strong)','stroke-width':2}, svg);
+    [0,60,120,180,240,300].forEach(function(a){
+      var p1=pt(a,CX,CY,CR+2), p2=pt(a,CX,CY,CR+8);
+      el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke:'var(--ink-faint)'}, svg);
+    });
+    el('line', {x1:WX0,y1:WY0,x2:WX1,y2:WY0, stroke:'var(--ink-faint)','stroke-width':1}, svg);
+    [0,60,120,180,240,300,360].forEach(function(a){
+      var x = WX0 + (a/360)*WSPAN;
+      el('line', {x1:x,y1:WY0-70,x2:x,y2:WY0+70, stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
+    });
 
-  function onMove(evt){
-    var rect = svg.getBoundingClientRect();
-    var clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
-    var svgX = (clientX - rect.left) / rect.width * 620;
-    var pct = Math.max(0, Math.min(100, (svgX-X0)/XSPAN*100));
-    var xPix = xAt(pct);
-    cross.setAttribute('x1', xPix); cross.setAttribute('x2', xPix); cross.setAttribute('opacity', 1);
-    var vv = interp(vhz, pct), fv = interp(field, pct);
-    dotVhz.setAttribute('cx', xPix); dotVhz.setAttribute('cy', yAt(vv)); dotVhz.setAttribute('opacity', 1);
-    dotField.setAttribute('cx', xPix); dotField.setAttribute('cy', yAt(fv)); dotField.setAttribute('opacity', 1);
-    tip.style.opacity = 1;
-    var wrapRect = wrap.getBoundingClientRect();
-    tip.style.left = Math.min(Math.max(clientX - wrapRect.left + 10, 0), wrapRect.width-140) + 'px';
-    tip.style.top = ((evt.touches ? evt.touches[0].clientY : evt.clientY) - wrapRect.top - 46) + 'px';
-    tip.innerHTML = '속도 ' + pct.toFixed(0) + '%<br>V/Hz ' + vv.toFixed(0) + '% · 계자전류 ' + fv.toFixed(0) + '%';
-  }
-  function onLeave(){
-    cross.setAttribute('opacity', 0); dotVhz.setAttribute('opacity', 0); dotField.setAttribute('opacity', 0);
-    tip.style.opacity = 0;
-  }
-  svg.addEventListener('mousemove', onMove);
-  svg.addEventListener('mouseleave', onLeave);
-  svg.addEventListener('touchmove', function(e){ onMove(e); }, {passive:true});
-  svg.addEventListener('touchend', onLeave);
+    Object.keys(PHASE).forEach(function(ph){
+      var theta = SNAP - PHASE[ph];
+      var p = pt(theta, CX, CY, CR);
+      el('line', {x1:CX,y1:CY,x2:p.x,y2:p.y, stroke:COLOR[ph], 'stroke-width':3}, svg);
+      el('circle', {cx:p.x,cy:p.y,r:5, fill:COLOR[ph]}, svg);
+
+      var d = '';
+      for (var a=0; a<=360; a+=4){
+        var x = WX0 + (a/360)*WSPAN;
+        var y = heightAt(a-PHASE[ph], WAMP, WY0);
+        d += (a===0?'M ':'L ') + x + ' ' + y + ' ';
+      }
+      el('path', {d:d, fill:'none', stroke:COLOR[ph], 'stroke-width':2.25}, svg);
+
+      var wx = WX0 + (SNAP/360)*WSPAN;
+      var wy = heightAt(theta, WAMP, WY0);
+      el('circle', {cx:wx,cy:wy,r:4.5, fill:COLOR[ph]}, svg);
+    });
+    var mx = WX0 + (SNAP/360)*WSPAN;
+    el('line', {x1:mx,y1:WY0-70,x2:mx,y2:WY0+70, stroke:'var(--ink-faint)','stroke-width':1.25,'stroke-dasharray':'3 3'}, svg);
+
+    txt(100,20,'R',COLOR.R,13,'middle',svg);
+    txt(118,20,'S',COLOR.S,13,'middle',svg);
+    txt(136,20,'T',COLOR.T,13,'middle',svg);
+    txt(WX0,25,'← 시간 (전기각) →',null,10.5,'start',svg);
+    txt(CX,CY+CR+24,'120°씩 떨어진 세 방향',null,10.5,'middle',svg);
+  })();
+
+  /* ---------- slide 7: waveform builder ---------- */
+  (function(){
+    var STEPS = [
+      { th:['T1','T6'], lv:{R:1,S:-1,T:0} },
+      { th:['T1','T2'], lv:{R:1,S:0,T:-1} },
+      { th:['T3','T2'], lv:{R:0,S:1,T:-1} },
+      { th:['T3','T4'], lv:{R:-1,S:1,T:0} },
+      { th:['T5','T4'], lv:{R:-1,S:0,T:1} },
+      { th:['T5','T6'], lv:{R:0,S:-1,T:1} }
+    ];
+    var COLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
+    var svg = document.getElementById('wfSvg');
+    var stepsWrap = document.getElementById('wfSteps');
+    var readout = document.getElementById('wfReadout');
+    var current = 1; // 1..6, how many segments are drawn
+
+    var btns = [];
+    for (var i=1;i<=6;i++){
+      (function(n){
+        var b = document.createElement('button');
+        b.type='button'; b.className='step-btn'; b.textContent = n;
+        b.addEventListener('click', function(){ current = n; draw(); });
+        stepsWrap.appendChild(b);
+        btns.push(b);
+      })(i);
+    }
+
+    var ROWS = { R:40, S:100, T:160 };
+    var X0=40, X1=430, XSPAN=X1-X0;
+
+    function clear(){ while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+    function draw(){
+      clear();
+      var step = STEPS[current-1];
+
+      // mini bridge row (compact, above the chart)
+      var COLS = { R:70, S:220, T:370 };
+      var topOf = { R:'T1', S:'T3', T:'T5' };
+      var botOf = { R:'T4', S:'T6', T:'T2' };
+      Object.keys(COLS).forEach(function(ph){
+        var x = COLS[ph];
+        el('line', {x1:x,y1:8,x2:x,y2:34, stroke:'var(--line)','stroke-width':2}, svg);
+        var topId = topOf[ph], botId = botOf[ph];
+        var topActive = step.th.indexOf(topId)!==-1;
+        var botActive = step.th.indexOf(botId)!==-1;
+        el('circle', {cx:x,cy:12,r:9, fill: topActive?'var(--accent)':'var(--panel-2)', stroke: topActive?'var(--accent)':'var(--line-strong)','stroke-width':2}, svg);
+        txt(x,15,topId, topActive?'var(--accent-ink)':'var(--ink-faint)', 8.5,'middle', svg);
+        el('circle', {cx:x,cy:30,r:9, fill: botActive?'var(--accent)':'var(--panel-2)', stroke: botActive?'var(--accent)':'var(--line-strong)','stroke-width':2}, svg);
+        txt(x,33,botId, botActive?'var(--accent-ink)':'var(--ink-faint)', 8.5,'middle', svg);
+      });
+
+      // R/S/T stepped rows
+      Object.keys(ROWS).forEach(function(ph){
+        var y0 = ROWS[ph];
+        el('line', {x1:X0,y1:y0,x2:X1,y2:y0, stroke:'var(--ink-faint)','stroke-width':1}, svg);
+        txt(20,y0+4,ph,COLOR[ph],13,'middle', svg);
+
+        var pts = [];
+        for (var i=0;i<current;i++){
+          var lv = STEPS[i].lv[ph];
+          var xA = X0 + (i/6)*XSPAN, xB = X0 + ((i+1)/6)*XSPAN;
+          var yy = y0 - lv*18;
+          if (lv!==0){
+            el('rect', {x:xA, width:xB-xA, y:Math.min(y0,yy), height:18, fill:COLOR[ph], opacity: i===current-1 ? 0.4 : 0.18}, svg);
+          }
+          pts.push(xA+','+yy, xB+','+yy);
+        }
+        el('polyline', {points:pts.join(' '), fill:'none', stroke:COLOR[ph], 'stroke-width':2.5, 'stroke-linejoin':'round'}, svg);
+        // highlight the newest edge
+        var hx = X0 + (current/6)*XSPAN;
+        el('line', {x1:hx,y1:y0-24,x2:hx,y2:y0+24, stroke:'var(--accent)','stroke-width':1.25,'stroke-dasharray':'3 3'}, svg);
+      });
+
+      // time axis ticks (6 segments = one full cycle)
+      for (var s=0;s<=6;s++){
+        var x = X0 + (s/6)*XSPAN;
+        el('line', {x1:x,y1:ROWS.T+24,x2:x,y2:ROWS.T+30, stroke:'var(--ink-faint)'}, svg);
+      }
+      txt((X0+X1)/2, ROWS.T+48, '한 사이클 = 6구간(전기각 360°)', 'var(--ink-faint)', 10.5, 'middle', svg);
+
+      btns.forEach(function(b,i){ b.classList.toggle('active', i===current-1); });
+      readout.textContent = '구간 ' + current + '/6 · 도통: ' + step.th.join(', ') +
+        ' · R=' + (step.lv.R>0?'+1':step.lv.R<0?'−1':'0') +
+        ' S=' + (step.lv.S>0?'+1':step.lv.S<0?'−1':'0') +
+        ' T=' + (step.lv.T>0?'+1':step.lv.T<0?'−1':'0');
+    }
+    draw();
+  })();
+
+  /* ---------- slide 9: schedule chart ---------- */
+  (function(){
+    var svg = document.getElementById('scheduleChart');
+    var X0=44, X1=440, Y0=20, Y1=140, XSPAN=X1-X0, YSPAN=Y1-Y0;
+    function xAt(pct){ return X0 + (pct/100)*XSPAN; }
+    function yAt(pct){ return Y1 - (pct/100)*YSPAN; }
+
+    el('line', {x1:X0,y1:Y1,x2:X1,y2:Y1, stroke:'var(--line-strong)','stroke-width':1}, svg);
+    el('line', {x1:X0,y1:Y0,x2:X0,y2:Y1, stroke:'var(--line-strong)','stroke-width':1}, svg);
+    [0,50,100].forEach(function(p){
+      var y = yAt(p);
+      el('line', {x1:X0,y1:y,x2:X1,y2:y, stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
+      txt(X0-6,y+3,p+'%','var(--ink-faint)',9.5,'end', svg);
+    });
+    [0,50,100].forEach(function(p){
+      txt(xAt(p),Y1+16,p+'%','var(--ink-faint)',9.5,'middle', svg);
+    });
+    txt((X0+X1)/2, Y1+32, '속도 (정격 대비 %)', 'var(--ink-dim)', 10.5, 'middle', svg);
+
+    var vhz = [[0,100],[100,100]];
+    var field = [[0,10],[80,10],[95,100],[100,100]];
+    function pathFor(pts){ return pts.map(function(p,i){ return (i===0?'M ':'L ') + xAt(p[0]) + ' ' + yAt(p[1]); }).join(' '); }
+    el('path', {d:pathFor(vhz), fill:'none', stroke:'var(--series-b)','stroke-width':2.5,'stroke-linecap':'round','stroke-linejoin':'round'}, svg);
+    el('path', {d:pathFor(field), fill:'none', stroke:'var(--series-a)','stroke-width':2.5,'stroke-linecap':'round','stroke-linejoin':'round'}, svg);
+
+    var cross = el('line', {x1:0,y1:Y0,x2:0,y2:Y1, stroke:'var(--ink-faint)','stroke-width':1,'stroke-dasharray':'3 3', opacity:0}, svg);
+    var dotV = el('circle', {r:4, fill:'var(--series-b)', opacity:0}, svg);
+    var dotF = el('circle', {r:4, fill:'var(--series-a)', opacity:0}, svg);
+
+    function interp(pts,x){
+      for (var i=0;i<pts.length-1;i++){
+        if (x>=pts[i][0] && x<=pts[i+1][0]){
+          var t=(x-pts[i][0])/(pts[i+1][0]-pts[i][0]);
+          return pts[i][1] + t*(pts[i+1][1]-pts[i][1]);
+        }
+      }
+      return pts[pts.length-1][1];
+    }
+    var tip = document.getElementById('scheduleTip');
+    var wrap = svg.parentElement;
+    function onMove(evt){
+      var rect = svg.getBoundingClientRect();
+      var clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+      var svgX = (clientX - rect.left) / rect.width * 460;
+      var pct = Math.max(0, Math.min(100, (svgX-X0)/XSPAN*100));
+      var xPix = xAt(pct);
+      cross.setAttribute('x1', xPix); cross.setAttribute('x2', xPix); cross.setAttribute('opacity', 1);
+      var vv = interp(vhz, pct), fv = interp(field, pct);
+      dotV.setAttribute('cx', xPix); dotV.setAttribute('cy', yAt(vv)); dotV.setAttribute('opacity', 1);
+      dotF.setAttribute('cx', xPix); dotF.setAttribute('cy', yAt(fv)); dotF.setAttribute('opacity', 1);
+      var wrapRect = wrap.getBoundingClientRect();
+      tip.style.opacity = 1;
+      tip.style.left = Math.min(Math.max(clientX - wrapRect.left + 10, 0), wrapRect.width-130) + 'px';
+      tip.style.top = ((evt.touches ? evt.touches[0].clientY : evt.clientY) - wrapRect.top - 40) + 'px';
+      tip.innerHTML = '속도 ' + pct.toFixed(0) + '%<br>V/Hz ' + vv.toFixed(0) + '% · 계자전류 ' + fv.toFixed(0) + '%';
+    }
+    function onLeave(){ cross.setAttribute('opacity',0); dotV.setAttribute('opacity',0); dotF.setAttribute('opacity',0); tip.style.opacity=0; }
+    svg.addEventListener('mousemove', onMove);
+    svg.addEventListener('mouseleave', onLeave);
+    svg.addEventListener('touchmove', onMove, {passive:true});
+    svg.addEventListener('touchend', onLeave);
+  })();
 })();
 </script>
