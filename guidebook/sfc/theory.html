@@ -394,6 +394,13 @@
       <h2>속도가 오르면 점호각을 낮춰야 한다</h2>
       <p class="bridge"><strong>앞에서:</strong> 토크가 나서 회전자가 빨라지기 시작했다. 그런데 빨라진다는
         것 자체가 새로운 문제를 만든다.</p>
+
+      <p class="lead"><strong>왜 역기전력이 오르는가</strong> — 이건 패러데이의 전자기유도 법칙 그대로다.
+        회전자 자속이 고정자 코일을 지나가는 속도가 빨라질수록, 코일에 유도되는 전압도 커진다 —
+        자전거 다이나모를 빨리 돌릴수록 불이 밝아지는 것과 같은 원리다.</p>
+      <div class="visual"><svg id="backEmfSvg" viewBox="0 0 460 185" role="img" aria-label="속도가 0에서 100퍼센트까지 오르는 동안 역기전력이 거의 정비례해서 커지는 그래프"></svg></div>
+      <div class="formula">E ∝ f × Φ <span class="mono" style="font-size:11px;color:var(--ink-faint)">(f=주파수∝속도, Φ=계자자속)</span></div>
+
       <div class="step-row" id="alignSteps"></div>
       <div class="visual"><svg id="alignSvg" viewBox="0 0 460 230" role="img" aria-label="역기전력 막대와 정류기 전압 막대를 비교하는 그림. 속도 버튼을 누르면 역기전력 막대가 커지고, 정류기 전압 막대는 그보다 항상 조금 더 높게 유지되도록 점호각이 자동으로 낮아진다"></svg></div>
       <ul class="points">
@@ -402,6 +409,14 @@
         <li>5절 공식(Vdc=Vdo·cosα)대로, <strong>같은 전류(=토크)를 유지하려면 α를 낮춰 Vdc를 키워서</strong>
           커지는 역기전력을 계속 이겨야 한다.</li>
       </ul>
+
+      <p class="bridge"><strong>그런데:</strong> 이 α 조정은 누가, 어떻게 하는가? 사람이 손으로 하는
+        게 아니라 회로가 매 순간 자동으로 한다.</p>
+      <div class="visual"><svg id="feedbackSvg" viewBox="0 0 460 240" role="img" aria-label="목표 전류와 실제 전류를 비교해 오차를 계산하고, 그 오차로 점호각을 조정해서 정류기 전압을 바꾸고, 그 결과 나온 실제 전류를 다시 측정해 피드백하는 폐루프 제어 다이어그램. 역기전력이 커질수록 실제 전류를 깎아내리는 방향으로 작용한다"></svg></div>
+      <div class="slide-note"><strong>폐루프(피드백) 전류 제어</strong> — 실제 전류(Idc)를 계속 측정해서
+        목표 전류(지령값)와 비교한다. 역기전력이 커져서 실제 전류가 목표보다 낮아지면, 그 오차를 보고
+        제어기가 <strong>자동으로 α를 낮춰 Vdc를 올린다</strong> — 이 과정이 밀리초 단위로 계속
+        반복되며 전류를 목표치에 붙잡아 둔다.</div>
       <div class="callback">즉 <b>토크→가속→역기전력↑→α↓</b>가 하나의 사슬로 계속 반복된다 —
         속도가 오르는 내내 손잡이를 가만히 둘 수 없는 이유다.</div>
     </section>
@@ -1049,6 +1064,67 @@
       alignBtns.forEach(function(b,i){ b.classList.toggle('active', i===current); });
     }
     draw();
+  })();
+
+  /* ================= slide 9: why back-EMF rises linearly with speed ================= */
+  (function(){
+    var svg = document.getElementById('backEmfSvg');
+    var X0=48, X1=420, Y0=130, AMP=100;
+    function xAt(p){ return X0 + (p/100)*(X1-X0); }
+    function yAt(p){ return Y0 - (p/100)*AMP; }
+
+    el('line', {x1:X0,y1:Y0,x2:X1+8,y2:Y0, stroke:'var(--ink-faint)','stroke-width':1}, svg);
+    el('line', {x1:X0,y1:Y0,x2:X0,y2:Y0-AMP-10, stroke:'var(--ink-faint)','stroke-width':1}, svg);
+    [0,50,100].forEach(function(p){
+      el('line', {x1:xAt(p),y1:Y0,x2:xAt(p),y2:Y0-AMP, stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
+      txt(xAt(p),Y0+18,p+'%','var(--ink-faint)',10,'middle',svg);
+      txt(X0-8,yAt(p)+3,p+'%','var(--ink-faint)',10,'end',svg);
+    });
+    txt((X0+X1)/2,Y0+36,'속도 (정격 대비 %)','var(--ink-dim)',11,'middle',svg);
+    txt(X0,14,'역기전력 (정격 대비 %)','var(--ink-dim)',11,'start',svg);
+
+    el('line', {x1:xAt(0),y1:yAt(0),x2:xAt(100),y2:yAt(100), stroke:'var(--series-a)','stroke-width':2.5,'stroke-linecap':'round'}, svg);
+    txt(xAt(70)+8,yAt(70)-6,'E ∝ 속도','var(--series-a)',12,'start',svg,700);
+  })();
+
+  /* ================= slide 9: closed-loop current control (how alpha gets readjusted) ================= */
+  (function(){
+    var svg = document.getElementById('feedbackSvg');
+    arrowMarker(svg,'fbArrow','var(--ink-dim)');
+    var ROWY=16, ROWH=46, MIDY=ROWY+ROWH/2;
+    var boxes = [
+      {x:8,   w:95,  label:'목표 전류', sub:'(지령값)'},
+      {x:118, w:95,  label:'오차 계산', sub:'(Δ)'},
+      {x:228, w:95,  label:'점호각 α', sub:'조정'},
+      {x:338, w:114, label:'정류기', sub:'→ Vdc'}
+    ];
+    boxes.forEach(function(b,i){
+      el('rect', {x:b.x,y:ROWY,width:b.w,height:ROWH,rx:9, fill:'var(--panel-2)', stroke:'var(--line-strong)','stroke-width':1.75}, svg);
+      txt(b.x+b.w/2, MIDY-2, b.label, 'var(--ink)', 12, 'middle', svg, 700);
+      txt(b.x+b.w/2, MIDY+13, b.sub, 'var(--ink-dim)', 10, 'middle', svg);
+      if (i<boxes.length-1){
+        var nx = boxes[i+1].x;
+        el('line', {x1:b.x+b.w,y1:MIDY,x2:nx,y2:MIDY, stroke:'var(--ink-dim)','stroke-width':2,'marker-end':'url(#fbArrow)'}, svg);
+      }
+    });
+
+    var lastBox = boxes[boxes.length-1];
+    var idcX = lastBox.x, idcW = lastBox.w, idcY = 122;
+    el('line', {x1:lastBox.x+lastBox.w/2,y1:ROWY+ROWH,x2:lastBox.x+lastBox.w/2,y2:idcY, stroke:'var(--ink-dim)','stroke-width':2,'marker-end':'url(#fbArrow)'}, svg);
+    el('rect', {x:idcX,y:idcY,width:idcW,height:ROWH,rx:9, fill:'var(--panel-2)', stroke:'var(--line-strong)','stroke-width':1.75}, svg);
+    txt(idcX+idcW/2, idcY+ROWH/2-2, '실제 전류', 'var(--ink)', 12, 'middle', svg, 700);
+    txt(idcX+idcW/2, idcY+ROWH/2+13, '(Idc)', 'var(--ink-dim)', 10, 'middle', svg);
+
+    arrowMarker(svg,'fbArrowBad','var(--series-a)');
+    var beX = idcX+idcW/2;
+    el('line', {x1:beX,y1:idcY+ROWH+40,x2:beX,y2:idcY+ROWH+4, stroke:'var(--series-a)','stroke-width':2,'marker-end':'url(#fbArrowBad)'}, svg);
+    txt(beX,idcY+ROWH+54,'− 역기전력 (속도↑ 시 커짐)','var(--series-a)',10.5,'middle',svg,600);
+
+    var fbY = idcY+ROWH/2;
+    var targetX = boxes[1].x + boxes[1].w/2;
+    el('line', {x1:idcX,y1:fbY,x2:targetX,y2:fbY, stroke:'var(--ink-faint)','stroke-width':1.5,'stroke-dasharray':'3 3'}, svg);
+    el('line', {x1:targetX,y1:fbY,x2:targetX,y2:ROWY+ROWH, stroke:'var(--ink-faint)','stroke-width':1.5,'stroke-dasharray':'3 3','marker-end':'url(#fbArrow)'}, svg);
+    txt((idcX+targetX)/2, fbY-8, '실제 전류 측정 (피드백)', 'var(--ink-faint)', 10, 'middle', svg);
   })();
 
   /* ================= slide 11: commutation comparison ================= */
