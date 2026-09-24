@@ -79,6 +79,31 @@
   }
   .formula sub{ font-size:0.72em; }
 
+  .term-toggle{
+    font:inherit; font-weight:600; color:var(--ink); background:none; border:none; padding:0;
+    cursor:pointer; text-decoration:underline; text-decoration-style:dotted;
+    text-decoration-color:var(--accent); text-underline-offset:3px;
+  }
+  .term-toggle:hover{ color:var(--accent); }
+  .term-toggle .chev{ display:inline-block; font-size:.75em; margin-left:2px; transition:transform .15s ease; }
+  .term-toggle[aria-expanded="true"] .chev{ transform:rotate(90deg); }
+  .term-detail{
+    font-size:13px; line-height:1.7; color:var(--ink-dim);
+    background:var(--panel-2); border:1px dashed var(--line-strong); border-radius:10px;
+    padding:10px 13px; margin-top:-4px;
+  }
+  .term-detail[hidden]{ display:none; }
+  .term-detail strong{ color:var(--ink); }
+
+  .play-row{ display:flex; align-items:center; gap:10px; }
+  .play-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600;
+    padding:6px 12px; border-radius:7px; border:1px solid var(--line-strong);
+    background:var(--panel-2); color:var(--ink-dim); cursor:pointer;
+  }
+  .play-btn:hover{ border-color:var(--accent); color:var(--ink); }
+  .play-btn.on{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+
   nav.controls{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
   .navbtn{
     font-family:'IBM Plex Sans KR',sans-serif; font-size:13.5px; font-weight:600;
@@ -174,11 +199,22 @@
       <span class="slide-kicker">01 · 기본 개념</span>
       <h2>SFC(LCI)가 하는 일</h2>
       <ul class="points">
-        <li>큰 동기발전기는 멈춰 있으면 <strong>스스로 회전 토크를 낼 수 없다.</strong></li>
+        <li>큰 동기발전기는 멈춰 있으면
+          <button class="term-toggle" type="button" aria-expanded="false" data-detail="why-no-torque">스스로 회전 토크를 낼 수 없다<span class="chev">▸</span></button>.
+        </li>
         <li>그래서 밖에서 억지로 회전하는 힘을 걸어줘야 하는데, 이 일을 하는 장치가 <strong>SFC</strong>.</li>
         <li>SFC 내부 방식의 이름이 <strong>LCI</strong> (Load Commutated Inverter).</li>
         <li>움직이는 부품 없이 반도체(싸이리스터)만으로 만든다고 해서 "Static"이라는 이름이 붙었다.</li>
       </ul>
+      <div class="term-detail" id="detail-why-no-torque" hidden>
+        회전자의 자석(계자자속)은 <strong>고정된 방향</strong>이다. 여기에 그냥 고정 60Hz 전원을
+        고정자에 걸면, 고정자가 만드는 회전자계는 계속 도는데 회전자는 멈춰 있으니 두 자속의
+        상대 위치가 매 순간 계속 바뀐다. 그러면 <strong>미는 힘과 당기는 힘이 반주기마다 번갈아
+        나타나서, 한 주기 동안 평균을 내면 토크가 0이 되어버린다</strong> — 그래서 그냥 전원만
+        걸어서는 못 돌고 부르르 떨기만 한다. 이 문제를 풀려면 회전자계를 <strong>거의 0Hz에
+        가까운 아주 낮은 속도</strong>부터 서서히 올려서, 회전자가 그 자계를 계속 따라가며(동기를
+        놓치지 않으며) 속도를 붙이게 해줘야 한다 — 이게 SFC가 필요한 이유다.
+      </div>
     </section>
 
     <!-- 3 -->
@@ -231,7 +267,11 @@
       <h2>전기각과 위상 — 세 선이 어긋난 정도</h2>
       <p class="lead">발전기는 R, S, T 세 개의 선으로 전기를 주고받는다. 세 선의 전류는 모양이 완전히
         똑같은데, <strong>타이밍만 120°씩 밀려 있다.</strong> 이 "밀린 정도"를 각도로 나타낸 게 전기각이다.</p>
-      <div class="visual"><svg id="phaseSvg" viewBox="0 0 460 210" role="img" aria-label="원 위에서 120도씩 떨어진 R S T 세 벡터와, 그에 대응하는 세 정현파가 120도 위상차를 두고 나란히 그려진 정지 다이어그램"></svg></div>
+      <div class="play-row">
+        <button class="play-btn on" id="phasePlay" type="button">일시정지</button>
+        <span class="step-readout mono" id="phaseReadout"></span>
+      </div>
+      <div class="visual"><svg id="phaseSvg" viewBox="0 0 460 210" role="img" aria-label="원 위에서 120도씩 떨어진 R S T 세 벡터가 함께 회전하고, 그에 대응하는 세 정현파가 120도 위상차를 두고 나란히 그려지는 애니메이션. R이 먼저 나타나고 S가 120도 뒤, T가 240도 뒤에 나타나는 과정을 볼 수 있다"></svg></div>
       <div class="slide-note"><strong>전기각 vs 기계각</strong> — 회전자가 실제로 도는 물리적 각도는
         "기계각", 전류·자속 파형의 위상은 "전기각"이라 부른다. 극 수가 P개면 전기각 = 기계각 × (P/2).
         이 자료의 각도는 별도 표시가 없는 한 전부 전기각이다.</div>
@@ -242,12 +282,25 @@
       <span class="slide-kicker">04 · 점호각</span>
       <h2>점호각(α) — "얼마나 세게 밀까"</h2>
       <ul class="points">
-        <li>정류기 소자를 <strong>언제 켤지</strong> 정하는 각도가 점호각(α).</li>
+        <li>정류기 소자를
+          <button class="term-toggle" type="button" aria-expanded="false" data-detail="why-timing-matters">언제 켤지<span class="chev">▸</span></button>
+          정하는 각도가 점호각(α).</li>
         <li>α가 작을수록 DC 링크의 전압·전류가 커진다.</li>
         <li>이 전류 크기가 그대로 발전기에 들어가는 전류의 세기, 즉 <strong>가용 토크의 크기</strong>가 된다.</li>
       </ul>
+      <div class="term-detail" id="detail-why-timing-matters" hidden>
+        싸이리스터(SCR)는 다이오드와 달리 <strong>"켜라"는 신호(점호)를 받아야만, 그것도 전압이
+        (+) 방향일 때만 도통을 시작</strong>한다. 전압이 자연스럽게 (+)로 바뀌는 순간 바로 켜면
+        (α=0°) 사인파의 윗부분을 거의 다 이용해서 평균 전압이 최대가 된다. 점호를 <strong>일부러
+        늦출수록(α가 커질수록)</strong> 사인파가 이미 내려오기 시작한 뒤에야 도통을 시작하게
+        되어, 그 구간 동안 실어 나르는 전압의 평균값이 줄어든다. 즉 <strong>"언제 켜는가"가 곧
+        "얼마나 많은 면적(전압)을 실어 나르는가"</strong>를 정하는 것이다.
+      </div>
       <div class="formula">Vdc = Vdo · cos α</div>
-      <p class="lead">α = 0°에 가까울수록 전압이 최대, α가 커질수록 전압이 줄어든다.</p>
+      <p class="lead">α = 0°에 가까울수록 전압이 최대, α가 커질수록 전압이 줄어든다.
+        <strong>Vdo</strong>는 α=0°일 때(지연 없이 최대로 켰을 때) 정류기가 낼 수 있는
+        <strong>최대 직류 전압</strong>이다 — 입력 교류 전압의 크기로 정해지는 상수값이며, 이
+        회로(3상 6-pulse 브릿지)에서는 대략 Vdo ≈ 1.35 × 선간전압(RMS)이다.</p>
     </section>
 
     <!-- 6 -->
@@ -269,9 +322,12 @@
       <h2>점호 타이밍이 파형을 만드는 과정</h2>
       <p class="lead">아래 번호를 눌러 한 구간씩 진행해보자. 소자가 하나씩 켜질 때마다 파형이 계단처럼
         쌓이는 걸 볼 수 있다.</p>
-      <div class="step-row" id="wfSteps"></div>
+      <div class="play-row">
+        <button class="play-btn" id="wfPlay" type="button">▶ 자동 시뮬레이션</button>
+        <div class="step-row" id="wfSteps"></div>
+      </div>
       <span class="step-readout mono" id="wfReadout"></span>
-      <div class="visual"><svg id="wfSvg" viewBox="0 0 460 260" role="img" aria-label="6개 구간을 한 단계씩 눌러가며 R S T 세 상의 계단형 파형이 쌓여가는 것을 보여주는 인터랙티브 다이어그램"></svg></div>
+      <div class="visual"><svg id="wfSvg" viewBox="0 0 460 260" role="img" aria-label="6개 구간을 한 단계씩 눌러가거나 자동 재생하며, 인버터 소자가 순서대로 켜질 때마다 R S T 세 상의 계단형 파형이 쌓여가는 것을 보여주는 인터랙티브 다이어그램"></svg></div>
     </section>
 
     <!-- 8 -->
@@ -280,38 +336,58 @@
       <h2>토크는 두 자속의 곱으로 정해진다</h2>
       <ul class="points">
         <li>회전자에는 <strong>계자자속</strong>(여자권선이 만드는, 자석 같은 자속)이 있다.</li>
-        <li>고정자 R/S/T 전류가 합쳐지면 또 하나의 자속, <strong>전기자 자속</strong>이 생긴다.</li>
+        <li>고정자 R/S/T 전류가 합쳐지면 <strong>전류만으로</strong> 또 하나의 회전 자속이 생기는데,
+          이걸 <strong>전기자 자속</strong>이라 부른다 — 계자자속과는 별개의, 순수하게 전류가
+          만드는 자속이다.</li>
         <li>이 둘 사이 각도(δ)가 벌어질수록 토크가 커진다 (δ=90°까지).</li>
       </ul>
       <div class="formula">T ∝ Φ<sub>field</sub> × Φ<sub>armature</sub> × sin δ</div>
       <div class="visual">
-        <svg viewBox="0 0 300 170" role="img" aria-label="계자자속 벡터와 전기자 자속 벡터가 토크각 델타만큼 벌어져 있는 모습">
+        <svg viewBox="0 0 320 180" role="img" aria-label="계자자속 벡터와, 회전 방향으로 그보다 앞서 있는 전기자 자속 벡터가 토크각 델타만큼 벌어져 있는 모습. 전기자 자속이 앞에서 계자자속을 끌어당기는 모습을 화살표로 표현">
           <g font-family="IBM Plex Mono" font-size="12">
-            <circle cx="80" cy="135" r="2.5" fill="var(--ink-dim)"></circle>
-            <line x1="80" y1="135" x2="80" y2="30" stroke="var(--series-a)" stroke-width="3"></line>
-            <polygon points="80,24 74,36 86,36" fill="var(--series-a)"></polygon>
-            <text x="58" y="20" fill="var(--series-a)">Φ field</text>
+            <circle cx="90" cy="140" r="2.5" fill="var(--ink-dim)"></circle>
+            <line x1="90" y1="140" x2="90" y2="35" stroke="var(--series-a)" stroke-width="3"></line>
+            <polygon points="90,29 84,41 96,41" fill="var(--series-a)"></polygon>
+            <text x="68" y="25" fill="var(--series-a)">Φ field (회전자)</text>
 
-            <line x1="80" y1="135" x2="195" y2="52" stroke="var(--series-b)" stroke-width="3"></line>
-            <polygon points="201,48 187,48 192,60" fill="var(--series-b)" transform="rotate(20 195 52)"></polygon>
-            <text x="202" y="48" fill="var(--series-b)">Φ armature</text>
+            <line x1="90" y1="140" x2="205" y2="57" stroke="var(--series-b)" stroke-width="3"></line>
+            <polygon points="211,53 197,53 202,65" fill="var(--series-b)" transform="rotate(20 205 57)"></polygon>
+            <text x="212" y="53" fill="var(--series-b)">Φ armature (고정자)</text>
 
-            <path d="M 80 95 A 40 40 0 0 1 112 77" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"></path>
-            <text x="102" y="88" fill="var(--ink-faint)" font-size="11">δ</text>
+            <path d="M 90 100 A 40 40 0 0 1 122 82" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"></path>
+            <text x="112" y="93" fill="var(--ink-faint)" font-size="11">δ</text>
+
+            <path d="M 40 110 A 55 55 0 0 1 70 55" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" marker-end="url(#rotArrow)"></path>
+            <defs><marker id="rotArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-faint)"></path></marker></defs>
+            <text x="28" y="95" fill="var(--ink-faint)" font-size="10">회전 방향</text>
           </g>
         </svg>
+      </div>
+      <div class="slide-note">
+        이 그림은 <strong>전압이 아니라 자속끼리</strong>(계자자속 vs 전기자 자속)를 비교한 것이다.
+        전기자 자속이 계자자속보다 <strong>회전 방향으로 앞서 있어야</strong> 앞에서 회전자를
+        끌어당겨 토크가 나온다 — 뒤에서 밀면 끌 수 없는 것과 같은 이치다. 참고로 "전기자 자속이
+        전압보다 뒤처진다"는 건 역률(리딩/래깅)에 관한 별개의 이야기이고, 오히려 LCI는 자연
+        전류형성을 위해 일부러 <strong>전류(=전기자 자속)가 전압보다 앞서는 진상역률</strong>로
+        운전한다 (9절의 "왜 역기전력이 있어야 하는가" 참고).
       </div>
     </section>
 
     <!-- 9 -->
     <section class="slide" id="slide-9" hidden>
       <span class="slide-kicker">08 · 왜 맞춰야 할까</span>
-      <h2>속도가 오르면 점호각도 따라 올려야 한다</h2>
+      <h2>속도가 오르면 점호각을 낮춰야 한다</h2>
       <ul class="points">
         <li>발전기가 빨리 돌수록, 발전기 스스로 만드는 <strong>역전압(역기전력)</strong>도 커진다.</li>
-        <li>같은 전류(=토크)를 유지하려면, 커지는 역전압을 이기도록 <strong>점호각을 계속 따라 올려야</strong> 한다.</li>
+        <li>5절에서 봤듯 <strong>α가 작을수록 정류기 전압(Vdc)이 커진다</strong>
+          (Vdc = Vdo·cos α).</li>
+        <li>같은 전류(=토크)를 계속 흘려보내려면 정류기 전압이 역기전력보다 항상 더 커야 한다 —
+          그래서 속도가 오를수록 <strong>α를 0°쪽으로 낮춰서</strong> Vdc를 같이 키워줘야 한다.</li>
         <li>계자전류는 저속에서 약 10%로 낮게 있다가, 가속 후반(정격 속도 95% 부근)에 정격까지 오른다.</li>
       </ul>
+      <div class="slide-note">정리하면: <strong>속도↑ → 역기전력↑ → (같은 전류를 위해) α↓ → Vdc↑</strong>.
+        점호각과 점호 타이밍은 서로 다른 손잡이지만(4·5절), 실제로는 속도(주파수)가 움직일
+        때마다 점호각도 실시간으로 같이 조정해줘야 원하는 토크가 유지된다는 뜻이다.</div>
       <div class="visual chart-wrap">
         <svg id="scheduleChart" viewBox="0 0 460 190" role="img" aria-label="속도 0%에서 100%까지 가속하는 동안 전기자 V/Hz 비율은 100%로 일정하게 유지되고, 계자전류 지령은 10%로 낮게 유지되다가 속도 80%부터 100%로 올라가는 꺾은선 그래프"></svg>
         <div class="tooltip mono" id="scheduleTip"></div>
@@ -352,9 +428,23 @@
       <ul class="points">
         <li>회전자가 거의 멈춰 있으면 역기전력이 없어 자연스러운 전류형성이 안 된다 → 저속 구간은
           특수(보조) 모드로 기동.</li>
-        <li>역기전력이 충분해지면 정상적인 LCI 방식(부하시전류형성)으로 전환.</li>
+        <li>
+          <button class="term-toggle" type="button" aria-expanded="false" data-detail="why-back-emf">왜 역기전력이 있어야 LCI 방식으로 전환되는가<span class="chev">▸</span></button>
+        </li>
         <li>정격 속도의 <strong>약 80%</strong>까지 가속되면 계통/터빈이 넘겨받고 SFC는 손을 뗀다.</li>
       </ul>
+      <div class="term-detail" id="detail-why-back-emf" hidden>
+        인버터가 도통 소자를 T1→T2로 바꾸는 순간, <strong>꺼지는 T1이 확실히 꺼지도록(역전압을
+        걸어 전류를 못 흐르게) 잠깐이라도 반대 방향 전압을 걸어줘야</strong> 한다 — 이게
+        "커뮤테이션(전류형성)"이다. LCI("부하시전류형성")는 이 반대 전압을 <strong>발전기 자신이
+        만드는 역기전력에서 그대로 가져다 쓴다</strong> (별도의 강제 회로가 필요 없다는 게 LCI의
+        장점). 그런데 회전자가 0RPM 근처면 역기전력도 거의 0이라 꺼줄 전압 자체가 없어서 커뮤테이션이
+        실패한다. 그래서 저속에서는 역기전력 대신 <strong>DC 링크 전류를 정류기 쪽에서 잠깐씩
+        끊어주는 방식으로 강제로</strong> 소자를 꺼주다가, 역기전력이 충분히 커지면(대략 정격의
+        10% 이상 속도) 발전기 스스로의 전압만으로 자연스럽게 꺼지는 정상 LCI 모드로 넘어간다.
+        (참고: 이때 발전기는 전류가 전압보다 앞서는 <strong>진상역률</strong>로 운전되는데,
+        그래야 꺼지는 소자에 필요한 역전압이 정확한 타이밍에 걸리기 때문이다 — 7절 참고.)
+      </div>
     </section>
 
     <!-- 11 -->
@@ -442,14 +532,27 @@
   }, {passive:true});
   render();
 
-  /* ---------- slide 4: 전기각과 위상 (static snapshot, same math as the live sim) ---------- */
+  /* ---------- generic "click bold term to expand explanation" disclosures ---------- */
+  document.querySelectorAll('.term-toggle').forEach(function(btn){
+    var panel = document.getElementById('detail-' + btn.dataset.detail);
+    if (!panel) return;
+    btn.addEventListener('click', function(){
+      var open = panel.hidden;
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  /* ---------- slide 4: 전기각과 위상 (live animation — same math as the interactive sim) ---------- */
   (function(){
     var svg = document.getElementById('phaseSvg');
+    var playBtn = document.getElementById('phasePlay');
+    var readout = document.getElementById('phaseReadout');
     var CX=100, CY=115, CR=78;
     var WX0=210, WX1=450, WSPAN=WX1-WX0, WY0=115, WAMP=60;
     var PHASE = { R:0, S:120, T:240 };
     var COLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
-    var SNAP = 50; // fixed instant, electrical degrees
+    var DEG_PER_SEC = 45;
 
     function pt(thetaDeg, cx, cy, r){
       var rad = (thetaDeg-90)*Math.PI/180;
@@ -457,6 +560,7 @@
     }
     function heightAt(thetaDeg, amp, base){ return base + amp*Math.sin((thetaDeg-90)*Math.PI/180); }
 
+    // static backdrop, drawn once
     el('circle', {cx:CX,cy:CY,r:CR, fill:'none', stroke:'var(--line-strong)','stroke-width':2}, svg);
     [0,60,120,180,240,300].forEach(function(a){
       var p1=pt(a,CX,CY,CR+2), p2=pt(a,CX,CY,CR+8);
@@ -467,33 +571,91 @@
       var x = WX0 + (a/360)*WSPAN;
       el('line', {x1:x,y1:WY0-70,x2:x,y2:WY0+70, stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
     });
-
-    Object.keys(PHASE).forEach(function(ph){
-      var theta = SNAP - PHASE[ph];
-      var p = pt(theta, CX, CY, CR);
-      el('line', {x1:CX,y1:CY,x2:p.x,y2:p.y, stroke:COLOR[ph], 'stroke-width':3}, svg);
-      el('circle', {cx:p.x,cy:p.y,r:5, fill:COLOR[ph]}, svg);
-
-      var d = '';
-      for (var a=0; a<=360; a+=4){
-        var x = WX0 + (a/360)*WSPAN;
-        var y = heightAt(a-PHASE[ph], WAMP, WY0);
-        d += (a===0?'M ':'L ') + x + ' ' + y + ' ';
-      }
-      el('path', {d:d, fill:'none', stroke:COLOR[ph], 'stroke-width':2.25}, svg);
-
-      var wx = WX0 + (SNAP/360)*WSPAN;
-      var wy = heightAt(theta, WAMP, WY0);
-      el('circle', {cx:wx,cy:wy,r:4.5, fill:COLOR[ph]}, svg);
-    });
-    var mx = WX0 + (SNAP/360)*WSPAN;
-    el('line', {x1:mx,y1:WY0-70,x2:mx,y2:WY0+70, stroke:'var(--ink-faint)','stroke-width':1.25,'stroke-dasharray':'3 3'}, svg);
-
     txt(100,20,'R',COLOR.R,13,'middle',svg);
     txt(118,20,'S',COLOR.S,13,'middle',svg);
     txt(136,20,'T',COLOR.T,13,'middle',svg);
     txt(WX0,25,'← 시간 (전기각) →',null,10.5,'start',svg);
     txt(CX,CY+CR+24,'120°씩 떨어진 세 방향',null,10.5,'middle',svg);
+
+    // dynamic parts: one line+dot+path+wavedot per phase, updated every frame
+    var dyn = {};
+    Object.keys(PHASE).forEach(function(ph){
+      dyn[ph] = {
+        vec: el('line', {x1:CX,y1:CY,x2:CX,y2:CY, stroke:COLOR[ph], 'stroke-width':3, opacity:0}, svg),
+        dot: el('circle', {cx:CX,cy:CY,r:5, fill:COLOR[ph], opacity:0}, svg),
+        wave: el('path', {fill:'none', stroke:COLOR[ph], 'stroke-width':2.25}, svg),
+        waveDot: el('circle', {r:4.5, fill:COLOR[ph], opacity:0}, svg)
+      };
+    });
+    var marker = el('line', {y1:WY0-70,y2:WY0+70, stroke:'var(--ink-faint)','stroke-width':1.25,'stroke-dasharray':'3 3'}, svg);
+
+    var angle = 0, playing = true, lastT = null;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion){ playing = false; angle = 50; }
+
+    function setPlaying(p){
+      playing = p; lastT = null;
+      playBtn.textContent = playing ? '일시정지' : '재생';
+      playBtn.classList.toggle('on', playing);
+    }
+    playBtn.addEventListener('click', function(){ setPlaying(!playing); });
+    setPlaying(playing);
+
+    function render(){
+      var norm = ((angle % 360) + 360) % 360;
+      Object.keys(PHASE).forEach(function(ph){
+        var born = norm >= PHASE[ph];
+        var d = dyn[ph];
+        if (!born){
+          d.vec.setAttribute('opacity',0); d.dot.setAttribute('opacity',0); d.waveDot.setAttribute('opacity',0);
+          d.wave.setAttribute('d','');
+          return;
+        }
+        var theta = norm - PHASE[ph];
+        var p = pt(theta, CX, CY, CR);
+        d.vec.setAttribute('opacity',1); d.vec.setAttribute('x2',p.x); d.vec.setAttribute('y2',p.y);
+        d.dot.setAttribute('opacity',1); d.dot.setAttribute('cx',p.x); d.dot.setAttribute('cy',p.y);
+
+        var wx = WX0 + (norm/360)*WSPAN;
+        var wy = heightAt(theta, WAMP, WY0);
+        d.waveDot.setAttribute('opacity',1); d.waveDot.setAttribute('cx',wx); d.waveDot.setAttribute('cy',wy);
+
+        var dPath = '';
+        var startA = PHASE[ph];
+        var endA = norm >= startA ? norm : startA; // during first lap, draw only up to "now"
+        for (var a=startA; a<=Math.max(endA,startA); a+=4){
+          var x = WX0 + (a/360)*WSPAN;
+          var y = heightAt(a-PHASE[ph], WAMP, WY0);
+          dPath += (a===startA?'M ':'L ') + x + ' ' + y + ' ';
+        }
+        // once a phase has completed a full lap, draw its entire steady-state curve
+        if (norm < startA || angle >= 360){
+          dPath = '';
+          for (var aa=0; aa<=360; aa+=4){
+            var xx = WX0 + (aa/360)*WSPAN;
+            var yy = heightAt(aa-PHASE[ph], WAMP, WY0);
+            dPath += (aa===0?'M ':'L ') + xx + ' ' + yy + ' ';
+          }
+        }
+        d.wave.setAttribute('d', dPath);
+      });
+      var mx = WX0 + (norm/360)*WSPAN;
+      marker.setAttribute('x1',mx); marker.setAttribute('x2',mx);
+      readout.textContent = '전기각 ' + norm.toFixed(0) + '°';
+    }
+
+    function tick(now){
+      if (lastT===null) lastT = now;
+      var dt = Math.min((now-lastT)/1000, 0.05);
+      lastT = now;
+      var slide4 = document.getElementById('slide-4');
+      var visible = slide4 && !slide4.hidden;
+      if (playing && visible) angle += DEG_PER_SEC * dt;
+      if (visible) render();
+      requestAnimationFrame(tick);
+    }
+    render();
+    requestAnimationFrame(tick);
   })();
 
   /* ---------- slide 7: waveform builder ---------- */
@@ -510,14 +672,35 @@
     var svg = document.getElementById('wfSvg');
     var stepsWrap = document.getElementById('wfSteps');
     var readout = document.getElementById('wfReadout');
+    var playBtn = document.getElementById('wfPlay');
     var current = 1; // 1..6, how many segments are drawn
+    var autoTimer = null;
+
+    function stopAuto(){
+      if (autoTimer){ clearInterval(autoTimer); autoTimer = null; }
+      playBtn.textContent = '▶ 자동 시뮬레이션';
+      playBtn.classList.remove('on');
+    }
+    function startAuto(){
+      playBtn.textContent = '■ 정지';
+      playBtn.classList.add('on');
+      autoTimer = setInterval(function(){
+        var slide7 = document.getElementById('slide-7');
+        if (!slide7 || slide7.hidden){ stopAuto(); return; }
+        current = current % 6 + 1; // 1→2→...→6→1
+        draw();
+      }, 900);
+    }
+    playBtn.addEventListener('click', function(){
+      if (autoTimer) stopAuto(); else startAuto();
+    });
 
     var btns = [];
     for (var i=1;i<=6;i++){
       (function(n){
         var b = document.createElement('button');
         b.type='button'; b.className='step-btn'; b.textContent = n;
-        b.addEventListener('click', function(){ current = n; draw(); });
+        b.addEventListener('click', function(){ stopAuto(); current = n; draw(); });
         stepsWrap.appendChild(b);
         btns.push(b);
       })(i);
