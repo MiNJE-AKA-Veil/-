@@ -173,7 +173,7 @@
 
   <div class="progress-row">
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <span class="progress-num mono" id="progressNum">1 / 13</span>
+    <span class="progress-num mono" id="progressNum">1 / 12</span>
   </div>
 
   <div class="stage" id="stage">
@@ -205,7 +205,7 @@
           </g>
         </svg>
       </div>
-      <p class="swipe-hint">→ 버튼이나 화면을 넘겨서 다음 장으로 (총 13장)</p>
+      <p class="swipe-hint">→ 버튼이나 화면을 넘겨서 다음 장으로 (총 12장)</p>
     </section>
 
     <!-- 2 -->
@@ -237,39 +237,62 @@
           빨리 올리면 뒤처지는 각도가 계속 벌어지다가, 어느 순간(90°) <strong>토크가 오히려 줄면서
           완전히 놓쳐버린다("탈조")</strong>.</li>
       </ul>
-      <div class="callback">이 "뒤처지는 각도"는 8절에서 <b>토크각 δ</b>라는 이름으로 다시 나온다 — 정확히
+      <div class="callback">이 "뒤처지는 각도"는 7절에서 <b>토크각 δ</b>라는 이름으로 다시 나온다 — 정확히
         같은 현상을 수식으로 확인하게 된다.</div>
     </section>
 
     <!-- 4 -->
     <section class="slide" id="slide-4" hidden>
       <div class="slide-head"><span class="slide-num mono">03</span><span class="slide-kicker">회전자계의 정체</span></div>
-      <h2>위상과 전기각 — 세 전류가 만드는 회전</h2>
+      <h2>전원이 인가되어 회전자계가 되기까지</h2>
       <p class="bridge"><strong>앞에서:</strong> "회전자계를 0Hz부터 서서히 돌린다"고 계속 말해왔다.
-        그런데 이 회전자계는 실제로 무엇으로 만들어지는가?</p>
-      <div class="play-row">
-        <button class="play-btn on" id="phasePlay" type="button">⏸ 정지</button>
-        <button class="play-btn" id="phaseReset" type="button">⟲ 처음으로</button>
-        <span class="step-readout mono" id="phaseReadout"></span>
+        그런데 이 회전자계는 실제로 어떻게 만들어지는가? 전원이 SFC에 들어오는 순간부터 끝까지
+        따라가보자.</p>
+
+      <div class="visual">
+        <svg viewBox="0 0 460 110" role="img" aria-label="3상 교류 입력이 SFC를 거쳐 발전기 고정자의 R S T 단자(Y결선)로 이어지는 결선도">
+          <defs><marker id="chainArrow0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-dim)"></path></marker></defs>
+          <g font-family="IBM Plex Mono" font-size="12">
+            <rect x="6" y="24" width="126" height="56" rx="9" fill="var(--panel-2)" stroke="var(--line-strong)" stroke-width="1.75"></rect>
+            <text x="69" y="50" text-anchor="middle" fill="var(--ink)" font-weight="700">3상 교류</text>
+            <text x="69" y="66" text-anchor="middle" fill="var(--ink-dim)" font-size="10.5">60Hz 고정</text>
+            <line x1="136" y1="52" x2="172" y2="52" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#chainArrow0)"></line>
+
+            <rect x="176" y="18" width="108" height="68" rx="9" fill="var(--panel-2)" stroke="var(--accent)" stroke-width="2.25"></rect>
+            <text x="230" y="48" text-anchor="middle" fill="var(--accent)" font-weight="700">SFC</text>
+            <text x="230" y="64" text-anchor="middle" fill="var(--ink-dim)" font-size="9.5">정류기·DC링크</text>
+            <text x="230" y="76" text-anchor="middle" fill="var(--ink-dim)" font-size="9.5">·인버터</text>
+            <line x1="288" y1="52" x2="324" y2="52" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#chainArrow0)"></line>
+
+            <rect x="328" y="24" width="126" height="56" rx="9" fill="var(--panel-2)" stroke="var(--series-a)" stroke-width="1.75"></rect>
+            <text x="391" y="48" text-anchor="middle" fill="var(--ink)" font-weight="700">발전기 고정자</text>
+            <text x="391" y="64" text-anchor="middle" fill="var(--ink-dim)" font-size="9.5">R/S/T 단자 (Y결선)</text>
+          </g>
+        </svg>
       </div>
-      <div class="visual"><svg id="phaseSvg" viewBox="0 0 460 210" role="img" aria-label="원 위에서 120도씩 떨어진 R S T 세 벡터가 함께 회전하고, 그에 대응하는 세 정현파가 120도 위상차를 두고 나란히 그려지는 애니메이션. R이 먼저 나타나고 S가 120도 뒤, T가 240도 뒤에 나타난 뒤에는 계속 세 개가 함께 남는다"></svg></div>
-      <p class="bridge"><strong>그런데:</strong> 이 전류는 실제로 고정자에 감긴 <strong>코일에</strong>
-        흐른다. 아래 번호를 눌러서, 세 코일에 전류가 정확히 어떻게 들어가고 나오는지 직접 보자.</p>
-      <div class="step-row" id="statorSteps"></div>
-      <div class="visual"><svg id="statorSvg" viewBox="0 0 340 300" role="img" aria-label="고정자 안쪽에 120도 간격으로 감긴 R S T 세 코일 단면도. 매 순간 두 코일에만 전류가 흐르고 중성점을 통해 회로가 이어지며, 나머지 한 코일은 꺼져 있는 모습을 6단계로 보여주는 인터랙티브 다이어그램"></svg></div>
-      <span class="step-readout mono" id="statorReadout"></span>
-      <div class="slide-note">매 순간 <strong>두 코일에만</strong> 전류가 흐르고(한쪽에서 들어가 중성점을
-        거쳐 다른 쪽으로 나감), 나머지 한 코일은 쉰다. 이 두 코일의 조합이 60°마다 바뀌면서, 세
-        코일이 만드는 합성 자속의 방향이 단계적으로 돌아간다 — 위 애니메이션의 매끈한 회전을,
-        실제 하드웨어는 이렇게 <strong>두 코일씩 스위칭</strong>해서 흉내내는 것이다.</div>
+
+      <p class="bridge"><strong>SFC 안에서:</strong> 아래 번호를 눌러서, 인버터 소자가 한 단계씩
+        스위칭될 때마다 (위) 출력 파형이 계단으로 쌓이는 것과 (아래) 고정자 코일에 전류가 들어가는
+        것이 <strong>동시에</strong> 일어나는 걸 보자.</p>
+      <div class="play-row">
+        <button class="play-btn" id="chainPlay" type="button">▶ 자동 시뮬레이션</button>
+        <div class="step-row" id="chainSteps"></div>
+      </div>
+      <span class="step-readout mono" id="chainReadout"></span>
+      <div class="visual"><svg id="chainWfSvg" viewBox="0 0 460 320" role="img" aria-label="DC+ DC- 레일과 6개 싸이리스터 사이에서 전류가 흐르는 경로가 한 단계씩 바뀌고, 그에 맞춰 아래쪽 R S T 세 상의 계단형 파형이 쌓여가는 다이어그램"></svg></div>
+      <div class="visual"><svg id="chainStatorSvg" viewBox="0 0 340 260" role="img" aria-label="같은 순간, 고정자 안쪽에 120도 간격으로 감긴 R S T 코일 중 정확히 두 개에만 전류가 흐르고 중성점을 통해 회로가 이어지는 단면도"></svg></div>
+      <div class="slide-note">위·아래 두 그림은 <strong>같은 순간</strong>을 두 각도에서 본 것이다 —
+        위는 "인버터 회로에서 무슨 일이 일어나는가", 아래는 "그 결과 고정자 코일에 전류가 어떻게
+        들어가는가". 이 두 코일의 조합이 60°마다 바뀌는 것 자체가 회전자계다.</div>
     </section>
 
     <!-- 5 -->
     <section class="slide" id="slide-5" hidden>
       <div class="slide-head"><span class="slide-num mono">04</span><span class="slide-kicker">두 개의 손잡이</span></div>
       <h2>이 회전자계를 조절하려면 무엇이 필요한가</h2>
-      <p class="bridge"><strong>앞에서:</strong> R/S/T 세 전류의 위상차가 회전자계를 만든다는 걸 봤다.
-        그런데 이걸 "0Hz부터 서서히, 원하는 세기로" 마음대로 조절하려면 실제로 뭘 만질 수 있어야 할까?</p>
+      <p class="bridge"><strong>앞에서:</strong> SFC가 3상 전원을 받아 구형파로 바꾸고, 그 구형파가
+        고정자 코일을 통해 회전자계가 되는 과정을 봤다. 그런데 이걸 "0Hz부터 서서히, 원하는
+        세기로" 마음대로 조절하려면 실제로 뭘 만질 수 있어야 할까?</p>
       <div class="visual">
         <svg viewBox="0 0 460 160" role="img" aria-label="회전자계라는 하나의 결과를 세기와 속도라는 두 개의 독립된, 서로 떨어진 손잡이로 조절한다는 것을 보여주는 다이어그램">
           <g font-family="IBM Plex Mono" font-size="12.5">
@@ -326,7 +349,7 @@
       <div class="slide-note">리액터(큰 인덕터)는 <strong>전압 차이만큼 전류를 밀어올린다</strong>
         (V=L·di/dt) — Vdc가 부하(발전기 역기전력)보다 큰 만큼 전류가 계속 세지려 하고, 원하는
         전류에 도달하면 그 전류를 유지하도록 α가 계속 조정된다. 결국 <strong>α → Vdc → 전류</strong>
-        순서로 이어지는 것이다. (9절에서 이 조정이 왜 계속 필요한지 다시 나온다.)</div>
+        순서로 이어지는 것이다. (8절에서 이 조정이 왜 계속 필요한지 다시 나온다.)</div>
     </section>
 
     <!-- 7 -->
@@ -345,23 +368,7 @@
 
     <!-- 8 -->
     <section class="slide" id="slide-8" hidden>
-      <div class="slide-head"><span class="slide-num mono">07</span><span class="slide-kicker">실제 구현</span></div>
-      <h2>두 손잡이로 진짜 회전자계를 만드는 법</h2>
-      <p class="bridge"><strong>앞에서:</strong> 3절에서는 매끈하게 도는 이상적인 회전자계(사인파)를 봤다.
-        실제 하드웨어(반도체 스위치 6개)는 이걸 어떻게 흉내낼까?</p>
-      <div class="play-row">
-        <button class="play-btn" id="wfPlay" type="button">▶ 자동 시뮬레이션</button>
-        <div class="step-row" id="wfSteps"></div>
-      </div>
-      <span class="step-readout mono" id="wfReadout"></span>
-      <div class="visual"><svg id="wfSvg" viewBox="0 0 460 320" role="img" aria-label="DC+ DC- 레일과 6개 싸이리스터 사이에서 전류가 흐르는 경로가 한 단계씩 바뀌고, 그에 맞춰 아래쪽 R S T 세 상의 계단형 파형이 쌓여가는 인터랙티브 다이어그램"></svg></div>
-      <div class="callback">3절의 매끈한 사인파 대신 <b>계단(6단계)</b>으로 근사한 것뿐, 만드는 목적은
-        똑같이 "120°씩 어긋난 회전자계"다.</div>
-    </section>
-
-    <!-- 9 -->
-    <section class="slide" id="slide-9" hidden>
-      <div class="slide-head"><span class="slide-num mono">08</span><span class="slide-kicker">회전자계 → 토크</span></div>
+      <div class="slide-head"><span class="slide-num mono">07</span><span class="slide-kicker">회전자계 → 토크</span></div>
       <h2>이 회전자계가 회전자를 실제로 끄는가</h2>
       <p class="bridge"><strong>앞에서:</strong> 회전자계를 만드는 법을 봤다. 그런데 자계가 돈다고 회전자가
         저절로 끌려가는 건 아니다 — 실제로 끄는 힘(토크)이 있어야 한다.</p>
@@ -381,9 +388,9 @@
         속도를 너무 빨리 올리면 안 됐던 것이다.</div>
     </section>
 
-    <!-- 10 -->
-    <section class="slide" id="slide-10" hidden>
-      <div class="slide-head"><span class="slide-num mono">09</span><span class="slide-kicker">가속의 대가</span></div>
+    <!-- 9 -->
+    <section class="slide" id="slide-9" hidden>
+      <div class="slide-head"><span class="slide-num mono">08</span><span class="slide-kicker">가속의 대가</span></div>
       <h2>속도가 오르면 점호각을 낮춰야 한다</h2>
       <p class="bridge"><strong>앞에서:</strong> 토크가 나서 회전자가 빨라지기 시작했다. 그런데 빨라진다는
         것 자체가 새로운 문제를 만든다.</p>
@@ -399,9 +406,9 @@
         속도가 오르는 내내 손잡이를 가만히 둘 수 없는 이유다.</div>
     </section>
 
-    <!-- 11 -->
-    <section class="slide" id="slide-11" hidden>
-      <div class="slide-head"><span class="slide-num mono">10</span><span class="slide-kicker">역기전력의 두 얼굴</span></div>
+    <!-- 10 -->
+    <section class="slide" id="slide-10" hidden>
+      <div class="slide-head"><span class="slide-num mono">09</span><span class="slide-kicker">역기전력의 두 얼굴</span></div>
       <h2>역기전력은 방해꾼이면서 동시에 열쇠다</h2>
       <p class="bridge"><strong>앞에서:</strong> 역기전력이 정류기를 방해한다고 했다. 그런데 이 똑같은
         역기전력이, 인버터가 소자를 끄는 데 반드시 필요한 재료이기도 하다.</p>
@@ -416,9 +423,9 @@
       </ul>
     </section>
 
-    <!-- 12 -->
-    <section class="slide" id="slide-12" hidden>
-      <div class="slide-head"><span class="slide-num mono">11</span><span class="slide-kicker">완결</span></div>
+    <!-- 11 -->
+    <section class="slide" id="slide-11" hidden>
+      <div class="slide-head"><span class="slide-num mono">10</span><span class="slide-kicker">완결</span></div>
       <h2>기동 시퀀스 전체 그림</h2>
       <p class="bridge"><strong>앞에서:</strong> 토크→가속→역기전력→재조정의 사슬이 계속 돈다고 했다.
         이 사슬은 언제, 어떻게 끝날까?</p>
@@ -449,8 +456,8 @@
         힘)이 나머지를 넘겨받을 수 있을 만큼 충분해져서 SFC는 손을 뗀다.</p>
     </section>
 
-    <!-- 13 -->
-    <section class="slide" id="slide-13" hidden>
+    <!-- 12 -->
+    <section class="slide" id="slide-12" hidden>
       <div class="slide-head"><span class="slide-num mono">요약</span><span class="slide-kicker">전체 흐름</span></div>
       <h2>하나로 이어지는 이야기</h2>
       <div class="visual"><svg id="recapSvg" viewBox="0 0 460 460" role="img" aria-label="문제 제기부터 완결까지 전체 논리 흐름을 화살표로 이어 보여주는 다이어그램"></svg></div>
@@ -719,132 +726,7 @@
     onEnterCallbacks[2] = start;
   })();
 
-  /* ================= slide 4: 전기각과 위상 (live, reset + stop) ================= */
-  (function(){
-    var svg = document.getElementById('phaseSvg');
-    var playBtn = document.getElementById('phasePlay');
-    var resetBtn = document.getElementById('phaseReset');
-    var readout = document.getElementById('phaseReadout');
-    var CX=100, CY=115, CR=78;
-    var WX0=210, WX1=450, WSPAN=WX1-WX0, WY0=115, WAMP=60;
-    var PHASE = { R:0, S:120, T:240 };
-    var COLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
-    var DEG_PER_SEC = 45;
-
-    function heightAt(thetaDeg, amp, base){ return base + amp*Math.sin((thetaDeg-90)*Math.PI/180); }
-
-    el('circle', {cx:CX,cy:CY,r:CR, fill:'none', stroke:'var(--line-strong)','stroke-width':2}, svg);
-    [0,60,120,180,240,300].forEach(function(a){
-      var p1=pt(a,CX,CY,CR+2), p2=pt(a,CX,CY,CR+8);
-      el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke:'var(--ink-faint)'}, svg);
-    });
-    el('line', {x1:WX0,y1:WY0,x2:WX1,y2:WY0, stroke:'var(--ink-faint)','stroke-width':1}, svg);
-    [0,60,120,180,240,300,360].forEach(function(a){
-      var x = WX0 + (a/360)*WSPAN;
-      el('line', {x1:x,y1:WY0-70,x2:x,y2:WY0+70, stroke:'var(--line)','stroke-width':1,'stroke-dasharray':'2 4'}, svg);
-    });
-    txt(100,20,'R',COLOR.R,13,'middle',svg,700);
-    txt(118,20,'S',COLOR.S,13,'middle',svg,700);
-    txt(136,20,'T',COLOR.T,13,'middle',svg,700);
-    txt(WX0,25,'← 시간(전기각) →',null,10.5,'start',svg);
-    txt(CX,CY+CR+24,'120°씩 떨어진 세 방향',null,10.5,'middle',svg);
-
-    var dyn = {};
-    Object.keys(PHASE).forEach(function(ph){
-      dyn[ph] = {
-        vec: el('line', {x1:CX,y1:CY,x2:CX,y2:CY, stroke:COLOR[ph], 'stroke-width':3, opacity:0}, svg),
-        dot: el('circle', {cx:CX,cy:CY,r:5, fill:COLOR[ph], opacity:0}, svg),
-        wave: el('path', {fill:'none', stroke:COLOR[ph], 'stroke-width':2.25}, svg),
-        waveDot: el('circle', {r:4.5, fill:COLOR[ph], opacity:0}, svg)
-      };
-    });
-    var marker = el('line', {y1:WY0-70,y2:WY0+70, stroke:'var(--ink-faint)','stroke-width':1.25,'stroke-dasharray':'3 3'}, svg);
-
-    var angle = 0, playing = true, lastT = null, introDone = false;
-
-    function setPlaying(p){
-      playing = p; lastT = null;
-      playBtn.textContent = playing ? '⏸ 정지' : '▶ 재생';
-      playBtn.classList.toggle('on', playing);
-    }
-    playBtn.addEventListener('click', function(){ setPlaying(!playing); });
-    resetBtn.addEventListener('click', function(){
-      angle = 0; introDone = false; lastT = null;
-      setPlaying(!reduceMotion);
-      render();
-    });
-    setPlaying(!reduceMotion);
-    if (reduceMotion){ angle = 260; introDone = true; }
-
-    function fullCurve(ph){
-      var d = '';
-      for (var a=0; a<=360; a+=4){
-        var x = WX0 + (a/360)*WSPAN;
-        var y = heightAt(a-PHASE[ph], WAMP, WY0);
-        d += (a===0?'M ':'L ') + x + ' ' + y + ' ';
-      }
-      return d;
-    }
-
-    function render(){
-      var norm = ((angle % 360) + 360) % 360;
-      Object.keys(PHASE).forEach(function(ph){
-        var d = dyn[ph];
-        if (introDone){
-          var thetaSS = ((norm - PHASE[ph]) % 360 + 360) % 360;
-          var pSS = pt(thetaSS, CX, CY, CR);
-          d.vec.setAttribute('opacity',1); d.vec.setAttribute('x2',pSS.x); d.vec.setAttribute('y2',pSS.y);
-          d.dot.setAttribute('opacity',1); d.dot.setAttribute('cx',pSS.x); d.dot.setAttribute('cy',pSS.y);
-          var wx = WX0 + (norm/360)*WSPAN;
-          var wy = heightAt(thetaSS, WAMP, WY0);
-          d.waveDot.setAttribute('opacity',1); d.waveDot.setAttribute('cx',wx); d.waveDot.setAttribute('cy',wy);
-          d.wave.setAttribute('d', fullCurve(ph));
-          return;
-        }
-        var born = norm >= PHASE[ph];
-        if (!born){
-          d.vec.setAttribute('opacity',0); d.dot.setAttribute('opacity',0); d.waveDot.setAttribute('opacity',0);
-          d.wave.setAttribute('d','');
-          return;
-        }
-        var theta = norm - PHASE[ph];
-        var p = pt(theta, CX, CY, CR);
-        d.vec.setAttribute('opacity',1); d.vec.setAttribute('x2',p.x); d.vec.setAttribute('y2',p.y);
-        d.dot.setAttribute('opacity',1); d.dot.setAttribute('cx',p.x); d.dot.setAttribute('cy',p.y);
-        var wx2 = WX0 + (norm/360)*WSPAN;
-        var wy2 = heightAt(theta, WAMP, WY0);
-        d.waveDot.setAttribute('opacity',1); d.waveDot.setAttribute('cx',wx2); d.waveDot.setAttribute('cy',wy2);
-        var dPath = '';
-        for (var a=PHASE[ph]; a<=norm; a+=4){
-          var x = WX0 + (a/360)*WSPAN;
-          var y = heightAt(a-PHASE[ph], WAMP, WY0);
-          dPath += (a===PHASE[ph]?'M ':'L ') + x + ' ' + y + ' ';
-        }
-        dPath += 'L ' + wx2 + ' ' + wy2 + ' ';
-        d.wave.setAttribute('d', dPath);
-      });
-      var mx = WX0 + (norm/360)*WSPAN;
-      marker.setAttribute('x1',mx); marker.setAttribute('x2',mx);
-      readout.textContent = '전기각 ' + norm.toFixed(0) + '°';
-    }
-
-    function tick(now){
-      if (lastT===null) lastT = now;
-      var dt = Math.min((now-lastT)/1000, 0.05);
-      lastT = now;
-      var visible = isVisible('slide-4');
-      if (playing && visible){
-        angle += DEG_PER_SEC * dt;
-        if (!introDone && angle >= 360) introDone = true;
-      }
-      if (visible) render();
-      requestAnimationFrame(tick);
-    }
-    render();
-    requestAnimationFrame(tick);
-  })();
-
-  /* ================= slide 4b: stator cross-section — interactive current path ================= */
+  /* ================= slide 4: power-in -> SFC -> stepped wave -> stator field (one shared step) ================= */
   (function(){
     var STEPS = [
       { th:['T1','T6'], lv:{R:1,S:-1,T:0} },
@@ -854,49 +736,132 @@
       { th:['T5','T4'], lv:{R:-1,S:0,T:1} },
       { th:['T5','T6'], lv:{R:0,S:-1,T:1} }
     ];
-    var svg = document.getElementById('statorSvg');
-    var stepsWrap = document.getElementById('statorSteps');
-    var readout = document.getElementById('statorReadout');
-    var CX=150, CY=150, R=85, RIN=R-16, ROUT=R+16;
-    var WCOLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
-    var WPHASE = { R:0, S:120, T:240 };
-    var current = 1;
-    var btns = [];
+    var COLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
+    var COLS = { R:70, S:230, T:390 };
+    var topOf = { R:'T1', S:'T3', T:'T5' };
+    var botOf = { R:'T4', S:'T6', T:'T2' };
+    function activePhases(step){
+      var plus=null, minus=null;
+      ['R','S','T'].forEach(function(ph){ if (step.lv[ph]===1) plus=ph; if (step.lv[ph]===-1) minus=ph; });
+      return { plus:plus, minus:minus };
+    }
 
+    var wfSvg = document.getElementById('chainWfSvg');
+    var statorSvg = document.getElementById('chainStatorSvg');
+    var stepsWrap = document.getElementById('chainSteps');
+    var readout = document.getElementById('chainReadout');
+    var playBtn = document.getElementById('chainPlay');
+    var current = 1;
+    var autoTimer = null;
+    arrowMarker(wfSvg, 'chainArrow', 'var(--ink)');
+
+    function stopAuto(){
+      if (autoTimer){ clearInterval(autoTimer); autoTimer=null; }
+      playBtn.textContent = '▶ 자동 시뮬레이션'; playBtn.classList.remove('on');
+    }
+    function startAuto(){
+      playBtn.textContent = '■ 정지'; playBtn.classList.add('on');
+      autoTimer = setInterval(function(){
+        if (!isVisible('slide-4')){ stopAuto(); return; }
+        current = current % 6 + 1; draw();
+      }, 900);
+    }
+    playBtn.addEventListener('click', function(){ if (autoTimer) stopAuto(); else startAuto(); });
+
+    var btns = [];
     for (var i=1;i<=6;i++){
       (function(n){
         var b = document.createElement('button');
-        b.type='button'; b.className='step-btn'; b.textContent=n;
-        b.addEventListener('click', function(){ current=n; draw(); });
+        b.type='button'; b.className='step-btn'; b.textContent = n;
+        b.addEventListener('click', function(){ stopAuto(); current=n; draw(); });
         stepsWrap.appendChild(b);
         btns.push(b);
       })(i);
     }
 
-    function draw(){
-      clearSvg(svg);
-      arrowMarker(svg,'statorArrow','var(--ink)');
-      var lv = STEPS[current-1].lv;
+    var DCPLUS=16, TOPY=44, BOTY=90, DCMINUS=118, MIDY=(TOPY+BOTY)/2;
+    var ROWS = { R:150, S:206, T:262 };
+    var X0=40, X1=430, XSPAN=X1-X0;
 
-      el('circle', {cx:CX,cy:CY,r:R, fill:'none', stroke:'var(--line-strong)','stroke-width':2}, svg);
-      el('circle', {cx:CX,cy:CY,r:30, fill:'var(--panel-2)', stroke:'var(--ink-dim)','stroke-width':2}, svg);
-      txt(CX,CY+4,'회전자','var(--ink-dim)',11,'middle',svg,600);
+    function drawWave(step, act){
+      var defsBackup = wfSvg.querySelector('defs');
+      clearSvg(wfSvg);
+      if (defsBackup) wfSvg.appendChild(defsBackup);
+
+      el('line', {x1:30,y1:DCPLUS,x2:440,y2:DCPLUS, stroke:'var(--line-strong)','stroke-width':2}, wfSvg);
+      el('line', {x1:30,y1:DCMINUS,x2:440,y2:DCMINUS, stroke:'var(--line-strong)','stroke-width':2}, wfSvg);
+      txt(8,DCPLUS+4,'DC+','var(--ink-faint)',10.5,'start',wfSvg);
+      txt(4,DCMINUS+4,'DC−','var(--ink-faint)',10.5,'start',wfSvg);
+
+      Object.keys(COLS).forEach(function(ph){
+        var x = COLS[ph];
+        el('line', {x1:x,y1:DCPLUS,x2:x,y2:DCMINUS, stroke:'var(--line)','stroke-width':1.5}, wfSvg);
+        var topId=topOf[ph], botId=botOf[ph];
+        var topActive = step.th.indexOf(topId)!==-1, botActive = step.th.indexOf(botId)!==-1;
+        el('circle', {cx:x,cy:TOPY,r:13, fill: topActive?'var(--accent)':'var(--panel-2)', stroke: topActive?'var(--accent)':'var(--line-strong)','stroke-width':2}, wfSvg);
+        txt(x,TOPY+4,topId, topActive?'var(--accent-ink)':'var(--ink-faint)', 10.5,'middle', wfSvg, 600);
+        el('circle', {cx:x,cy:BOTY,r:13, fill: botActive?'var(--accent)':'var(--panel-2)', stroke: botActive?'var(--accent)':'var(--line-strong)','stroke-width':2}, wfSvg);
+        txt(x,BOTY+4,botId, botActive?'var(--accent-ink)':'var(--ink-faint)', 10.5,'middle', wfSvg, 600);
+        txt(x,BOTY+30,ph+'상',COLOR[ph],11,'middle',wfSvg,600);
+      });
+
+      if (act.plus && act.minus){
+        var xp = COLS[act.plus], xm = COLS[act.minus];
+        el('line', {x1:xp,y1:DCPLUS,x2:xp,y2:TOPY-15, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#chainArrow)'}, wfSvg);
+        el('line', {x1:xp,y1:MIDY,x2:xm,y2:MIDY, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#chainArrow)'}, wfSvg);
+        el('line', {x1:xm,y1:BOTY+15,x2:xm,y2:DCMINUS, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#chainArrow)'}, wfSvg);
+      }
+
+      Object.keys(ROWS).forEach(function(ph){
+        var y0 = ROWS[ph];
+        el('line', {x1:X0,y1:y0,x2:X1,y2:y0, stroke:'var(--ink-faint)','stroke-width':1}, wfSvg);
+        txt(20,y0+4,ph,COLOR[ph],13,'middle', wfSvg, 700);
+        var pts = [];
+        for (var i=0;i<current;i++){
+          var lv = STEPS[i].lv[ph];
+          var xA = X0 + (i/6)*XSPAN, xB = X0 + ((i+1)/6)*XSPAN;
+          var yy = y0 - lv*18;
+          if (lv!==0) el('rect', {x:xA, width:xB-xA, y:Math.min(y0,yy), height:18, fill:COLOR[ph], opacity: i===current-1?0.4:0.18}, wfSvg);
+          pts.push(xA+','+yy, xB+','+yy);
+        }
+        el('polyline', {points:pts.join(' '), fill:'none', stroke:COLOR[ph], 'stroke-width':2.5, 'stroke-linejoin':'round'}, wfSvg);
+        var hx = X0 + (current/6)*XSPAN;
+        el('line', {x1:hx,y1:y0-24,x2:hx,y2:y0+24, stroke:'var(--accent)','stroke-width':1.25,'stroke-dasharray':'3 3'}, wfSvg);
+      });
+
+      for (var s=0;s<=6;s++){
+        var x = X0 + (s/6)*XSPAN;
+        el('line', {x1:x,y1:ROWS.T+24,x2:x,y2:ROWS.T+30, stroke:'var(--ink-faint)'}, wfSvg);
+      }
+      txt((X0+X1)/2, ROWS.T+48, '한 사이클 = 6구간(전기각 360°)', 'var(--ink-faint)', 10.5, 'middle', wfSvg);
+    }
+
+    var SCX=150, SCY=145, SR=80, SRIN=SR-16, SROUT=SR+16;
+    var WPHASE = { R:0, S:120, T:240 };
+
+    function drawStator(step){
+      clearSvg(statorSvg);
+      arrowMarker(statorSvg,'chainStatorArrow','var(--ink)');
+      var lv = step.lv;
+
+      el('circle', {cx:SCX,cy:SCY,r:SR, fill:'none', stroke:'var(--line-strong)','stroke-width':2}, statorSvg);
+      el('circle', {cx:SCX,cy:SCY,r:28, fill:'var(--panel-2)', stroke:'var(--ink-dim)','stroke-width':2}, statorSvg);
+      txt(SCX,SCY+4,'회전자','var(--ink-dim)',11,'middle',statorSvg,600);
 
       var innerPts = {};
       Object.keys(WPHASE).forEach(function(ph){
         var active = lv[ph]!==0;
-        var p1 = pt(WPHASE[ph],CX,CY,RIN), p2 = pt(WPHASE[ph],CX,CY,ROUT);
+        var p1 = pt(WPHASE[ph],SCX,SCY,SRIN), p2 = pt(WPHASE[ph],SCX,SCY,SROUT);
         innerPts[ph] = p1;
-        el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke: active?WCOLOR[ph]:'var(--line)', 'stroke-width':7, 'stroke-linecap':'round', opacity: active?1:0.35}, svg);
-        var lp = pt(WPHASE[ph],CX,CY,ROUT+22);
-        txt(lp.x,lp.y+4,ph+'상',active?WCOLOR[ph]:'var(--ink-faint)',12,'middle',svg,700);
+        el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke: active?COLOR[ph]:'var(--line)', 'stroke-width':7, 'stroke-linecap':'round', opacity: active?1:0.35}, statorSvg);
+        var lp = pt(WPHASE[ph],SCX,SCY,SROUT+20);
+        txt(lp.x,lp.y+4,ph+'상',active?COLOR[ph]:'var(--ink-faint)',12,'middle',statorSvg,700);
         if (active){
           var sign = lv[ph]>0 ? '+' : '−';
-          var sp = pt(WPHASE[ph],CX,CY,ROUT+38);
-          txt(sp.x,sp.y+4,sign,WCOLOR[ph],13,'middle',svg,700);
-          // arrow along the coil bar: +1 flows inward (terminal->neutral), -1 flows outward (neutral->terminal)
-          if (lv[ph]>0) el('line', {x1:p2.x,y1:p2.y,x2:p1.x,y2:p1.y, stroke:'var(--ink)','stroke-width':2,'marker-end':'url(#statorArrow)'}, svg);
-          else el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke:'var(--ink)','stroke-width':2,'marker-end':'url(#statorArrow)'}, svg);
+          var sp = pt(WPHASE[ph],SCX,SCY,SROUT+35);
+          txt(sp.x,sp.y+4,sign,COLOR[ph],13,'middle',statorSvg,700);
+          if (lv[ph]>0) el('line', {x1:p2.x,y1:p2.y,x2:p1.x,y2:p1.y, stroke:'var(--ink)','stroke-width':2,'marker-end':'url(#chainStatorArrow)'}, statorSvg);
+          else el('line', {x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y, stroke:'var(--ink)','stroke-width':2,'marker-end':'url(#chainStatorArrow)'}, statorSvg);
         }
       });
 
@@ -904,14 +869,21 @@
       Object.keys(lv).forEach(function(ph){ if(lv[ph]>0) plusPh=ph; if(lv[ph]<0) minusPh=ph; });
       if (plusPh && minusPh){
         var pA = innerPts[plusPh], pB = innerPts[minusPh];
-        var midA = { x:(pA.x+CX)/2, y:(pA.y+CY)/2 };
-        el('path', {d:'M '+pA.x+' '+pA.y+' Q '+CX+' '+CY+' '+pB.x+' '+pB.y, fill:'none', stroke:'var(--ink)','stroke-width':1.75,'stroke-dasharray':'3 3','marker-end':'url(#statorArrow)'}, svg);
-        txt(CX,CY-38,'중성점','var(--ink-faint)',10,'middle',svg);
+        el('path', {d:'M '+pA.x+' '+pA.y+' Q '+SCX+' '+SCY+' '+pB.x+' '+pB.y, fill:'none', stroke:'var(--ink)','stroke-width':1.75,'stroke-dasharray':'3 3','marker-end':'url(#chainStatorArrow)'}, statorSvg);
+        txt(SCX,SCY-36,'중성점','var(--ink-faint)',10,'middle',statorSvg);
       }
+    }
 
+    function draw(){
+      var step = STEPS[current-1];
+      var act = activePhases(step);
+      drawWave(step, act);
+      drawStator(step);
       btns.forEach(function(b,i){ b.classList.toggle('active', i===current-1); });
-      readout.textContent = '구간 ' + current + '/6 · R=' + (lv.R>0?'+1':lv.R<0?'−1':'0') +
-        ' S=' + (lv.S>0?'+1':lv.S<0?'−1':'0') + ' T=' + (lv.T>0?'+1':lv.T<0?'−1':'0');
+      readout.textContent = '구간 ' + current + '/6 · 도통: ' + step.th.join(', ') +
+        ' · R=' + (step.lv.R>0?'+1':step.lv.R<0?'−1':'0') +
+        ' S=' + (step.lv.S>0?'+1':step.lv.S<0?'−1':'0') +
+        ' T=' + (step.lv.T>0?'+1':step.lv.T<0?'−1':'0');
     }
     draw();
   })();
@@ -963,125 +935,6 @@
       txt(BARX, BARBASE-BARMAXH-10, 'Vdc', 'var(--ink-dim)', 11, 'middle', svg);
       txt(BARX, BARBASE+18, Math.round(relV*100)+'%', 'var(--ink)', 12, 'middle', svg, 600);
       alphaBtns.forEach(function(b,i){ b.classList.toggle('active', ALPHAS[i]===current); });
-    }
-    draw();
-  })();
-
-  /* ================= slide 8: waveform builder with DC rails + current path ================= */
-  (function(){
-    var STEPS = [
-      { th:['T1','T6'], lv:{R:1,S:-1,T:0} },
-      { th:['T1','T2'], lv:{R:1,S:0,T:-1} },
-      { th:['T3','T2'], lv:{R:0,S:1,T:-1} },
-      { th:['T3','T4'], lv:{R:-1,S:1,T:0} },
-      { th:['T5','T4'], lv:{R:-1,S:0,T:1} },
-      { th:['T5','T6'], lv:{R:0,S:-1,T:1} }
-    ];
-    var COLOR = { R:'var(--series-b)', S:'var(--line-strong)', T:'var(--series-a)' };
-    var COLS = { R:70, S:230, T:390 };
-    var topOf = { R:'T1', S:'T3', T:'T5' };
-    var botOf = { R:'T4', S:'T6', T:'T2' };
-    function activePhases(step){
-      var plus=null, minus=null;
-      ['R','S','T'].forEach(function(ph){ if (step.lv[ph]===1) plus=ph; if (step.lv[ph]===-1) minus=ph; });
-      return { plus:plus, minus:minus };
-    }
-
-    var svg = document.getElementById('wfSvg');
-    var stepsWrap = document.getElementById('wfSteps');
-    var readout = document.getElementById('wfReadout');
-    var playBtn = document.getElementById('wfPlay');
-    var current = 1;
-    var autoTimer = null;
-    arrowMarker(svg, 'wfArrow', 'var(--ink)');
-
-    function stopAuto(){
-      if (autoTimer){ clearInterval(autoTimer); autoTimer=null; }
-      playBtn.textContent = '▶ 자동 시뮬레이션'; playBtn.classList.remove('on');
-    }
-    function startAuto(){
-      playBtn.textContent = '■ 정지'; playBtn.classList.add('on');
-      autoTimer = setInterval(function(){
-        if (!isVisible('slide-8')){ stopAuto(); return; }
-        current = current % 6 + 1; draw();
-      }, 900);
-    }
-    playBtn.addEventListener('click', function(){ if (autoTimer) stopAuto(); else startAuto(); });
-
-    var btns = [];
-    for (var i=1;i<=6;i++){
-      (function(n){
-        var b = document.createElement('button');
-        b.type='button'; b.className='step-btn'; b.textContent = n;
-        b.addEventListener('click', function(){ stopAuto(); current=n; draw(); });
-        stepsWrap.appendChild(b);
-        btns.push(b);
-      })(i);
-    }
-
-    var DCPLUS=16, TOPY=44, BOTY=90, DCMINUS=118, MIDY=(TOPY+BOTY)/2;
-    var ROWS = { R:150, S:206, T:262 };
-    var X0=40, X1=430, XSPAN=X1-X0;
-
-    function draw(){
-      var defsBackup = svg.querySelector('defs');
-      clearSvg(svg);
-      if (defsBackup) svg.appendChild(defsBackup);
-      var step = STEPS[current-1];
-      var act = activePhases(step);
-
-      el('line', {x1:30,y1:DCPLUS,x2:440,y2:DCPLUS, stroke:'var(--line-strong)','stroke-width':2}, svg);
-      el('line', {x1:30,y1:DCMINUS,x2:440,y2:DCMINUS, stroke:'var(--line-strong)','stroke-width':2}, svg);
-      txt(8,DCPLUS+4,'DC+','var(--ink-faint)',10.5,'start',svg);
-      txt(4,DCMINUS+4,'DC−','var(--ink-faint)',10.5,'start',svg);
-
-      Object.keys(COLS).forEach(function(ph){
-        var x = COLS[ph];
-        el('line', {x1:x,y1:DCPLUS,x2:x,y2:DCMINUS, stroke:'var(--line)','stroke-width':1.5}, svg);
-        var topId=topOf[ph], botId=botOf[ph];
-        var topActive = step.th.indexOf(topId)!==-1, botActive = step.th.indexOf(botId)!==-1;
-        el('circle', {cx:x,cy:TOPY,r:13, fill: topActive?'var(--accent)':'var(--panel-2)', stroke: topActive?'var(--accent)':'var(--line-strong)','stroke-width':2}, svg);
-        txt(x,TOPY+4,topId, topActive?'var(--accent-ink)':'var(--ink-faint)', 10.5,'middle', svg, 600);
-        el('circle', {cx:x,cy:BOTY,r:13, fill: botActive?'var(--accent)':'var(--panel-2)', stroke: botActive?'var(--accent)':'var(--line-strong)','stroke-width':2}, svg);
-        txt(x,BOTY+4,botId, botActive?'var(--accent-ink)':'var(--ink-faint)', 10.5,'middle', svg, 600);
-        txt(x,BOTY+30,ph+'상',COLOR[ph],11,'middle',svg,600);
-      });
-
-      if (act.plus && act.minus){
-        var xp = COLS[act.plus], xm = COLS[act.minus];
-        el('line', {x1:xp,y1:DCPLUS,x2:xp,y2:TOPY-15, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#wfArrow)'}, svg);
-        el('line', {x1:xp,y1:MIDY,x2:xm,y2:MIDY, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#wfArrow)'}, svg);
-        el('line', {x1:xm,y1:BOTY+15,x2:xm,y2:DCMINUS, stroke:'var(--ink)','stroke-width':2.5, 'marker-end':'url(#wfArrow)'}, svg);
-      }
-
-      Object.keys(ROWS).forEach(function(ph){
-        var y0 = ROWS[ph];
-        el('line', {x1:X0,y1:y0,x2:X1,y2:y0, stroke:'var(--ink-faint)','stroke-width':1}, svg);
-        txt(20,y0+4,ph,COLOR[ph],13,'middle', svg, 700);
-        var pts = [];
-        for (var i=0;i<current;i++){
-          var lv = STEPS[i].lv[ph];
-          var xA = X0 + (i/6)*XSPAN, xB = X0 + ((i+1)/6)*XSPAN;
-          var yy = y0 - lv*18;
-          if (lv!==0) el('rect', {x:xA, width:xB-xA, y:Math.min(y0,yy), height:18, fill:COLOR[ph], opacity: i===current-1?0.4:0.18}, svg);
-          pts.push(xA+','+yy, xB+','+yy);
-        }
-        el('polyline', {points:pts.join(' '), fill:'none', stroke:COLOR[ph], 'stroke-width':2.5, 'stroke-linejoin':'round'}, svg);
-        var hx = X0 + (current/6)*XSPAN;
-        el('line', {x1:hx,y1:y0-24,x2:hx,y2:y0+24, stroke:'var(--accent)','stroke-width':1.25,'stroke-dasharray':'3 3'}, svg);
-      });
-
-      for (var s=0;s<=6;s++){
-        var x = X0 + (s/6)*XSPAN;
-        el('line', {x1:x,y1:ROWS.T+24,x2:x,y2:ROWS.T+30, stroke:'var(--ink-faint)'}, svg);
-      }
-      txt((X0+X1)/2, ROWS.T+48, '한 사이클 = 6구간(전기각 360°)', 'var(--ink-faint)', 10.5, 'middle', svg);
-
-      btns.forEach(function(b,i){ b.classList.toggle('active', i===current-1); });
-      readout.textContent = '구간 ' + current + '/6 · 도통: ' + step.th.join(', ') +
-        ' · R=' + (step.lv.R>0?'+1':step.lv.R<0?'−1':'0') +
-        ' S=' + (step.lv.S>0?'+1':step.lv.S<0?'−1':'0') +
-        ' T=' + (step.lv.T>0?'+1':step.lv.T<0?'−1':'0');
     }
     draw();
   })();
@@ -1224,7 +1077,7 @@
     var NODES = [
       {t:'문제', s:'정지 상태 → 평균 토크 0', c:'var(--ink-faint)'},
       {t:'조건', s:'회전자와 같은 속도(0Hz)로 시작, 서서히 가속', c:'var(--series-a)'},
-      {t:'메커니즘', s:'R/S/T 120° 위상차 → 회전자계', c:'var(--series-b)'},
+      {t:'메커니즘', s:'3상 전원 → SFC → 구형파 → 회전자계', c:'var(--series-b)'},
       {t:'구현', s:'점호각(세기) + 점호 타이밍(속도) → 6단계 스위칭', c:'var(--accent)'},
       {t:'결과', s:'토크 = 계자자속×전기자자속×sinδ', c:'var(--series-b)'},
       {t:'되먹임', s:'가속 → 역기전력↑ → 점호각↓', c:'var(--series-a)'},
