@@ -436,6 +436,53 @@ NOT_CHANGED = [
 IMAGE_REPORT = '''PDF 30쪽(표지 포함)에서 로고를 제외한 운전화면·압력선도 <b>32장을 모두 무손실로 추출</b>했습니다(누락 0장). 원본 JPEG 스트림을 재압축 없이 그대로 내장했고, 확대 시 원본 해상도 그대로 볼 수 있습니다.
 원문 그림번호는 E21-01 ~ E21-31이고 E21-31이 2장이라 총 32장입니다. 이 자료의 Flow Chart(p.23~27)와 표지·목차·안전사항에는 이미지가 없습니다(표·글자만 있음).'''
 
+
+def overview():
+    def chain(items):
+        return '<ol class="ovc">' + ''.join(f'<li>{mk(i)}</li>' for i in items) + '</ol>'
+    def branch(q, kind, paths):
+        cols = ''.join(f'<div class="ovp"><b><span class="pl">경로 {l}</span> {mk(t)}</b>{chain(it)}</div>' for l, t, it in paths)
+        return f'<div class="ovb"><div class="ovq"><span class="ovk">{kind}</span> ◆ {mk(q)}</div><div class="ovpp">{cols}</div></div>'
+    def case(cid, name, trip, pre, br, end):
+        return f'''<article class="ovcase"><header><a class="cbadge" href="#{cid}">{name}</a><h3>{mk(trip)}</h3><a class="go" href="#{cid}">상세 절차 보기 →</a></header>
+{chain(pre)}{br}<div class="ove">{mk(end)}</div></article>'''
+    C = []
+    C.append(case('case-1-1', 'Case 1.1', '공급·리턴 펌프(<t>PP-003</t>, <t>PP-001</t>) <b>동시</b> Trip',
+        ['공급·리턴 펌프 동시 Trip 확인 <t>PP-003, 001</t>', 'CN H/E 공급 압력 초과·유량 변화 확인 <t>PIT-9334, FIT-9338</t>', '연료전지·호랑 리턴 압력 감소 및 Pump Trip 확인 <t>PIT-3501, PIT-201</t>', '공급·리턴 Bypass <op> <t>HV-9715, HV-9708</t>', '외부 열원에 연락하여 상황 공유'],
+        branch('연료전지·호랑 Pump Trip 발생 여부', '상태 분기 · 앞서 확인한 결과로 선택', [
+            ('A', '발생', ['외부 열원 유량 감소 확인', 'Mean Pr 조정 – 기동 전 상태로 회귀 <v>5.5[kg/㎠]</v>']),
+            ('B', '미발생', ['외부 열원 유량 감소 발생 확인', 'Mean Pr 조정 – 기동 전 조건 준비 <v>5.5[kg/㎠]</v>'])]),
+        '합류 → 외부 열원에 정상화 상황 공유, 학익가압장 운전 <b>재개</b> (<t>INTECO FLOW RATE</t> <v>850[t/h]</v> 수준)'))
+    C.append(case('case-1-2', 'Case 1.2', '공급 펌프(<t>PP-003</t>) Trip',
+        ['공급 펌프 Trip 발생 확인 <t>PP-003</t>', '공급측 Bypass <op> <t>HV-9715</t>', 'CN H/E 공급 압력 초과·유량 변화 확인 <t>PIT-9334, FIT-9338</t>', '외부 열원 수열 감량 요청 (Mean Pr <v>5.5[kg/㎠]</v> · <t>INTECO FLOW RATE</t> <v>850[t/h]</v> 수준)', '가압 펌프 재가동 <t>PP-003</t>'],
+        branch('가압 펌프 재가동 결과', '결과 분기 · 조작한 결과로 선택', [
+            ('A', '재가동 성공', ['가압 실시 · 공급 Bypass <cl> <t>HV-9715</t>', '외부 열원에 상황 공유 · 가압 진행', '추가 수열량 발생 시 Trip 전으로 복구']),
+            ('B', '재가동 불가', ['Spare 펌프 가동 <t>PP-002</t> (가동 시 Line 확인)', '가동 불가 시 외부 열원 유량 감량 확인', '외부 열원 유량 및 Mean Pr 감소 (필요 시 리턴 가압 펌프 증가)'])]),
+        '합류 → CN H/E 공급 압력 초과·유량 변화 해소 확인 → 외부 열원에 내용 공유, 학익가압장 운전 <b>재개</b>'))
+    C.append(case('case-1-3', 'Case 1.3', '리턴 펌프(<t>PP-001</t>) Trip',
+        ['리턴 펌프 Trip 발생 확인 <t>PP-001</t>', '리턴측 Bypass <op> <t>HV-9708</t>', '연료전지·호랑 리턴 압력 감소 및 Pump Trip 확인 <t>PIT-3501, PIT-201</t>', '외부 열원에 연락하여 상황 공유'],
+        branch('연료전지·호랑 Pump Trip 발생 여부', '상태 분기 · 앞서 확인한 결과로 선택', [
+            ('A', 'Trip 발생', ['외부 열원 유량 감소 발생 확인', '공급 펌프 감소 <t>PP-003</t> (구도심 차압 확보 <t>CP-4</t>)', 'Mean Pr 조정 · 기동 전 조건 준비 <v>5.5[kg/㎠]</v>']),
+            ('B', 'Trip 미발생', ['외부 열원 유량 감소 확인', '공급 펌프 감소 <t>PP-003</t> (구도심 차압 확보 <t>CP-4</t>)', '리턴 펌프 기동 및 부하 증가 <t>PP-001</t>', '기동 성공 시 부하 증가하며 <t>HV-9708</t> Bypass <cl>'])]),
+        '합류 → 외부 열원에 정상화 상황 공유, 학익가압장 운전 <b>재개</b>'))
+    C.append(case('case-2-1', 'Case 2.1', '연료전지 또는 호랑 펌프 Trip',
+        ['연료전지 또는 호랑 리턴 압력 감소 및 Pump Trip 확인 <t>PIT-3501, PIT-201</t>', '외부 수열 유량 감소 확인', '구도심 역차압 발생 확인 <t>CP-4</t>', '공급·리턴 펌프 부하 감소 <t>PP-003, 001</t> (<b>리턴 가압 펌프 먼저</b> 감소) – 학익가압장 초기 기동 조건 상태까지', '학익가압장 Bypass Valve <op> <t>HV-9715, 9708</t>', '구도심 역차압 해소 확인 <t>CP-4</t>'],
+        '', '연료전지 또는 호랑 정상화 후 학익가압장 <b>재개</b> 및 수열 증량 (분기 없음)'))
+    C.append(case('case-2-2', 'Case 2.2', 'SK IPC 펌프 Trip',
+        ['SK IPC Pump Trip 및 유량 확인', '연료전지·호랑 리턴 압력 확인 (Pump Trip 여부 확인) <t>PIT-3501, PIT-201</t>', '외부 수열 유량 감소 확인', '구도심 역차압 발생 확인 <t>CP-4</t>', '공급·리턴 펌프 부하 감소 <t>PP-003, 001</t> (<b>리턴 가압 펌프 먼저</b> 감소) – 학익가압장 초기 기동 조건 상태까지', '학익가압장 Bypass Valve <op> <t>HV-9715, 9708</t>', '구도심 역차압 해소 확인 <t>CP-4</t>'],
+        '', 'SK IPC 정상화 후 학익가압장 <b>재개</b> 및 수열 증량 (분기 없음)'))
+    pick = '''<div class="ovpick"><div class="ovstart">정상 운전 중 · <t>INTECO FLOW RATE</t> <v>1380[t/h]</v></div><div class="fca" aria-hidden="true">↓</div>
+<div class="ovask">◆ 어느 펌프가 Trip했는가?</div>
+<div class="ovgrp"><section><h4>학익가압장 펌프 Trip → Case 1</h4><ul>
+<li><a href="#case-1-1"><b>공급·리턴 동시</b> Trip <span class="tg">PP-003, 001</span><em>Case 1.1</em></a></li>
+<li><a href="#case-1-2"><b>공급 펌프만</b> Trip <span class="tg">PP-003</span><em>Case 1.2</em></a></li>
+<li><a href="#case-1-3"><b>리턴 펌프만</b> Trip <span class="tg">PP-001</span><em>Case 1.3</em></a></li></ul></section>
+<section><h4>외부 열원 펌프 Trip → Case 2</h4><ul>
+<li><a href="#case-2-1"><b>연료전지 또는 호랑</b> 펌프 Trip<em>Case 2.1</em></a></li>
+<li><a href="#case-2-2"><b>SK IPC</b> 펌프 Trip<em>Case 2.2</em></a></li></ul></section></div>
+<p class="ovnote"><b>분기가 있는 Case는 1.1, 1.2, 1.3입니다.</b> 1.1·1.3은 연료전지·호랑 Pump Trip 여부(<b>상태 분기</b>), 1.2는 가압 펌프 재가동 결과(<b>결과 분기</b>)로 나뉩니다. Case 2.1·2.2는 분기 없이 한 줄로 진행합니다.</p></div>'''
+    return f'<section id="s0" class="sec"><h2>개요 · 어떤 Case를 먼저 볼 것인가</h2>{pick}<div class="ovlist">' + ''.join(C) + '</div></section>'
+
 # ---------------------------------------------------------------- HTML 조립
 CSS = open(os.path.join(HERE, 'style.css'), encoding='utf-8').read()
 JS = open(os.path.join(HERE, 'app.js'), encoding='utf-8').read()
@@ -538,16 +585,17 @@ def build():
     gallery = ''.join(ref_thumb(f) for f in ['E21-01', 'E21-04', 'E21-05', 'E21-06', 'E21-07', 'E21-08', 'E21-30', 'E21-31-A', 'E21-31-B'])
 
     nav = '''<nav id="toc" aria-label="목차"><div class="navin"><a class="brand" href="#top">학익가압장 비상상황 대응</a>
-<ul class="navl"><li><a href="#s5">① 상황별 대응</a></li><li><a href="#s6">② 비교표</a></li></ul>
+<ul class="navl"><li><a href="#s0">개요</a></li><li><a href="#s5">① 상황별 대응</a></li><li><a href="#s6">② 비교표</a></li></ul>
 <ul class="casel" aria-label="Case 바로가기"><li><a href="#case-1-1">1.1 공급·회수 동시</a></li><li><a href="#case-1-2">1.2 공급</a></li><li><a href="#case-1-3">1.3 리턴</a></li><li><a href="#case-2-1">2.1 연료전지·호랑</a></li><li><a href="#case-2-2">2.2 SK IPC</a></li></ul>
 <div class="tools"><button id="btnPrint" type="button">인쇄 / PDF</button></div></div></nav>'''
 
-    body = f'''<a class="skip" href="#s5">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
+    body = f'''<a class="skip" href="#s0">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
 {nav}
 <main id="top">
 <header class="hero"><p class="eyebrow">운전원 교육용 설명자료</p><h1>학익가압장 운전 비상상황 대응절차</h1>
 </header>
 
+{overview()}
 <section id="s5" class="sec"><h2><span class="no">①</span> 상황별 상세 대응</h2>
 
 <p class="howto"><b>읽는 법</b> 각 Case는 <b>상황 → 확인 → 조작 → 조건별 분기 → 안정화 확인 → 재개</b> 순으로 구성되어 있습니다. 단계 왼쪽의 큰 번호는 진행 순서이고, 오른쪽(작은 화면에서는 아래)에 그 단계에서 볼 운전화면이 있습니다. “참조 그림”은 눌러서 다시 열 수 있습니다.</p>
