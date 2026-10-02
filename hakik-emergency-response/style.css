@@ -275,3 +275,4 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 .bl,.pl,.ovk,.cbadge,.ovgrp em{font-weight:800}
 .ovgrp em{margin-left:auto}
 .cbadge{font-size:22px}
+.kw{background:none!important}

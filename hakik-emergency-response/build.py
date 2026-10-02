@@ -582,7 +582,7 @@ def build():
     gallery = ''.join(ref_thumb(f) for f in ['E21-01', 'E21-04', 'E21-05', 'E21-06', 'E21-07', 'E21-08', 'E21-30', 'E21-31-A', 'E21-31-B'])
 
     nav = '''<nav id="toc" aria-label="목차"><div class="navin"><a class="brand" href="#top">학익가압장 비상상황 대응</a>
-<ul class="navl"><li><a href="#s0">개요</a></li><li><a href="#s5">① 상황별 대응</a></li><li><a href="#s6">② 비교표</a></li></ul>
+<ul class="navl"><li><a href="#s0">개요</a></li><li><a href="#s5">① 상황별 대응</a></li></ul>
 <ul class="casel" aria-label="Case 바로가기"><li><a href="#case-1-1">1.1 공급·회수 동시</a></li><li><a href="#case-1-2">1.2 공급</a></li><li><a href="#case-1-3">1.3 리턴</a></li><li><a href="#case-2-1">2.1 연료전지·호랑</a></li><li><a href="#case-2-2">2.2 SK IPC</a></li></ul>
 <div class="tools"><button id="btnPrint" type="button">인쇄 / PDF</button></div></div></nav>'''
 
@@ -599,10 +599,7 @@ def build():
 {cases_h}
 </section>
 
-<section id="s6" class="sec"><h2><span class="no">②</span> 상황별 대응 비교표</h2>
-<p class="fnote">각 칸은 단계 번호(나-1 등)입니다. “기재 없음”은 해당 Case에 그 단계가 없다는 뜻입니다.</p>
-<div class="tw"><table class="tbl cmp">{cmp_h}</table></div>
-</section>
+
 
 
 </main>
