@@ -150,7 +150,7 @@ def step(n, orig, kind, text, figs=(), refs=(), src='', flags=(), sub='', cond='
     figs_h = ''.join(fig_inline(f).replace('{uid}', str(uid())) for f in figs)
     refs_h = ''
     if refs:
-        refs_h = '<div class="refs"><span class="flab">참조 그림</span><div class="rg">' + ''.join(ref_thumb(r) for r in refs) + '</div></div>'
+        refs_h = '<div class="refs"><span class="flab">참조 그림</span>' + ''.join(fig_inline(r).replace('{uid}', str(uid())) for r in refs if r not in figs) + '</div>'
     fl = ''
     src_h = ''
     cond_h = f'<p class="cond">{mk(cond)}</p>' if cond else ''
@@ -164,7 +164,7 @@ def situation(label, text, figs=(), refs=(), src=''):
     figs_h = ''.join(fig_inline(f).replace('{uid}', str(uid())) for f in figs)
     refs_h = ''
     if refs:
-        refs_h = '<div class="refs"><span class="flab">참조 그림</span><div class="rg">' + ''.join(ref_thumb(r) for r in refs) + '</div></div>'
+        refs_h = '<div class="refs"><span class="flab">참조 그림</span>' + ''.join(fig_inline(r).replace('{uid}', str(uid())) for r in refs if r not in figs) + '</div>'
     src_h = ''
     return f'''<li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">{esc(label)}</span></div>
 <p class="main">{mk(text)}</p>{src_h}</div><div class="sfig">{figs_h}{refs_h}</div></li>'''
