@@ -268,3 +268,10 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 @media print{.ovcase,.ovpick{break-inside:avoid}}
 .ovbr{margin:3px 0 0 14px;font-size:15px;color:var(--tell);font-weight:600}.ovbr::before{content:"↳ ";}
 @media (min-width:981px){.step:not(.sit) .stxt{position:static!important}}
+/* 칩 제거: 텍스트로만 */
+.tg,.onum,.bl,.pl,.ovk,.cbadge,.iid,.ty,.cid,.ovgrp em{background:none!important;border:0!important;color:inherit!important;padding:0!important;border-radius:0!important;box-shadow:none!important}
+.tg{font-family:inherit;font-weight:700}
+.onum{margin-left:2px;font-size:15px}
+.bl,.pl,.ovk,.cbadge,.ovgrp em{font-weight:800}
+.ovgrp em{margin-left:auto}
+.cbadge{font-size:22px}

@@ -272,6 +272,13 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 @media print{.ovcase,.ovpick{break-inside:avoid}}
 .ovbr{margin:3px 0 0 14px;font-size:15px;color:var(--tell);font-weight:600}.ovbr::before{content:"↳ ";}
 @media (min-width:981px){.step:not(.sit) .stxt{position:static!important}}
+/* 칩 제거: 텍스트로만 */
+.tg,.onum,.bl,.pl,.ovk,.cbadge,.iid,.ty,.cid,.ovgrp em{background:none!important;border:0!important;color:inherit!important;padding:0!important;border-radius:0!important;box-shadow:none!important}
+.tg{font-family:inherit;font-weight:700}
+.onum{margin-left:2px;font-size:15px}
+.bl,.pl,.ovk,.cbadge,.ovgrp em{font-weight:800}
+.ovgrp em{margin-left:auto}
+.cbadge{font-size:22px}
 </style></head><body>
 <a class="skip" href="#s0">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
 <nav id="toc" aria-label="목차"><div class="navin"><a class="brand" href="#top">학익가압장 비상상황 대응</a>
@@ -353,7 +360,7 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 <p class="main"><strong class="kw">외부 열원</strong>에 연락하여 상황을 공유한다.</p></div>
 <div class="sfig"></div></li></ol><div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기</div><div class="brs"><section class="branch br-a"><header><span class="bl">분기 A</span><h4>연료전지·호랑 Pump Trip이 <u>발생한</u> 경우</h4><p></p></header>
 <ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="onum">다</span></div>
-<p class="main">연료전지·호랑에서 Pump Trip이 발생한 경우이다. (압력선도로 상태 대조)</p></div><div class="sfig"><figure class="fig" id="f-E21-09-14">
+<p class="main">연료전지·호랑에서 Pump Trip이 발생한 경우이다.</p></div><div class="sfig"><figure class="fig" id="f-E21-09-14">
 <button class="zoom" type="button" data-fig="E21-09" aria-label="그림 E21-09 확대 보기">
 <img data-src-id="E21-09" alt="그림 E21-09 압력선도 — 연료전지&amp;호랑 Pump Trip 발생" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
 <figcaption><b class="fno">그림 E21-09</b>
@@ -572,7 +579,7 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 <span class="ftitle">학익가압장 펌프 계통 화면 — 리턴측 Bypass Open</span>
 </figcaption></figure></div></li><li class="step" id="s-66">
 <div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="onum">나-3</span></div>
-<p class="main">연료전지·호랑의 <strong class="kw">리턴 압력 감소</strong>와 <strong class="kw">Pump Trip</strong>을 확인한다.</p><div class="sub">확인 항목: 연료전지 리턴 압력 <span class="tg">PIT-3501</span> / 호랑 리턴 압력 <span class="tg">PIT-201</span> (그림 E21-06, 07)</div></div>
+<p class="main">연료전지·호랑의 <strong class="kw">리턴 압력 감소</strong>와 <strong class="kw">Pump Trip</strong>을 확인한다.</p></div>
 <div class="sfig"><div class="refs"><span class="flab">참조 그림</span><figure class="fig" id="f-E21-06-64">
 <button class="zoom" type="button" data-fig="E21-06" aria-label="그림 E21-06 확대 보기">
 <img data-src-id="E21-06" alt="그림 E21-06 연료전지 화면 — 리턴 압력·DH RETURN PUMP" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
@@ -588,7 +595,7 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 <p class="main"><strong class="kw">외부 열원</strong>에 연락하여 상황을 공유한다.</p></div>
 <div class="sfig"></div></li></ol><div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기</div><div class="brs"><section class="branch br-a"><header><span class="bl">분기 A</span><h4>연료전지·호랑 Pump Trip이 <u>발생한</u> 경우</h4><p></p></header>
 <ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="onum">다</span></div>
-<p class="main">연료전지·호랑에서 Pump Trip이 발생한 경우이다. (압력선도로 상태 대조)</p></div><div class="sfig"><figure class="fig" id="f-E21-24-68">
+<p class="main">연료전지·호랑에서 Pump Trip이 발생한 경우이다.</p></div><div class="sfig"><figure class="fig" id="f-E21-24-68">
 <button class="zoom" type="button" data-fig="E21-24" aria-label="그림 E21-24 확대 보기">
 <img data-src-id="E21-24" alt="그림 E21-24 압력선도 — 연료전지&amp;호랑 Pump Trip 발생" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
 <figcaption><b class="fno">그림 E21-24</b>
@@ -629,7 +636,7 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 <span class="ftitle">H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span>
 </figcaption></figure></div></div></li></ol></section><section class="branch br-b"><header><span class="bl">분기 B</span><h4>연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우</h4><p></p></header>
 <ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="onum">라</span></div>
-<p class="main">외부 열원 유량 감소 상황이며 연료전지·호랑 Pump Trip은 발생하지 않았다. (압력선도로 상태 대조)</p></div><div class="sfig"><figure class="fig" id="f-E21-26-77">
+<p class="main">외부 열원 유량 감소 상황이며 연료전지·호랑 Pump Trip은 발생하지 않았다.</p></div><div class="sfig"><figure class="fig" id="f-E21-26-77">
 <button class="zoom" type="button" data-fig="E21-26" aria-label="그림 E21-26 확대 보기">
 <img data-src-id="E21-26" alt="그림 E21-26 압력선도 — 유량 850ton 수준" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
 <figcaption><b class="fno">그림 E21-26</b>
