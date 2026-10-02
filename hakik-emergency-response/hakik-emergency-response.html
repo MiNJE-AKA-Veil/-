@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>학익가압장 운전 비상상황 대응절차 설명자료</title>
-<meta name="description" content="학익가압장 운전 비상상황 대응절차(운영(운)-절차-E21)를 운전원이 이해하기 쉽게 재구성하고 운전화면을 본문과 대조할 수 있게 만든 설명자료">
+<meta name="description" content="학익가압장 운전 비상상황 대응절차 설명자료">
 <style>:root{
   --bg:#f4f6f8;--surface:#ffffff;--ink:#1c2733;--muted:#566474;--line:#d5dce3;
   --brand:#1f5f7a;--brand-soft:#e3f0f5;--accent:#8a5a00;
@@ -237,35 +237,32 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 .totop{position:fixed;right:14px;bottom:14px;z-index:60;background:var(--brand);color:#fff;border-radius:999px;padding:8px 16px;text-decoration:none;font-weight:700;box-shadow:var(--shadow);display:none}
 @media (max-width:980px){#toc{position:static}.totop{display:block}html{scroll-padding-top:12px}}
 @media print{.totop{display:none!important}.step:not(.sit) .stxt{position:static}.cmpbox{break-inside:avoid}}
+.cpg:empty,.branch header p:empty{display:none}
 </style></head><body>
 <a class="skip" href="#s2">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
 <nav id="toc" aria-label="목차"><div class="navin"><a class="brand" href="#top">학익가압장 비상상황 대응</a>
 <ul class="navl"><li><a href="#s2">① 계통·설비</a></li><li><a href="#s3">② 정상 상태·기준값</a></li><li><a href="#s4">③ 보직별 조치</a></li><li><a href="#s5">④ 상황별 대응</a></li><li><a href="#s6">⑤ 비교표</a></li></ul>
 <ul class="casel" aria-label="Case 바로가기"><li><a href="#case-1-1">1.1 공급·회수 동시</a></li><li><a href="#case-1-2">1.2 공급</a></li><li><a href="#case-1-3">1.3 리턴</a></li><li><a href="#case-2-1">2.1 연료전지·호랑</a></li><li><a href="#case-2-2">2.2 SK IPC</a></li></ul>
-<div class="tools"><button id="btnOrig" type="button">원문 문장 모두 펼치기</button><button id="btnPrint" type="button">인쇄 / PDF</button></div></div></nav>
+<div class="tools"><button id="btnPrint" type="button">인쇄 / PDF</button></div></div></nav>
 <main id="top">
-<header class="hero"><p class="eyebrow">운전원 교육용 설명자료 · 원문 재구성본</p><h1>학익가압장 운전 비상상황 대응절차</h1>
-<p class="sub">펌프 Trip 상황별로 “무엇을 확인하고, 무엇을 조작하며, 언제 재개하는지”를 원문 순서 그대로 따라가고, 해당 운전화면을 바로 옆에서 대조합니다.</p>
-<dl class="meta"><div><dt>문서</dt><dd>비상대응 절차서 · 학익가압장 운전 비상상황 대응절차</dd></div><div><dt>지침번호</dt><dd>운영(운)-절차-E21</dd></div><div><dt>발행일자(표지)</dt><dd>2026. 09</dd></div><div><dt>개정</dt><dd>개정번호 0 · 2026.09 · 제정</dd></div><div><dt>총 페이지(원문)</dt><dd>29</dd></div><div><dt>발행</dt><dd>인천종합에너지(주) (INTECO)</dd></div></dl>
-<div class="notice"><b>이 자료는 원문을 재구성한 설명자료입니다.</b> 운전 조작·수치·밸브 상태·순서는 원문 절차서(운영(운)-절차-E21)가 기준이며, 본 자료의 설명 문장은 이해를 돕기 위해 정리한 것입니다. 파일명의 날짜는 공식 개정일로 사용하지 않았고, 표지에 적힌 “발행일자 2026. 09 / 개정번호 0(제정)”만 표시했습니다.
-<div class="legend"><span class="kind k-chk">확인</span> 보기만 하는 단계 <span class="kind k-op">조작</span> 설비를 조작하는 단계 <span class="kind k-tell">연락·공유</span> <span class="kind k-go">재개</span> <span class="tg">PP-003</span> 기기 태그 <span class="vl">850[ton/hr]</span> 수치·단위 <span class="vo">Open</span><span class="vc">Close</span> 밸브 상태</div></div>
+<header class="hero"><p class="eyebrow">운전원 교육용 설명자료</p><h1>학익가압장 운전 비상상황 대응절차</h1>
 </header>
 
 <section id="s2" class="sec"><h2><span class="no">①</span> 계통 이해 및 주요 설비·계측점</h2>
-<article class="card"><h3>원문이 설명하는 계통의 기본</h3><ul class="plain">
-<li>정상 운전 중 학익가압장은 <strong class="kw">공급측과 회수(리턴)측에 각각 펌프 양정을 추가</strong>하고 있다. (E21.4.1)</li>
+<article class="card"><h3>계통의 기본</h3><ul class="plain">
+<li>정상 운전 중 학익가압장은 <strong class="kw">공급측과 회수(리턴)측에 각각 펌프 양정을 추가</strong>하고 있다.</li>
 <li>공급측 Bypass는 <span class="tg">HV-9715</span>, 리턴측 Bypass는 <span class="tg">HV-9708</span>이다.</li>
-<li>“SK IPC, 연료전지 및 호랑”은 이하 <strong class="kw">“외부 열원”</strong>이라 한다. (E21.4.1)</li>
-<li>Case는 두 갈래이다: <b>Case 1</b> 학익가압장 펌프 Trip (원문 p.4–17) / <b>Case 2</b> 외부 열원 또는 연료전지 펌프 Trip (원문 p.18–22).</li></ul></article>
-<article class="card"><h3>E21.4.1 개요 (정리)</h3><ol class="plain">
+<li>“SK IPC, 연료전지 및 호랑”은 이하 <strong class="kw">“외부 열원”</strong>이라 한다.</li>
+<li>Case는 두 갈래이다: <b>Case 1</b> 학익가압장 펌프 Trip / <b>Case 2</b> 외부 열원 또는 연료전지 펌프 Trip.</li></ul></article>
+<article class="card"><h3>학익가압장 펌프 Trip 개요</h3><ol class="plain">
 <li>공급 펌프와 회수 펌프가 Trip 상태가 되면 <strong class="kw">즉시 <span class="tg">HV-9715</span>/<span class="tg">HV-9708</span> Open 상태를 확인</strong>한다.</li>
 <li>Open 상태가 확인되면 CN H/E <span class="tg">PIT-9334</span>(INT Hot Dis), <span class="tg">PIT-3501</span>(Fuel cell Re’ Pr’)을 확인하여 <span class="tg">PIT-9334</span>는 <span class="vl">10[kg/㎠]</span>, <span class="tg">PIT-3501</span>은 <span class="vl">2.5-3.5[kg/㎠]</span> 수준으로 압력을 조정한다.</li>
 <li>기존 가압 펌프를 이용해 토출되던 유량 <span class="tg">FIT-9338</span>(CN INTECO COLD)과 INTECO FLOW RATE가 감소했는지 확인한다.</li>
 <li>학익가압장 기동 전 수준(INTECO FLOW RATE 약 <span class="vl">850[ton/hr]</span>)으로 조정한다.</li>
 <li>공급 열량에 변화가 생긴 외부 수열원(SK IPC&amp;연료전지&amp;호랑)에 연락해 상황을 공유하고, 수열량을 조정하여 설비를 안정화한 뒤 학익가압장을 정상화하고 재개한다.</li></ol>
-<p class="fnote">공통 조건(원문): CN H/E Flow <span class="vl">750[ton/hr]</span>, 연료전지&amp;호랑 <span class="vl">630[ton/hr]</span></p></article>
-<article class="card"><h3>주요 설비·계측점 한눈에 (원문에 나온 것만)</h3>
-<div class="tw"><table class="tbl"><thead><tr><th scope="col">태그</th><th scope="col">원문상 대상</th><th scope="col">원문 표기·위치</th><th scope="col">용도·상태</th></tr></thead><tbody><tr><th scope="row"><span class="tg">PP-003</span></th><td>공급(가압) 펌프</td><td>“공급 펌프(PP-003)”, “가압 펌프(PP-003)”</td><td>Case 1.1~1.3, 2.1, 2.2</td></tr><tr><th scope="row"><span class="tg">PP-001</span></th><td>리턴(회수) 가압 펌프</td><td>“리턴 펌프(PP-001)”, “리턴 가압 펌프(PP-001)”</td><td>Case 1.1~1.3, 2.1, 2.2</td></tr><tr><th scope="row"><span class="tg">PP-002</span></th><td>Spare 펌프</td><td>Case 1.2 나-6 “Spare 펌프(PP-002)”</td><td>Case 1.2 (그림 E21-04에도 표기)</td></tr><tr><th scope="row"><span class="tg">HV-9715</span></th><td>공급측 Bypass</td><td>“HV-9715(공급측 Bypass)”</td><td>Case 1.1·1.2 Open, 1.2 나-7 Close, 2.x Flow Chart</td></tr><tr><th scope="row"><span class="tg">HV-9708</span></th><td>리턴측 Bypass</td><td>“HV-9708(리턴측 Bypass)”</td><td>Case 1.1·1.3 Open, 1.3 라-4 Close, 2.x Flow Chart</td></tr><tr><th scope="row"><span class="tg">HV-9703 · HV-9715</span></th><td>Spare 펌프(PP-002) 가동 전 Open 확인</td><td>Case 1.2 나-6</td><td>Open</td></tr><tr><th scope="row"><span class="tg">HV-9704 · HV-9717</span></th><td>Spare 펌프(PP-002) 가동 전 Close 확인</td><td>Case 1.2 나-6</td><td>Close</td></tr><tr><th scope="row"><span class="tg">PIT-9334</span></th><td>CN H/E 공급 압력 (INT Hot Dis)</td><td>E21.4.1·4.2, Case 1.1 나-2, 1.2 나-3</td><td>조정 수준 10[kg/㎠]</td></tr><tr><th scope="row"><span class="tg">FIT-9338</span></th><td>CN H/E 유량 (E21.4.1 CN INTECO COLD / E21.4.2 INT CN COLD)</td><td>“기존에 토출되던 유량”</td><td>감소 여부 확인</td></tr><tr><th scope="row"><span class="tg">PIT-3501</span></th><td>연료전지 리턴 압력 (Fuel cell Re’ Pr’)</td><td>E21.4.1·4.2, Case 1.1 나-3, 1.3 나-3, 2.x</td><td>조정 수준 2.5-3.5[kg/㎠]</td></tr><tr><th scope="row"><span class="tg">PIT-201</span></th><td>호랑 리턴 압력</td><td>Case 1.1 나-3, 1.3 나-3, 2.x</td><td>리턴 압력 확인</td></tr><tr><th scope="row"><span class="tg">INTECO FLOW RATE</span></th><td>그림 E21-01 화면의 INTECO FLOW RATE(RECEIVE)</td><td>정상 1380[ton/hr] → 재개 시점 850[ton/hr] 수준</td><td>단위 표기</td></tr><tr><th scope="row"><span class="tg">Mean Pr</span></th><td>원문 표기 “Mean Pr”(약어 풀이 없음)</td><td>“Mean Pr 기준 5.5[kg/㎠]”</td><td>압력 조정 기준</td></tr><tr><th scope="row"><span class="tg">CP-4</span></th><td>구도심 역차압·차압 확인 항목</td><td>Case 1.3, 2.1, 2.2, ACO “고시외 … (CP-4)”</td><td>명칭</td></tr><tr><th scope="row"><span class="tg">P-402-10A/B/C</span></th><td>SK IPC 펌프(그림 E21-31 (B) 화면 표기)</td><td>Case 2.2 나-1</td><td>기동 상태 확인</td></tr></tbody></table></div>
+<p class="fnote">공통 조건: CN H/E Flow <span class="vl">750[ton/hr]</span>, 연료전지&amp;호랑 <span class="vl">630[ton/hr]</span></p></article>
+<article class="card"><h3>주요 설비·계측점 한눈에</h3>
+<div class="tw"><table class="tbl"><thead><tr><th scope="col">태그</th><th scope="col">대상</th><th scope="col">표기·위치</th><th scope="col">용도·상태</th></tr></thead><tbody><tr><th scope="row"><span class="tg">PP-003</span></th><td>공급(가압) 펌프</td><td>“공급 펌프(PP-003)”, “가압 펌프(PP-003)”</td><td>Case 1.1~1.3, 2.1, 2.2</td></tr><tr><th scope="row"><span class="tg">PP-001</span></th><td>리턴(회수) 가압 펌프</td><td>“리턴 펌프(PP-001)”, “리턴 가압 펌프(PP-001)”</td><td>Case 1.1~1.3, 2.1, 2.2</td></tr><tr><th scope="row"><span class="tg">PP-002</span></th><td>Spare 펌프</td><td>Case 1.2 나-6 “Spare 펌프(PP-002)”</td><td>Case 1.2 (그림 E21-04에도 표기)</td></tr><tr><th scope="row"><span class="tg">HV-9715</span></th><td>공급측 Bypass</td><td>“HV-9715(공급측 Bypass)”</td><td>Case 1.1·1.2 Open, 1.2 나-7 Close, 2.x Flow Chart</td></tr><tr><th scope="row"><span class="tg">HV-9708</span></th><td>리턴측 Bypass</td><td>“HV-9708(리턴측 Bypass)”</td><td>Case 1.1·1.3 Open, 1.3 라-4 Close, 2.x Flow Chart</td></tr><tr><th scope="row"><span class="tg">HV-9703 · HV-9715</span></th><td>Spare 펌프(PP-002) 가동 전 Open 확인</td><td>Case 1.2 나-6</td><td>Open</td></tr><tr><th scope="row"><span class="tg">HV-9704 · HV-9717</span></th><td>Spare 펌프(PP-002) 가동 전 Close 확인</td><td>Case 1.2 나-6</td><td>Close</td></tr><tr><th scope="row"><span class="tg">PIT-9334</span></th><td>CN H/E 공급 압력 (INT Hot Dis)</td><td>E21.4.1·4.2, Case 1.1 나-2, 1.2 나-3</td><td>조정 수준 10[kg/㎠]</td></tr><tr><th scope="row"><span class="tg">FIT-9338</span></th><td>CN H/E 유량 (E21.4.1 CN INTECO COLD / E21.4.2 INT CN COLD)</td><td>“기존에 토출되던 유량”</td><td>감소 여부 확인</td></tr><tr><th scope="row"><span class="tg">PIT-3501</span></th><td>연료전지 리턴 압력 (Fuel cell Re’ Pr’)</td><td>E21.4.1·4.2, Case 1.1 나-3, 1.3 나-3, 2.x</td><td>조정 수준 2.5-3.5[kg/㎠]</td></tr><tr><th scope="row"><span class="tg">PIT-201</span></th><td>호랑 리턴 압력</td><td>Case 1.1 나-3, 1.3 나-3, 2.x</td><td>리턴 압력 확인</td></tr><tr><th scope="row"><span class="tg">INTECO FLOW RATE</span></th><td>그림 E21-01 화면의 INTECO FLOW RATE(RECEIVE)</td><td>정상 1380[ton/hr] → 재개 시점 850[ton/hr] 수준</td><td>단위 표기</td></tr><tr><th scope="row"><span class="tg">Mean Pr</span></th><td>“Mean Pr”</td><td>“Mean Pr 기준 5.5[kg/㎠]”</td><td>압력 조정 기준</td></tr><tr><th scope="row"><span class="tg">CP-4</span></th><td>구도심 역차압·차압 확인 항목</td><td>Case 1.3, 2.1, 2.2, ACO “고시외 … (CP-4)”</td><td>명칭</td></tr><tr><th scope="row"><span class="tg">P-402-10A/B/C</span></th><td>SK IPC 펌프(그림 E21-31 (B) 화면 표기)</td><td>Case 2.2 나-1</td><td>기동 상태 확인</td></tr></tbody></table></div>
 <p class="fnote">회수/리턴: Case 제목은 “공급·회수”, 본문은 “공급·리턴”이며 같은 펌프(PP-003, 001)를 가리킵니다.</p></article>
 <article class="card"><h3>계통 화면 모아보기</h3><p class="fnote">각 Case의 단계 옆에서 다시 보여주는 화면입니다. 눌러서 확대하세요.</p><div class="rg wide"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
 <img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button><button class="rth" type="button" data-fig="E21-04" title="학익가압장 펌프 계통 화면(화면번호 2951) — Trip 확인">
@@ -279,415 +276,415 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 <img data-src-id="E21-31-B" alt="" loading="lazy"><span><b>그림 E21-31</b> (B)<br>SK INCHEON H/E SYSTEM(2894) 화면 — SK IPC 펌프</span></button></div></article>
 </section>
 
-<section id="s3" class="sec"><h2><span class="no">②</span> 정상 운전 상태와 원문상 주요 기준값</h2>
-<div class="notice amber"><b>원문에는 Trip 설정값이 없습니다.</b> 아래 수치는 원문이 “정상 운전 상태”, “조정 수준·기준”, “재개 시점”으로 적은 값이며, 새로운 운전 기준이나 Trip 설정값으로 확대 해석하지 않았습니다.</div>
-<div class="tw"><table class="tbl"><thead><tr><th scope="col">구분</th><th scope="col">항목</th><th scope="col">원문 값</th><th scope="col">원문 위치</th><th scope="col">성격</th></tr></thead><tbody><tr><td>정상 운전 상태</td><td>INTECO FLOW RATE</td><td class="num"><span class="vl">1380[ton/hr]</span></td><td>Case 1.1~2.2 “가. 정상 운전”, Flow Chart [t/h]</td><td><span class="ty">정상 운전 상태 예시</span></td></tr><tr><td>원문 “공통 조건”</td><td>CN H/E Flow / 연료전지&호랑</td><td class="num"><span class="vl">750[ton/hr]</span> / <span class="vl">630[ton/hr]</span></td><td>E21.4.1</td><td><span class="ty">원문 명칭 그대로(성격 미정의)</span></td></tr><tr><td>압력 조정 수준</td><td><span class="tg">PIT-9334</span></td><td class="num"><span class="vl">10[kg/㎠]</span> 수준</td><td>E21.4.1 · E21.4.2</td><td><span class="ty">조정 기준 (Trip 설정값 아님)</span></td></tr><tr><td>압력 조정 수준</td><td><span class="tg">PIT-3501</span></td><td class="num"><span class="vl">2.5-3.5[kg/㎠]</span> 수준</td><td>E21.4.1 · E21.4.2</td><td><span class="ty">조정 기준 (Trip 설정값 아님)</span></td></tr><tr><td>압력 조정 기준</td><td><span class="tg">Mean Pr</span></td><td class="num"><span class="vl">5.5[kg/㎠]</span></td><td>Case 1.1~1.3 “Mean Pr 기준”</td><td><span class="ty">조정 기준</span></td></tr><tr><td>유량 조정 수준</td><td>학익가압장 기동 전 수준 (INTECO FLOW RATE)</td><td class="num">약 <span class="vl">850[ton/hr]</span></td><td>E21.4.1</td><td><span class="ty">조정 기준</span></td></tr><tr><td>재개 조건</td><td>학익가압장 정상화 + INTECO FLOW RATE</td><td class="num"><span class="vl">850[ton/hr]</span> 수준</td><td>Case 1.1 다-3·라-3, Flow Chart [t/h]</td><td><span class="ty">재개 시점</span></td></tr><tr><td>감량 요청 시 기준</td><td>Mean Pr / INTECO FLOW RATE</td><td class="num"><span class="vl">5.5[kg/㎠]</span> / <span class="vl">850[ton/hr]</span> 수준</td><td>Case 1.2 나-4, Case 1.3 다-3</td><td><span class="ty">조정 기준</span></td></tr></tbody></table></div>
+<section id="s3" class="sec"><h2><span class="no">②</span> 정상 운전 상태와 주요 기준값</h2>
+<div class="notice amber">아래 수치는 정상 운전 상태, 조정 수준·기준, 재개 시점으로 정리한 값이며 <b>Trip 설정값이 아닙니다.</b></div>
+<div class="tw"><table class="tbl"><thead><tr><th scope="col">구분</th><th scope="col">항목</th><th scope="col">값</th><th scope="col">위치</th><th scope="col">성격</th></tr></thead><tbody><tr><td>정상 운전 상태</td><td>INTECO FLOW RATE</td><td class="num"><span class="vl">1380[ton/hr]</span></td><td>Case 1.1~2.2 “가. 정상 운전”, Flow Chart [t/h]</td><td><span class="ty">정상 운전 상태 예시</span></td></tr><tr><td>“공통 조건”</td><td>CN H/E Flow / 연료전지&호랑</td><td class="num"><span class="vl">750[ton/hr]</span> / <span class="vl">630[ton/hr]</span></td><td>E21.4.1</td><td><span class="ty">“공통 조건”으로 표기</span></td></tr><tr><td>압력 조정 수준</td><td><span class="tg">PIT-9334</span></td><td class="num"><span class="vl">10[kg/㎠]</span> 수준</td><td>E21.4.1 · E21.4.2</td><td><span class="ty">조정 기준 (Trip 설정값 아님)</span></td></tr><tr><td>압력 조정 수준</td><td><span class="tg">PIT-3501</span></td><td class="num"><span class="vl">2.5-3.5[kg/㎠]</span> 수준</td><td>E21.4.1 · E21.4.2</td><td><span class="ty">조정 기준 (Trip 설정값 아님)</span></td></tr><tr><td>압력 조정 기준</td><td><span class="tg">Mean Pr</span></td><td class="num"><span class="vl">5.5[kg/㎠]</span></td><td>Case 1.1~1.3 “Mean Pr 기준”</td><td><span class="ty">조정 기준</span></td></tr><tr><td>유량 조정 수준</td><td>학익가압장 기동 전 수준 (INTECO FLOW RATE)</td><td class="num">약 <span class="vl">850[ton/hr]</span></td><td>E21.4.1</td><td><span class="ty">조정 기준</span></td></tr><tr><td>재개 조건</td><td>학익가압장 정상화 + INTECO FLOW RATE</td><td class="num"><span class="vl">850[ton/hr]</span> 수준</td><td>Case 1.1 다-3·라-3, Flow Chart [t/h]</td><td><span class="ty">재개 시점</span></td></tr><tr><td>감량 요청 시 기준</td><td>Mean Pr / INTECO FLOW RATE</td><td class="num"><span class="vl">5.5[kg/㎠]</span> / <span class="vl">850[ton/hr]</span> 수준</td><td>Case 1.2 나-4, Case 1.3 다-3</td><td><span class="ty">조정 기준</span></td></tr></tbody></table></div>
 
 </section>
 
 <section id="s4" class="sec"><h2><span class="no">③</span> 보직별 점검·조치사항 (E21.3)</h2>
-<p class="fnote">보직 약어(CO, ACO, CLO, DLO)는 원문이 풀어 쓰지 않아 그대로 표기했습니다. 항목은 원문 순서·내용 그대로입니다.</p>
+<p class="fnote">보직 약어(CO, ACO, CLO, DLO)는 풀어 쓰지 않고 그대로 표기했습니다.</p>
 <div class="roles"><article class="role"><header><span class="rid">E21.3.1</span><h3>운영그룹장</h3></header><ul><li>발전설비 및 DH 설비 이상 유무 확인</li><li>열 공급 이상 유무 확인</li><li>운영팀장 및 현재 상태 보고</li><li>발전설비 및 DH 설비 정상화 진행사항 파악</li><li>외부 열원 압력 및 유량 정상화 진행사항 파악</li></ul></article><article class="role"><header><span class="rid">E21.3.2</span><h3>CO</h3></header><ul><li>학익가압장 비상 상황 발생원인 파악</li><li>외부 수열 압력 및 유량 확인, 외부 열원 측 상황 공유</li><li>발전소 공급, 회수 압력 확인</li></ul></article><article class="role"><header><span class="rid">E21.3.3</span><h3>ACO</h3></header><ul><li>학익가압장 펌프 및 Bypass 상태 확인 및 대응</li><li>CN H/E 공급 압력 확인 및 대응(Case 참조)</li><li>연료전지 회수 압력 확인 및 대응(Case 참조)</li><li>지역차압에 추종하여 #5-10 PUMP 부하조정</li><li>원도심 공급, 회수 압력 확인 및 대응</li><li>고시외 공급, 회수 압력 확인 및 대응(CP-4)</li><li>가압장 기동 전, 후 연계유량 변화 확인(급감 또는 역방향 여부)</li><li>외부 열원 펌프 운전 상태 확인 및 대응</li></ul></article><article class="role"><header><span class="rid">E21.3.4</span><h3>CLO</h3></header><ul><li>학익가압장 차단기 Fault 발생 시 Reset 조치(운영그룹장 확인필)</li><li>무전 지시에 따른 현장 상황 대응</li></ul></article><article class="role"><header><span class="rid">E21.3.5</span><h3>DLO</h3></header><ul><li>무전 지시에 따른 현장 상황 대응</li></ul></article></div>
 
 </section>
 
 <section id="s5" class="sec"><h2><span class="no">④</span> 상황별 상세 대응 (E21.4 · E21.5)</h2>
 
-<p class="howto"><b>읽는 법</b> 각 Case는 <b>상황 → 확인 → 조작 → 조건별 분기 → 안정화 확인 → 재개</b> 순으로 원문 순서를 따릅니다. 단계 왼쪽의 큰 번호는 이 자료의 진행 순서, “원문 나-1” 같은 표시는 원문 항목번호입니다. 오른쪽(작은 화면에서는 아래)에는 그 단계에서 대조할 운전화면이 있고, 원문이 “참조”라고만 적은 그림은 작은 카드로 다시 열 수 있습니다.</p>
-<section class="case" id="case-1-1"><header class="chead"><span class="cbadge">Case 1.1</span><h3>공급·회수 펌프 동시 Trip</h3><span class="cpg">원문 p.5–9 · Flow Chart p.23</span></header><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 가</span></div>
-<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 상태이다.</p><details class="orig"><summary>원문 문장</summary><p>정상 운전 INTECO FLOW RATE 1380[ton/hr]상태이다</p></details></div><div class="sfig"><figure class="fig" id="f-E21-02-1">
+<p class="howto"><b>읽는 법</b> 각 Case는 <b>상황 → 확인 → 조작 → 조건별 분기 → 안정화 확인 → 재개</b> 순으로 구성되어 있습니다. 단계 왼쪽의 큰 번호는 진행 순서이고, 오른쪽(작은 화면에서는 아래)에 그 단계에서 볼 운전화면이 있습니다. “참조 그림”은 눌러서 다시 열 수 있습니다.</p>
+<section class="case" id="case-1-1"><header class="chead"><span class="cbadge">Case 1.1</span><h3>공급·회수 펌프 동시 Trip</h3><span class="cpg"></span></header><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">가</span></div>
+<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 상태이다.</p></div><div class="sfig"><figure class="fig" id="f-E21-02-1">
 <button class="zoom" type="button" data-fig="E21-02" aria-label="그림 E21-02 확대 보기">
-<img data-src-id="E21-02" alt="원문 그림 E21-02 압력선도 — 정상 운전 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-02</b> <span class="fpg">원문 p.5</span>
+<img data-src-id="E21-02" alt="그림 E21-02 압력선도 — 정상 운전 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-02</b>
 <span class="ftitle">압력선도 — 정상 운전 상태</span>
-</figcaption></figure><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
-<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 나</span></div>
-<p class="main">학익가압장 <strong class="kw">공급 펌프(<span class="tg">PP-003</span>)와 리턴 펌프(<span class="tg">PP-001</span>)가 동시에 Trip</strong> 한 상황이다.</p><details class="orig"><summary>원문 문장</summary><p>학익가압장 공급, 리턴(PP-003, 001) 펌프 동시 Trip 발생 상황이다.</p></details></div><div class="sfig"><figure class="fig" id="f-E21-03-2">
+</figcaption></figure><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
+<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">나</span></div>
+<p class="main">학익가압장 <strong class="kw">공급 펌프(<span class="tg">PP-003</span>)와 리턴 펌프(<span class="tg">PP-001</span>)가 동시에 Trip</strong> 한 상황이다.</p></div><div class="sfig"><figure class="fig" id="f-E21-03-2">
 <button class="zoom" type="button" data-fig="E21-03" aria-label="그림 E21-03 확대 보기">
-<img data-src-id="E21-03" alt="원문 그림 E21-03 압력선도 — 공급·리턴 펌프(PP-003, 001) 동시 Trip 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-03</b> <span class="fpg">원문 p.5</span>
+<img data-src-id="E21-03" alt="그림 E21-03 압력선도 — 공급·리턴 펌프(PP-003, 001) 동시 Trip 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-03</b>
 <span class="ftitle">압력선도 — 공급·리턴 펌프(PP-003, 001) 동시 Trip 상태</span>
 </figcaption></figure></div></li></ol><ol class="steps"><li class="step" id="s-4">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-1</span></div>
-<p class="main">학익가압장 공급·리턴 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-001</span>)의 <strong class="kw">Trip</strong>을 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>학익 가압장 공급, 리턴 펌프(PP-003, 001) Trip 확인한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">나-1</span></div>
+<p class="main">학익가압장 공급·리턴 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-001</span>)의 <strong class="kw">Trip</strong>을 확인한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-04-3">
 <button class="zoom" type="button" data-fig="E21-04" aria-label="그림 E21-04 확대 보기">
-<img data-src-id="E21-04" alt="원문 그림 E21-04 학익가압장 펌프 계통 화면(화면번호 2951) — Trip 확인" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-04</b> <span class="fpg">원문 p.6</span>
+<img data-src-id="E21-04" alt="그림 E21-04 학익가압장 펌프 계통 화면(화면번호 2951) — Trip 확인" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-04</b>
 <span class="ftitle">학익가압장 펌프 계통 화면(화면번호 2951) — Trip 확인</span>
 </figcaption></figure></div></li><li class="step" id="s-6">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-2</span></div>
-<p class="main">CN H/E <strong class="kw">공급 압력 초과</strong>와 <strong class="kw">유량 변화</strong>를 확인한다.</p><div class="sub">확인 항목: <span class="tg">PIT-9334</span>(압력), <span class="tg">FIT-9338</span>(유량)</div><details class="orig"><summary>원문 문장</summary><p>CN H/E 공급 압력 초과, 유량 변화를 확인한다.(PIT-9334, FIT-9338)</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-chk">확인</span><span class="onum">나-2</span></div>
+<p class="main">CN H/E <strong class="kw">공급 압력 초과</strong>와 <strong class="kw">유량 변화</strong>를 확인한다.</p><div class="sub">확인 항목: <span class="tg">PIT-9334</span>(압력), <span class="tg">FIT-9338</span>(유량)</div></div>
 <div class="sfig"><figure class="fig" id="f-E21-05-5">
 <button class="zoom" type="button" data-fig="E21-05" aria-label="그림 E21-05 확대 보기">
-<img data-src-id="E21-05" alt="원문 그림 E21-05 CN H/E DCS OPERATION(2893) 화면" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-05</b> <span class="fpg">원문 p.6</span>
+<img data-src-id="E21-05" alt="그림 E21-05 CN H/E DCS OPERATION(2893) 화면" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-05</b>
 <span class="ftitle">CN H/E DCS OPERATION(2893) 화면</span>
 </figcaption></figure></div></li><li class="step" id="s-9">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-3</span></div>
-<p class="main">연료전지·호랑의 <strong class="kw">리턴 압력 감소</strong>와 <strong class="kw">Pump Trip</strong>을 확인한다.</p><div class="sub">연료전지: 리턴 압력 <span class="tg">PIT-3501</span> + Pump Trip 확인(그림 E21-06) / 호랑: 리턴 압력 <span class="tg">PIT-201</span> + Pump Trip 확인(그림 E21-07)</div><details class="orig"><summary>원문 문장</summary><p>연료전지&amp;호랑 리턴 압력 감소 및 pump Trip 확인한다. / 연료전지 리턴 압력(PIT-3501)&amp;Pump Trip 확인한다. / 호랑 리턴 압력(PIT-201)&amp;Pump Trip 확인한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum">나-3</span></div>
+<p class="main">연료전지·호랑의 <strong class="kw">리턴 압력 감소</strong>와 <strong class="kw">Pump Trip</strong>을 확인한다.</p><div class="sub">연료전지: 리턴 압력 <span class="tg">PIT-3501</span> + Pump Trip 확인(그림 E21-06) / 호랑: 리턴 압력 <span class="tg">PIT-201</span> + Pump Trip 확인(그림 E21-07)</div></div>
 <div class="sfig"><figure class="fig" id="f-E21-06-7">
 <button class="zoom" type="button" data-fig="E21-06" aria-label="그림 E21-06 확대 보기">
-<img data-src-id="E21-06" alt="원문 그림 E21-06 연료전지 화면 — 리턴 압력·DH RETURN PUMP" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-06</b> <span class="fpg">원문 p.6</span>
+<img data-src-id="E21-06" alt="그림 E21-06 연료전지 화면 — 리턴 압력·DH RETURN PUMP" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-06</b>
 <span class="ftitle">연료전지 화면 — 리턴 압력·DH RETURN PUMP</span>
 </figcaption></figure><figure class="fig" id="f-E21-07-8">
 <button class="zoom" type="button" data-fig="E21-07" aria-label="그림 E21-07 확대 보기">
-<img data-src-id="E21-07" alt="원문 그림 E21-07 호랑 화면 — 리턴 압력·DH RETURN PUMP" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-07</b> <span class="fpg">원문 p.7</span>
+<img data-src-id="E21-07" alt="그림 E21-07 호랑 화면 — 리턴 압력·DH RETURN PUMP" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-07</b>
 <span class="ftitle">호랑 화면 — 리턴 압력·DH RETURN PUMP</span>
 </figcaption></figure></div></li><li class="step" id="s-11">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 나-4</span></div>
-<p class="main">학익가압장 <strong class="kw">공급·리턴 Bypass를 <span class="vo">Open</span></strong> 한다.</p><div class="sub">조작 밸브: <span class="tg">HV-9715</span> (공급측 Bypass) <span class="vo">Open</span> / <span class="tg">HV-9708</span> (리턴측 Bypass) <span class="vo">Open</span></div><details class="orig"><summary>원문 문장</summary><p>학익가압장 공급&amp;리턴 By pass Open한다.(HV-9715, HV-9708)</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-op">조작</span><span class="onum">나-4</span></div>
+<p class="main">학익가압장 <strong class="kw">공급·리턴 Bypass를 <span class="vo">Open</span></strong> 한다.</p><div class="sub">조작 밸브: <span class="tg">HV-9715</span> (공급측 Bypass) <span class="vo">Open</span> / <span class="tg">HV-9708</span> (리턴측 Bypass) <span class="vo">Open</span></div></div>
 <div class="sfig"><figure class="fig" id="f-E21-08-10">
 <button class="zoom" type="button" data-fig="E21-08" aria-label="그림 E21-08 확대 보기">
-<img data-src-id="E21-08" alt="원문 그림 E21-08 학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-08</b> <span class="fpg">원문 p.7</span>
+<img data-src-id="E21-08" alt="그림 E21-08 학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-08</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open</span>
 </figcaption></figure></div></li><li class="step" id="s-12">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-tell">연락·공유</span><span class="onum" title="원문 항목번호">원문 나-5</span></div>
-<p class="main"><strong class="kw">외부 열원</strong>에 연락하여 상황을 공유한다.</p><details class="orig"><summary>원문 문장</summary><p>외부열원에 연락하여 상황을 공유한다.</p></details></div>
-<div class="sfig"></div></li></ol><div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기 (원문 다 / 라)</div><div class="brs"><section class="branch br-a"><header><span class="bl">분기 A</span><h4>연료전지·호랑 Pump Trip이 <u>발생한</u> 경우</h4><p>원문 「다」 항목 — 연료전지&호랑 Pump Trip 발생 경우</p></header>
-<ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 다</span></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-tell">연락·공유</span><span class="onum">나-5</span></div>
+<p class="main"><strong class="kw">외부 열원</strong>에 연락하여 상황을 공유한다.</p></div>
+<div class="sfig"></div></li></ol><div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기</div><div class="brs"><section class="branch br-a"><header><span class="bl">분기 A</span><h4>연료전지·호랑 Pump Trip이 <u>발생한</u> 경우</h4><p></p></header>
+<ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">다</span></div>
 <p class="main">연료전지·호랑에서 Pump Trip이 발생한 경우이다. (압력선도로 상태 대조)</p></div><div class="sfig"><figure class="fig" id="f-E21-09-13">
 <button class="zoom" type="button" data-fig="E21-09" aria-label="그림 E21-09 확대 보기">
-<img data-src-id="E21-09" alt="원문 그림 E21-09 압력선도 — 연료전지&amp;호랑 Pump Trip 발생" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-09</b> <span class="fpg">원문 p.7</span>
+<img data-src-id="E21-09" alt="그림 E21-09 압력선도 — 연료전지&amp;호랑 Pump Trip 발생" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-09</b>
 <span class="ftitle">압력선도 — 연료전지&amp;호랑 Pump Trip 발생</span>
 </figcaption></figure></div></li><li class="step" id="s-15">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 다-1</span></div>
-<p class="main">외부 열원 <strong class="kw">유량 감소</strong>를 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>외부열원 유량 감소를 확인한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">다-1</span></div>
+<p class="main">외부 열원 <strong class="kw">유량 감소</strong>를 확인한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-10-14">
 <button class="zoom" type="button" data-fig="E21-10" aria-label="그림 E21-10 확대 보기">
-<img data-src-id="E21-10" alt="원문 그림 E21-10 H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-10</b> <span class="fpg">원문 p.8</span>
+<img data-src-id="E21-10" alt="그림 E21-10 H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-10</b>
 <span class="ftitle">H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소</span>
 </figcaption></figure></div></li><li class="step" id="s-17">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 다-2</span></div>
-<p class="main"><strong class="kw">Mean Pr 압력을 조정</strong>한다. (학익가압장 <strong class="kw">기동 전 상태로 회귀</strong>한다.)</p><div class="sub">기준: <span class="tg">Mean Pr</span> <span class="vl">5.5[kg/㎠]</span></div><details class="orig"><summary>원문 문장</summary><p>Mean Pr 압력 조정한다.(학익가압장 기동전 상태로 회귀한다.) &lt;Mean Pr 기준 5.5[kg/㎠]&gt;</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum">다-2</span></div>
+<p class="main"><strong class="kw">Mean Pr 압력을 조정</strong>한다. (학익가압장 <strong class="kw">기동 전 상태로 회귀</strong>한다.)</p><div class="sub">기준: <span class="tg">Mean Pr</span> <span class="vl">5.5[kg/㎠]</span></div></div>
 <div class="sfig"><figure class="fig" id="f-E21-11-16">
 <button class="zoom" type="button" data-fig="E21-11" aria-label="그림 E21-11 확대 보기">
-<img data-src-id="E21-11" alt="원문 그림 E21-11 Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-11</b> <span class="fpg">원문 p.8</span>
+<img data-src-id="E21-11" alt="그림 E21-11 Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-11</b>
 <span class="ftitle">Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span>
 </figcaption></figure></div></li><li class="step" id="s-19">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-go">재개</span><span class="onum" title="원문 항목번호">원문 다-3</span></div>
-<p class="main">외부 열원에 <strong class="kw">정상화 상황을 공유</strong>하고 학익가압장 운전을 <strong class="kw">재개</strong>한다.</p><div class="sub"><b>재개 시점</b>: 학익가압장 정상화, <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</div><details class="orig"><summary>원문 문장</summary><p>외부열원에 정상화 상황을 공유하고 학익가압장 운전을 재개한다. (재개 시점 : 학익가압장 정상화, 1INTECO FLOW RATE 850[ton/hr] 수준)</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-go">재개</span><span class="onum">다-3</span></div>
+<p class="main">외부 열원에 <strong class="kw">정상화 상황을 공유</strong>하고 학익가압장 운전을 <strong class="kw">재개</strong>한다.</p><div class="sub"><b>재개 시점</b>: 학익가압장 정상화, <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</div></div>
 <div class="sfig"><figure class="fig" id="f-E21-12-18">
 <button class="zoom" type="button" data-fig="E21-12" aria-label="그림 E21-12 확대 보기">
-<img data-src-id="E21-12" alt="원문 그림 E21-12 H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-12</b> <span class="fpg">원문 p.8</span>
+<img data-src-id="E21-12" alt="그림 E21-12 H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-12</b>
 <span class="ftitle">H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span>
-</figcaption></figure></div></li></ol></section><section class="branch br-b"><header><span class="bl">분기 B</span><h4>연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우</h4><p>원문 「라」 항목 — 연료전지&호랑 Pump Trip이 발생하지 않은 경우</p></header>
+</figcaption></figure></div></li></ol></section><section class="branch br-b"><header><span class="bl">분기 B</span><h4>연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우</h4><p></p></header>
 <ol class="steps"><li class="step" id="s-20">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 라-1</span></div>
-<p class="main">외부 열원 <strong class="kw">유량 감소 발생</strong>을 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>외부열원 유량 감소 발생을 확인한다. (그림 E21-12 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">라-1</span></div>
+<p class="main">외부 열원 <strong class="kw">유량 감소 발생</strong>을 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
 <img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li><li class="step" id="s-21">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 라-2</span></div>
-<p class="main"><strong class="kw">Mean Pr 압력을 조정</strong>하고 학익가압장 <strong class="kw">기동 전 조건 상태를 준비</strong>한다.</p><div class="sub">기준: <span class="tg">Mean Pr</span> <span class="vl">5.5[kg/㎠]</span></div><details class="orig"><summary>원문 문장</summary><p>Mean Pr 압력 조정하고 학익가압장 기동전 조건 상태 준비한다. &lt;Mean Pr 기준 5.5[kg/㎠]&gt; (그림 E21-11 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum">라-2</span></div>
+<p class="main"><strong class="kw">Mean Pr 압력을 조정</strong>하고 학익가압장 <strong class="kw">기동 전 조건 상태를 준비</strong>한다.</p><div class="sub">기준: <span class="tg">Mean Pr</span> <span class="vl">5.5[kg/㎠]</span></div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button></div></div></div></li><li class="step" id="s-22">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-go">재개</span><span class="onum" title="원문 항목번호">원문 라-3</span></div>
-<p class="main">외부 열원에 <strong class="kw">정상화 상황을 공유</strong>하고 학익가압장 운전을 <strong class="kw">재개</strong>한다.</p><div class="sub"><b>재개 시점</b>: 학익가압장 정상화, <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</div><details class="orig"><summary>원문 문장</summary><p>외부열원에 정상화 상황 공유하고 학익가압장 운전을 재개한다. (그림 E21-12 참조) (재개 시점 : 학익가압장 정상화, 1INTECO FLOW RATE 850[ton/hr] 수준)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
-<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol></section></div><details class="fcd"><summary>원문 E21.5 Flow Chart 보기 (원문 p.23)</summary>
-<div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급·리턴 펌프 동시 Trip 확인<br><span class="tg">PP-003, 001</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">CN H/E 공급 압력 초과·유량 변화 확인<br><span class="tg">PIT-9334, FIT-9338</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지·호랑 리턴 압력 감소 및 Pump Trip 확인<br><span class="tg">PIT-3501, PIT-201</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급·리턴 Bypass Open<br><span class="tg">HV-9715, HV-9708</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 열원에 연락하여 상황 공유</div><div class="fca" aria-hidden="true">↓</div><div class="fcbr"><div class="fcc"><b>연료전지·호랑 Pump Trip 발생</b><p>외부열원 유량 감소 확인</p><p>Mean Pr 조정 – 기동 전 상태로 회귀<br>Mean Pr 5.5[kg/㎠]</p></div><div class="fcc"><b>연료전지·호랑 Pump Trip 미발생</b><p>외부열원 유량 감소 발생 확인</p><p>Mean Pr 조정 – 기동 전 조건 준비<br>Mean Pr 5.5[kg/㎠]</p></div></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 열원에 정상화 상황 공유, 학익가압장 운전 재개<br>INTECO FLOW RATE 850[t/h] 수준</div></div></div></details></section><section class="case" id="case-1-2"><header class="chead"><span class="cbadge">Case 1.2</span><h3>공급 펌프 Trip</h3><span class="cpg">원문 p.10–13 · Flow Chart p.24</span></header><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 가</span></div>
-<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 이다.</p><details class="orig"><summary>원문 문장</summary><p>정상 운전 상태 INTECO FLOW RATE 1380[ton/hr]이다. (그림 E21-01 참조)</p></details></div><div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
-<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 나</span></div>
-<p class="main">학익가압장 <strong class="kw">공급 펌프(<span class="tg">PP-003</span>)가 Trip</strong> 한 상황이다.</p><details class="orig"><summary>원문 문장</summary><p>공급 펌프 Trip 발생 상황이다.</p></details></div><div class="sfig"><figure class="fig" id="f-E21-13-23">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-go">재개</span><span class="onum">라-3</span></div>
+<p class="main">외부 열원에 <strong class="kw">정상화 상황을 공유</strong>하고 학익가압장 운전을 <strong class="kw">재개</strong>한다.</p><div class="sub"><b>재개 시점</b>: 학익가압장 정상화, <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
+<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol></section></div><details class="fcd"><summary>Flow Chart 보기</summary>
+<div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급·리턴 펌프 동시 Trip 확인<br><span class="tg">PP-003, 001</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">CN H/E 공급 압력 초과·유량 변화 확인<br><span class="tg">PIT-9334, FIT-9338</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지·호랑 리턴 압력 감소 및 Pump Trip 확인<br><span class="tg">PIT-3501, PIT-201</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급·리턴 Bypass Open<br><span class="tg">HV-9715, HV-9708</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 열원에 연락하여 상황 공유</div><div class="fca" aria-hidden="true">↓</div><div class="fcbr"><div class="fcc"><b>연료전지·호랑 Pump Trip 발생</b><p>외부열원 유량 감소 확인</p><p>Mean Pr 조정 – 기동 전 상태로 회귀<br>Mean Pr 5.5[kg/㎠]</p></div><div class="fcc"><b>연료전지·호랑 Pump Trip 미발생</b><p>외부열원 유량 감소 발생 확인</p><p>Mean Pr 조정 – 기동 전 조건 준비<br>Mean Pr 5.5[kg/㎠]</p></div></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 열원에 정상화 상황 공유, 학익가압장 운전 재개<br>INTECO FLOW RATE 850[t/h] 수준</div></div></div></details></section><section class="case" id="case-1-2"><header class="chead"><span class="cbadge">Case 1.2</span><h3>공급 펌프 Trip</h3><span class="cpg"></span></header><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">가</span></div>
+<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 이다.</p></div><div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
+<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">나</span></div>
+<p class="main">학익가압장 <strong class="kw">공급 펌프(<span class="tg">PP-003</span>)가 Trip</strong> 한 상황이다.</p></div><div class="sfig"><figure class="fig" id="f-E21-13-23">
 <button class="zoom" type="button" data-fig="E21-13" aria-label="그림 E21-13 확대 보기">
-<img data-src-id="E21-13" alt="원문 그림 E21-13 압력선도 — 공급 펌프 Trip 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-13</b> <span class="fpg">원문 p.10</span>
+<img data-src-id="E21-13" alt="그림 E21-13 압력선도 — 공급 펌프 Trip 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-13</b>
 <span class="ftitle">압력선도 — 공급 펌프 Trip 상태</span>
 </figcaption></figure></div></li></ol><ol class="steps"><li class="step" id="s-25">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-1</span></div>
-<p class="main">공급 펌프(<span class="tg">PP-003</span>)의 <strong class="kw">Trip 발생</strong>을 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>공급 펌프(PP-003) Trip 발생을 확인한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">나-1</span></div>
+<p class="main">공급 펌프(<span class="tg">PP-003</span>)의 <strong class="kw">Trip 발생</strong>을 확인한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-14-24">
 <button class="zoom" type="button" data-fig="E21-14" aria-label="그림 E21-14 확대 보기">
-<img data-src-id="E21-14" alt="원문 그림 E21-14 학익가압장 펌프 계통 화면 — 공급 펌프 Trip" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-14</b> <span class="fpg">원문 p.10</span>
+<img data-src-id="E21-14" alt="그림 E21-14 학익가압장 펌프 계통 화면 — 공급 펌프 Trip" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-14</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 공급 펌프 Trip</span>
 </figcaption></figure></div></li><li class="step" id="s-27">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 나-2</span></div>
-<p class="main"><span class="tg">HV-9715</span>(공급측 Bypass)를 <span class="vo">Open</span> 한다.</p><details class="orig"><summary>원문 문장</summary><p>HV-9715(공급측 By pass) Open한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum">나-2</span></div>
+<p class="main"><span class="tg">HV-9715</span>(공급측 Bypass)를 <span class="vo">Open</span> 한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-15-26">
 <button class="zoom" type="button" data-fig="E21-15" aria-label="그림 E21-15 확대 보기">
-<img data-src-id="E21-15" alt="원문 그림 E21-15 학익가압장 펌프 계통 화면 — 공급측 Bypass Open" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-15</b> <span class="fpg">원문 p.11</span>
+<img data-src-id="E21-15" alt="그림 E21-15 학익가압장 펌프 계통 화면 — 공급측 Bypass Open" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-15</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 공급측 Bypass Open</span>
 </figcaption></figure></div></li><li class="step" id="s-28">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-3</span></div>
-<p class="main">CN H/E <strong class="kw">공급 압력(<span class="tg">PIT-9334</span>) 초과</strong>와 <strong class="kw">유량 변화(<span class="tg">FIT-9338</span>)</strong>를 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>CN H/E 공급 압력(PIT-9334) 초과, 유량 변화(FIT-9338)를 확인한다.(그림 E21-05 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-05" title="CN H/E DCS OPERATION(2893) 화면">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum">나-3</span></div>
+<p class="main">CN H/E <strong class="kw">공급 압력(<span class="tg">PIT-9334</span>) 초과</strong>와 <strong class="kw">유량 변화(<span class="tg">FIT-9338</span>)</strong>를 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-05" title="CN H/E DCS OPERATION(2893) 화면">
 <img data-src-id="E21-05" alt="" loading="lazy"><span><b>그림 E21-05</b><br>CN H/E DCS OPERATION(2893) 화면</span></button></div></div></div></li><li class="step" id="s-29">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-tell">요청</span><span class="onum" title="원문 항목번호">원문 나-4</span></div>
-<p class="main"><strong class="kw">외부 열원에 수열 감량을 요청</strong>한다.</p><div class="sub">기준: <span class="tg">Mean Pr</span> <span class="vl">5.5[kg/㎠]</span>, <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</div><details class="orig"><summary>원문 문장</summary><p>외부 열원 수열 감량 요청한다. (그림 E21-11, 12 참조) &lt;Mean Pr 기준 5.5[kg/㎠], INTECO FLOW RATE 850[ton/hr] 수준&gt;</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-tell">요청</span><span class="onum">나-4</span></div>
+<p class="main"><strong class="kw">외부 열원에 수열 감량을 요청</strong>한다.</p><div class="sub">기준: <span class="tg">Mean Pr</span> <span class="vl">5.5[kg/㎠]</span>, <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
 <img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li><li class="step" id="s-31">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 나-5</span></div>
-<p class="main">가압 펌프(<span class="tg">PP-003</span>)를 <strong class="kw">재가동</strong>한다.</p><details class="orig"><summary>원문 문장</summary><p>가압 펌프(PP-003)를 재가동 한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-op">조작</span><span class="onum">나-5</span></div>
+<p class="main">가압 펌프(<span class="tg">PP-003</span>)를 <strong class="kw">재가동</strong>한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-16-30">
 <button class="zoom" type="button" data-fig="E21-16" aria-label="그림 E21-16 확대 보기">
-<img data-src-id="E21-16" alt="원문 그림 E21-16 학익가압장 펌프 계통 화면 — 가압 펌프 재가동" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-16</b> <span class="fpg">원문 p.11</span>
+<img data-src-id="E21-16" alt="그림 E21-16 학익가압장 펌프 계통 화면 — 가압 펌프 재가동" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-16</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 가압 펌프 재가동</span>
-</figcaption></figure></div></li></ol><div class="bhead">재가동 이후 조건별 경로 (원문 나-6 ~ 나-9)</div>
+</figcaption></figure></div></li></ol><div class="bhead">재가동 이후 조건별 경로 (나-6 ~ 나-9)</div>
 <div class="decide"><div><b>PP-003 재가동 불가 상황</b><br>→ 나-6 Spare 펌프(PP-002) 가동</div><div><b>가동 성공 시</b><br>→ 나-7 가압 실시 + 공급 Bypass(HV-9715) Close</div><div><b>PP-003, 002 가동 가능한 경우</b><br>→ 나-8 외부 열원에 상황 공유·가압 진행</div><div><b>PP-003, 002 가동 불가한 경우</b><br>→ 나-9 외부 열원 유량 감량 확인</div></div><ol class="steps"><li class="step" id="s-33">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="6단계">6</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 나-6</span></div>
-<p class="cond"><b>조건</b>: 펌프 재가동이 불가한 상황일 때</p><p class="main"><strong class="kw">Spare 펌프(<span class="tg">PP-002</span>)를 가동</strong>한다.</p><div class="sub"><b>가동 전 밸브 상태 확인</b>: <span class="tg">HV-9703</span> <span class="vo">Open</span> · <span class="tg">HV-9715</span> <span class="vo">Open</span> / <span class="tg">HV-9704</span> <span class="vc">Close</span> · <span class="tg">HV-9717</span> <span class="vc">Close</span></div><details class="orig"><summary>원문 문장</summary><p>펌프 재가동 불가 상황 시 Spare펌프(PP-002)를 가동한다. (가동전 HV-9703, 9715 Open / HV-9704, 9717 Close를 확인한다.)</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="6단계">6</span><span class="kind k-op">조작</span><span class="onum">나-6</span></div>
+<p class="cond"><b>조건</b>: 펌프 재가동이 불가한 상황일 때</p><p class="main"><strong class="kw">Spare 펌프(<span class="tg">PP-002</span>)를 가동</strong>한다.</p><div class="sub"><b>가동 전 밸브 상태 확인</b>: <span class="tg">HV-9703</span> <span class="vo">Open</span> · <span class="tg">HV-9715</span> <span class="vo">Open</span> / <span class="tg">HV-9704</span> <span class="vc">Close</span> · <span class="tg">HV-9717</span> <span class="vc">Close</span></div></div>
 <div class="sfig"><figure class="fig" id="f-E21-17-32">
 <button class="zoom" type="button" data-fig="E21-17" aria-label="그림 E21-17 확대 보기">
-<img data-src-id="E21-17" alt="원문 그림 E21-17 학익가압장 펌프 계통 화면 — Spare 펌프(PP-002) 가동 전 밸브 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-17</b> <span class="fpg">원문 p.12</span>
+<img data-src-id="E21-17" alt="그림 E21-17 학익가압장 펌프 계통 화면 — Spare 펌프(PP-002) 가동 전 밸브 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-17</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — Spare 펌프(PP-002) 가동 전 밸브 상태</span>
 </figcaption></figure></div></li><li class="step" id="s-35">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="7단계">7</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 나-7</span></div>
-<p class="cond"><b>조건</b>: 가동에 성공했을 때</p><p class="main"><strong class="kw">가압을 실시</strong>하고 공급 Bypass(<span class="tg">HV-9715</span>)를 <span class="vc">Close</span> 한다.</p><details class="orig"><summary>원문 문장</summary><p>가동 성공시 가압을 실시하고 공급 By pass Close한다. (HV-9715)</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="7단계">7</span><span class="kind k-op">조작</span><span class="onum">나-7</span></div>
+<p class="cond"><b>조건</b>: 가동에 성공했을 때</p><p class="main"><strong class="kw">가압을 실시</strong>하고 공급 Bypass(<span class="tg">HV-9715</span>)를 <span class="vc">Close</span> 한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-18-34">
 <button class="zoom" type="button" data-fig="E21-18" aria-label="그림 E21-18 확대 보기">
-<img data-src-id="E21-18" alt="원문 그림 E21-18 학익가압장 펌프 계통 화면 — 공급 Bypass Close" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-18</b> <span class="fpg">원문 p.12</span>
+<img data-src-id="E21-18" alt="그림 E21-18 학익가압장 펌프 계통 화면 — 공급 Bypass Close" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-18</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 공급 Bypass Close</span>
 </figcaption></figure></div></li><li class="step" id="s-36">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="8단계">8</span><span class="kind k-tell">연락·공유</span><span class="onum" title="원문 항목번호">원문 나-8</span></div>
-<p class="cond"><b>조건</b>: 공급 가압 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-002</span>) 가동이 가능한 경우</p><p class="main">외부 열원에 <strong class="kw">상황을 공유</strong>하고 가압을 진행한다. 추가 수열량이 발생하면 <strong class="kw">가압 펌프 Trip 전 상태로 복구</strong>한다.</p><details class="orig"><summary>원문 문장</summary><p>공급 가압 펌프(PP-003, 002) 가동이 가능한 경우 외부열원에 상황을 공유  가압을 진행하고, 추가 수열량이 발생하면 가압 펌프 Trip 전으로 복구한다.(그림 E21-01 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="8단계">8</span><span class="kind k-tell">연락·공유</span><span class="onum">나-8</span></div>
+<p class="cond"><b>조건</b>: 공급 가압 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-002</span>) 가동이 가능한 경우</p><p class="main">외부 열원에 <strong class="kw">상황을 공유</strong>하고 가압을 진행한다. 추가 수열량이 발생하면 <strong class="kw">가압 펌프 Trip 전 상태로 복구</strong>한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
 <img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step" id="s-37">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="9단계">9</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-9</span></div>
-<p class="cond"><b>조건</b>: 공급 가압 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-002</span>) 가동이 불가한 경우</p><p class="main">외부 열원의 <strong class="kw">유량 감량</strong>을 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>공급 가압 펌프(PP-003, 002) 가동이 불가한 경우, 외부열원 유량 감량을 확인한다.(그림 E21-10 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-10" title="H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소">
-<img data-src-id="E21-10" alt="" loading="lazy"><span><b>그림 E21-10</b><br>H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소</span></button></div></div></div></li></ol><div class="bhead">설비 안정화 (원문 다)</div><ol class="steps"><li class="step" id="s-40">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="10단계">10</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 다-1</span></div>
-<p class="main">외부 열원 <strong class="kw">유량 및 Mean Pr을 감소</strong>한다. <span class="nb">필요 시 리턴 가압 펌프(<span class="tg">PP-001</span>)를 증가한다.</span></p><details class="orig"><summary>원문 문장</summary><p>외부열원 유량 및 Mean Pr 감소한다.(그림 E21-11, 12 참조) (필요 시 리턴 가압 펌프(PP-001) 증가한다)</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="9단계">9</span><span class="kind k-chk">확인</span><span class="onum">나-9</span></div>
+<p class="cond"><b>조건</b>: 공급 가압 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-002</span>) 가동이 불가한 경우</p><p class="main">외부 열원의 <strong class="kw">유량 감량</strong>을 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-10" title="H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소">
+<img data-src-id="E21-10" alt="" loading="lazy"><span><b>그림 E21-10</b><br>H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소</span></button></div></div></div></li></ol><div class="bhead">설비 안정화 (다)</div><ol class="steps"><li class="step" id="s-40">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="10단계">10</span><span class="kind k-op">조작</span><span class="onum">다-1</span></div>
+<p class="main">외부 열원 <strong class="kw">유량 및 Mean Pr을 감소</strong>한다. <span class="nb">필요 시 리턴 가압 펌프(<span class="tg">PP-001</span>)를 증가한다.</span></p></div>
 <div class="sfig"><figure class="fig" id="f-E21-19-38">
 <button class="zoom" type="button" data-fig="E21-19" aria-label="그림 E21-19 확대 보기">
-<img data-src-id="E21-19" alt="원문 그림 E21-19 압력선도 — 외부 열원 유량 및 Mean Pr만 감소시킨 경우" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-19</b> <span class="fpg">원문 p.13</span>
+<img data-src-id="E21-19" alt="그림 E21-19 압력선도 — 외부 열원 유량 및 Mean Pr만 감소시킨 경우" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-19</b>
 <span class="ftitle">압력선도 — 외부 열원 유량 및 Mean Pr만 감소시킨 경우</span>
 </figcaption></figure><figure class="fig" id="f-E21-20-39">
 <button class="zoom" type="button" data-fig="E21-20" aria-label="그림 E21-20 확대 보기">
-<img data-src-id="E21-20" alt="원문 그림 E21-20 학익가압장 펌프 계통 화면 — 리턴 가압 펌프(PP-001)" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-20</b> <span class="fpg">원문 p.13</span>
+<img data-src-id="E21-20" alt="그림 E21-20 학익가압장 펌프 계통 화면 — 리턴 가압 펌프(PP-001)" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-20</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 리턴 가압 펌프(PP-001)</span>
-</figcaption></figure><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+</figcaption></figure><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
 <img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li><li class="step" id="s-41">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="11단계">11</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 다-2</span></div>
-<p class="main">CN H/E <strong class="kw">공급 압력 초과 및 유량 변화가 해소</strong>되었는지 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>CN H/E 공급 압력 초과 및 유량 변화가 해소되었는지 확인한다. (그림 E21-05 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-05" title="CN H/E DCS OPERATION(2893) 화면">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="11단계">11</span><span class="kind k-chk">확인</span><span class="onum">다-2</span></div>
+<p class="main">CN H/E <strong class="kw">공급 압력 초과 및 유량 변화가 해소</strong>되었는지 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-05" title="CN H/E DCS OPERATION(2893) 화면">
 <img data-src-id="E21-05" alt="" loading="lazy"><span><b>그림 E21-05</b><br>CN H/E DCS OPERATION(2893) 화면</span></button></div></div></div></li><li class="step" id="s-42">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="12단계">12</span><span class="kind k-go">재개</span><span class="onum" title="원문 항목번호">원문 다-3</span></div>
-<p class="main">외부 열원에 <strong class="kw">내용을 공유</strong>하고 학익가압장 운전을 <strong class="kw">재개</strong>한다.</p><details class="orig"><summary>원문 문장</summary><p>외부열원에 내용을 공유하고 학익가압장 운전을 재개한다. (그림 E21-11, 12 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="12단계">12</span><span class="kind k-go">재개</span><span class="onum">다-3</span></div>
+<p class="main">외부 열원에 <strong class="kw">내용을 공유</strong>하고 학익가압장 운전을 <strong class="kw">재개</strong>한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
-<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol><details class="fcd"><summary>원문 E21.5 Flow Chart 보기 (원문 p.24)</summary>
-<div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급 펌프 Trip 발생 확인<br><span class="tg">PP-003</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb"><span class="tg">HV-9715</span> 공급측 Bypass Open</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">CN H/E 공급 압력 초과·유량 변화 확인<br><span class="tg">PIT-9334, FIT-9338</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 열원 수열 감량 요청<br>Mean Pr 5.5[kg/㎠] · INTECO FLOW RATE 850[t/h] 수준</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">가압 펌프 재가동</div><div class="fca" aria-hidden="true">↓</div><div class="fcbr"><div class="fcc"><b>재가동 성공</b><p>가압 실시 · 공급 Bypass Close</p><p>외부열원에 상황 공유 · 가압 진행</p><p>추가 수열량 발생 시 Trip 전으로 복구</p></div><div class="fcc"><b>재가동 불가</b><p>Spare 펌프 가동<br><span class="tg">PP-002</span>, 가동 시 Line 확인 필</p><p>가동 불가 시 외부열원 유량 감량 확인</p><p>외부열원 유량 및 Mean Pr 감소<br>필요 시 리턴 가압 펌프 증가</p></div></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">CN H/E 공급 압력 초과·유량 변화 해소 확인</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부열원에 내용 공유, 학익가압장 운전 재개</div></div></div></details></section><section class="case" id="case-1-3"><header class="chead"><span class="cbadge">Case 1.3</span><h3>리턴 펌프 Trip</h3><span class="cpg">원문 p.14–17 · Flow Chart p.25</span></header><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 가</span></div>
-<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 이다.</p><details class="orig"><summary>원문 문장</summary><p>정상 운전 상태 1380[ton/hr]이다. (그림 E21-01 참조)</p></details></div><div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
-<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 나</span></div>
-<p class="main">학익가압장 <strong class="kw">리턴 펌프(<span class="tg">PP-001</span>)가 Trip</strong> 한 상태이다.</p><details class="orig"><summary>원문 문장</summary><p>리턴 펌프(PP-001) Trip 발생 상태이다.</p></details></div><div class="sfig"><figure class="fig" id="f-E21-21-43">
+<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol><details class="fcd"><summary>Flow Chart 보기</summary>
+<div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급 펌프 Trip 발생 확인<br><span class="tg">PP-003</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb"><span class="tg">HV-9715</span> 공급측 Bypass Open</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">CN H/E 공급 압력 초과·유량 변화 확인<br><span class="tg">PIT-9334, FIT-9338</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 열원 수열 감량 요청<br>Mean Pr 5.5[kg/㎠] · INTECO FLOW RATE 850[t/h] 수준</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">가압 펌프 재가동</div><div class="fca" aria-hidden="true">↓</div><div class="fcbr"><div class="fcc"><b>재가동 성공</b><p>가압 실시 · 공급 Bypass Close</p><p>외부열원에 상황 공유 · 가압 진행</p><p>추가 수열량 발생 시 Trip 전으로 복구</p></div><div class="fcc"><b>재가동 불가</b><p>Spare 펌프 가동<br><span class="tg">PP-002</span>, 가동 시 Line 확인 필</p><p>가동 불가 시 외부열원 유량 감량 확인</p><p>외부열원 유량 및 Mean Pr 감소<br>필요 시 리턴 가압 펌프 증가</p></div></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">CN H/E 공급 압력 초과·유량 변화 해소 확인</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부열원에 내용 공유, 학익가압장 운전 재개</div></div></div></details></section><section class="case" id="case-1-3"><header class="chead"><span class="cbadge">Case 1.3</span><h3>리턴 펌프 Trip</h3><span class="cpg"></span></header><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">가</span></div>
+<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 이다.</p></div><div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
+<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">나</span></div>
+<p class="main">학익가압장 <strong class="kw">리턴 펌프(<span class="tg">PP-001</span>)가 Trip</strong> 한 상태이다.</p></div><div class="sfig"><figure class="fig" id="f-E21-21-43">
 <button class="zoom" type="button" data-fig="E21-21" aria-label="그림 E21-21 확대 보기">
-<img data-src-id="E21-21" alt="원문 그림 E21-21 압력선도 — 리턴 펌프 Trip 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-21</b> <span class="fpg">원문 p.14</span>
+<img data-src-id="E21-21" alt="그림 E21-21 압력선도 — 리턴 펌프 Trip 상태" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-21</b>
 <span class="ftitle">압력선도 — 리턴 펌프 Trip 상태</span>
 </figcaption></figure></div></li></ol><ol class="steps"><li class="step" id="s-45">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-1</span></div>
-<p class="main">리턴 펌프(<span class="tg">PP-001</span>)의 <strong class="kw">Trip 발생</strong>을 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>리턴 펌프(PP-001) Trip 발생 확인한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">나-1</span></div>
+<p class="main">리턴 펌프(<span class="tg">PP-001</span>)의 <strong class="kw">Trip 발생</strong>을 확인한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-22-44">
 <button class="zoom" type="button" data-fig="E21-22" aria-label="그림 E21-22 확대 보기">
-<img data-src-id="E21-22" alt="원문 그림 E21-22 학익가압장 펌프 계통 화면 — 리턴 펌프 Trip" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-22</b> <span class="fpg">원문 p.14</span>
+<img data-src-id="E21-22" alt="그림 E21-22 학익가압장 펌프 계통 화면 — 리턴 펌프 Trip" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-22</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 리턴 펌프 Trip</span>
 </figcaption></figure></div></li><li class="step" id="s-47">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 나-2</span></div>
-<p class="main"><span class="tg">HV-9708</span>(리턴측 Bypass)를 <span class="vo">Open</span> 한다.</p><details class="orig"><summary>원문 문장</summary><p>HV-9708(리턴측 By pass) Open한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum">나-2</span></div>
+<p class="main"><span class="tg">HV-9708</span>(리턴측 Bypass)를 <span class="vo">Open</span> 한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-23-46">
 <button class="zoom" type="button" data-fig="E21-23" aria-label="그림 E21-23 확대 보기">
-<img data-src-id="E21-23" alt="원문 그림 E21-23 학익가압장 펌프 계통 화면 — 리턴측 Bypass Open" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-23</b> <span class="fpg">원문 p.15</span>
+<img data-src-id="E21-23" alt="그림 E21-23 학익가압장 펌프 계통 화면 — 리턴측 Bypass Open" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-23</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 리턴측 Bypass Open</span>
 </figcaption></figure></div></li><li class="step" id="s-48">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-3</span></div>
-<p class="main">연료전지·호랑의 <strong class="kw">리턴 압력 감소</strong>와 <strong class="kw">Pump Trip</strong>을 확인한다.</p><div class="sub">확인 항목: 연료전지 리턴 압력 <span class="tg">PIT-3501</span> / 호랑 리턴 압력 <span class="tg">PIT-201</span> (그림 E21-06, 07)</div><details class="orig"><summary>원문 문장</summary><p>연료전지&amp;호랑 리턴 압력 감소 및 Pump Trip 확인한다. 연료전지 리턴 압력(PIT-3501)&amp;Pump Trip 확인한다.(그림 E21-06, 07 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-06" title="연료전지 화면 — 리턴 압력·DH RETURN PUMP">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum">나-3</span></div>
+<p class="main">연료전지·호랑의 <strong class="kw">리턴 압력 감소</strong>와 <strong class="kw">Pump Trip</strong>을 확인한다.</p><div class="sub">확인 항목: 연료전지 리턴 압력 <span class="tg">PIT-3501</span> / 호랑 리턴 압력 <span class="tg">PIT-201</span> (그림 E21-06, 07)</div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-06" title="연료전지 화면 — 리턴 압력·DH RETURN PUMP">
 <img data-src-id="E21-06" alt="" loading="lazy"><span><b>그림 E21-06</b><br>연료전지 화면 — 리턴 압력·DH RETURN PUMP</span></button><button class="rth" type="button" data-fig="E21-07" title="호랑 화면 — 리턴 압력·DH RETURN PUMP">
 <img data-src-id="E21-07" alt="" loading="lazy"><span><b>그림 E21-07</b><br>호랑 화면 — 리턴 압력·DH RETURN PUMP</span></button></div></div></div></li><li class="step" id="s-49">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-tell">연락·공유</span><span class="onum" title="원문 항목번호">원문 나-4</span></div>
-<p class="main"><strong class="kw">외부 열원</strong>에 연락하여 상황을 공유한다.</p><details class="orig"><summary>원문 문장</summary><p>외부열원에 연락하여 상황을 공유한다.</p></details></div>
-<div class="sfig"></div></li></ol><div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기 (원문 다 / 라)</div><div class="brs"><section class="branch br-a"><header><span class="bl">분기 A</span><h4>연료전지·호랑 Pump Trip이 <u>발생한</u> 경우</h4><p>원문 「다」 항목 — 연료전지&호랑 Pump Trip 발생 경우</p></header>
-<ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 다</span></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-tell">연락·공유</span><span class="onum">나-4</span></div>
+<p class="main"><strong class="kw">외부 열원</strong>에 연락하여 상황을 공유한다.</p></div>
+<div class="sfig"></div></li></ol><div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기</div><div class="brs"><section class="branch br-a"><header><span class="bl">분기 A</span><h4>연료전지·호랑 Pump Trip이 <u>발생한</u> 경우</h4><p></p></header>
+<ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">다</span></div>
 <p class="main">연료전지·호랑에서 Pump Trip이 발생한 경우이다. (압력선도로 상태 대조)</p></div><div class="sfig"><figure class="fig" id="f-E21-24-50">
 <button class="zoom" type="button" data-fig="E21-24" aria-label="그림 E21-24 확대 보기">
-<img data-src-id="E21-24" alt="원문 그림 E21-24 압력선도 — 연료전지&amp;호랑 Pump Trip 발생" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-24</b> <span class="fpg">원문 p.15</span>
+<img data-src-id="E21-24" alt="그림 E21-24 압력선도 — 연료전지&amp;호랑 Pump Trip 발생" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-24</b>
 <span class="ftitle">압력선도 — 연료전지&amp;호랑 Pump Trip 발생</span>
 </figcaption></figure></div></li><li class="step" id="s-51">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 다-1</span></div>
-<p class="main">외부 열원 <strong class="kw">유량 감소 발생</strong>을 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>외부열원 유량 감소 발생을 확인한다.(그림 E21-10 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-10" title="H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">다-1</span></div>
+<p class="main">외부 열원 <strong class="kw">유량 감소 발생</strong>을 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-10" title="H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소">
 <img data-src-id="E21-10" alt="" loading="lazy"><span><b>그림 E21-10</b><br>H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소</span></button></div></div></div></li><li class="step" id="s-53">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 다-2</span></div>
-<p class="main">학익가압장 <strong class="kw">공급 펌프(<span class="tg">PP-003</span>)를 감소</strong>한다. <span class="nb">(구도심 차압 확보 <span class="tg">CP-4</span>)</span></p><details class="orig"><summary>원문 문장</summary><p>학익가압장 공급펌프(PP-003)를 감소한다.(구도심 차압 확보(CP-4)) (그림 E21-30 참조)</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum">다-2</span></div>
+<p class="main">학익가압장 <strong class="kw">공급 펌프(<span class="tg">PP-003</span>)를 감소</strong>한다. <span class="nb">(구도심 차압 확보 <span class="tg">CP-4</span>)</span></p></div>
 <div class="sfig"><figure class="fig" id="f-E21-25-52">
 <button class="zoom" type="button" data-fig="E21-25" aria-label="그림 E21-25 확대 보기">
-<img data-src-id="E21-25" alt="원문 그림 E21-25 학익가압장 펌프 계통 화면 — 공급 펌프 감소" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-25</b> <span class="fpg">원문 p.16</span>
+<img data-src-id="E21-25" alt="그림 E21-25 학익가압장 펌프 계통 화면 — 공급 펌프 감소" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-25</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 공급 펌프 감소</span>
-</figcaption></figure><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
+</figcaption></figure><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
 <img data-src-id="E21-30" alt="" loading="lazy"><span><b>그림 E21-30</b><br>2621 CRITICAL POINT 화면 — CP-4 구도심 역차압</span></button></div></div></div></li><li class="step" id="s-54">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 다-3</span></div>
-<p class="main"><strong class="kw">Mean Pr 압력을 조정</strong>하고 학익가압장 <strong class="kw">기동 전 조건 상태를 준비</strong>한다.</p><div class="sub">기준: <span class="tg">Mean Pr</span> <span class="vl">5.5[kg/㎠]</span>, <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</div><details class="orig"><summary>원문 문장</summary><p>Mean Pr 압력 조정하고 학익가압장 기동전 조건 상태 준비한다. (그림 E21-11, 12 참조) &lt;Mean Pr 기준 5.5[kg/㎠], INTECO FLOW RATE 850[ton/hr] 수준&gt;</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-op">조작</span><span class="onum">다-3</span></div>
+<p class="main"><strong class="kw">Mean Pr 압력을 조정</strong>하고 학익가압장 <strong class="kw">기동 전 조건 상태를 준비</strong>한다.</p><div class="sub">기준: <span class="tg">Mean Pr</span> <span class="vl">5.5[kg/㎠]</span>, <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
-<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol></section><section class="branch br-b"><header><span class="bl">분기 B</span><h4>연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우</h4><p>원문 「라. 외부열원 유량 감소(연료전지&호랑 Pump Trip 미발생)한다.」</p></header>
-<ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 라</span></div>
-<p class="main">외부 열원 유량 감소 상황이며 연료전지·호랑 Pump Trip은 발생하지 않았다. (압력선도로 상태 대조)</p><details class="orig"><summary>원문 문장</summary><p>외부열원 유량 감소(연료전지&amp;호랑 Pump Trip 미발생)한다. (그림 E21-12 참조)</p></details></div><div class="sfig"><figure class="fig" id="f-E21-26-55">
+<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol></section><section class="branch br-b"><header><span class="bl">분기 B</span><h4>연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우</h4><p></p></header>
+<ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">라</span></div>
+<p class="main">외부 열원 유량 감소 상황이며 연료전지·호랑 Pump Trip은 발생하지 않았다. (압력선도로 상태 대조)</p></div><div class="sfig"><figure class="fig" id="f-E21-26-55">
 <button class="zoom" type="button" data-fig="E21-26" aria-label="그림 E21-26 확대 보기">
-<img data-src-id="E21-26" alt="원문 그림 E21-26 압력선도 — 유량 850ton 수준" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-26</b> <span class="fpg">원문 p.16</span>
+<img data-src-id="E21-26" alt="그림 E21-26 압력선도 — 유량 850ton 수준" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-26</b>
 <span class="ftitle">압력선도 — 유량 850ton 수준</span>
-</figcaption></figure><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
+</figcaption></figure><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
 <img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li><li class="step" id="s-56">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 라-1</span></div>
-<p class="main">외부 열원 <strong class="kw">유량 감소</strong>를 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>외부열원 유량 감소를 확인한다. (그림 E21-12 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">라-1</span></div>
+<p class="main">외부 열원 <strong class="kw">유량 감소</strong>를 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
 <img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li><li class="step" id="s-57">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 라-2</span></div>
-<p class="main">학익가압장 <strong class="kw">공급 펌프(<span class="tg">PP-003</span>)를 감소</strong>한다. <span class="nb">(구도심 차압 확보 <span class="tg">CP-4</span>)</span></p><details class="orig"><summary>원문 문장</summary><p>학익가압장 공급 펌프(PP-003) 감소(구도심 차압 확보(CP-4)) 한다.(그림 E21-25, 30 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-25" title="학익가압장 펌프 계통 화면 — 공급 펌프 감소">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-op">조작</span><span class="onum">라-2</span></div>
+<p class="main">학익가압장 <strong class="kw">공급 펌프(<span class="tg">PP-003</span>)를 감소</strong>한다. <span class="nb">(구도심 차압 확보 <span class="tg">CP-4</span>)</span></p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-25" title="학익가압장 펌프 계통 화면 — 공급 펌프 감소">
 <img data-src-id="E21-25" alt="" loading="lazy"><span><b>그림 E21-25</b><br>학익가압장 펌프 계통 화면 — 공급 펌프 감소</span></button><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
 <img data-src-id="E21-30" alt="" loading="lazy"><span><b>그림 E21-30</b><br>2621 CRITICAL POINT 화면 — CP-4 구도심 역차압</span></button></div></div></div></li><li class="step" id="s-59">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 라-3</span></div>
-<p class="main">학익가압장 <strong class="kw">리턴 펌프(<span class="tg">PP-001</span>)를 기동</strong>하고 <strong class="kw">부하를 증가</strong>한다.</p><details class="orig"><summary>원문 문장</summary><p>학익가압장 리턴 펌프(PP-001) 기동 및 부하 증발한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-op">조작</span><span class="onum">라-3</span></div>
+<p class="main">학익가압장 <strong class="kw">리턴 펌프(<span class="tg">PP-001</span>)를 기동</strong>하고 <strong class="kw">부하를 증가</strong>한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-27-58">
 <button class="zoom" type="button" data-fig="E21-27" aria-label="그림 E21-27 확대 보기">
-<img data-src-id="E21-27" alt="원문 그림 E21-27 학익가압장 펌프 계통 화면 — 리턴 펌프 기동" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-27</b> <span class="fpg">원문 p.17</span>
+<img data-src-id="E21-27" alt="그림 E21-27 학익가압장 펌프 계통 화면 — 리턴 펌프 기동" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-27</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 리턴 펌프 기동</span>
 </figcaption></figure></div></li><li class="step" id="s-61">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 라-4</span></div>
-<p class="main">리턴 펌프(<span class="tg">PP-001</span>) <strong class="kw">기동에 성공</strong>하면 부하를 증가하면서 Bypass Valve(<span class="tg">HV-9708</span>)를 <span class="vc">Close</span> 한다.</p><details class="orig"><summary>원문 문장</summary><p>리턴 펌프(PP-001) 기동 성공 시 부하를 증발하며 BY Pass Valve를 Close(HV-9708)한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-op">조작</span><span class="onum">라-4</span></div>
+<p class="main">리턴 펌프(<span class="tg">PP-001</span>) <strong class="kw">기동에 성공</strong>하면 부하를 증가하면서 Bypass Valve(<span class="tg">HV-9708</span>)를 <span class="vc">Close</span> 한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-28-60">
 <button class="zoom" type="button" data-fig="E21-28" aria-label="그림 E21-28 확대 보기">
-<img data-src-id="E21-28" alt="원문 그림 E21-28 학익가압장 펌프 계통 화면 — 리턴측 Bypass Close" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-28</b> <span class="fpg">원문 p.17</span>
+<img data-src-id="E21-28" alt="그림 E21-28 학익가압장 펌프 계통 화면 — 리턴측 Bypass Close" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-28</b>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 리턴측 Bypass Close</span>
 </figcaption></figure></div></li><li class="step" id="s-62">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-go">재개</span><span class="onum" title="원문 항목번호">원문 라-5</span></div>
-<p class="main">외부 열원에 <strong class="kw">정상화 상황을 공유</strong>하고 학익가압장 운전을 <strong class="kw">재개</strong>한다.</p><details class="orig"><summary>원문 문장</summary><p>외부열원에 정상화 상황 공유하고 학익가압장 운전을 재개한다. (그림 E21-11, 12 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-go">재개</span><span class="onum">라-5</span></div>
+<p class="main">외부 열원에 <strong class="kw">정상화 상황을 공유</strong>하고 학익가압장 운전을 <strong class="kw">재개</strong>한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
-<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol></section></div><details class="fcd"><summary>원문 E21.5 Flow Chart 보기 (원문 p.25)</summary>
-<div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">리턴 펌프 Trip 발생 확인<br><span class="tg">PP-001</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb"><span class="tg">HV-9708</span> 리턴측 Bypass Open</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지·호랑 리턴 압력 감소 및 Pump Trip 확인<br><span class="tg">PIT-3501, PIT-201</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부열원에 연락하여 상황 공유</div><div class="fca" aria-hidden="true">↓</div><div class="fcbr"><div class="fcc"><b>연료전지·호랑 Trip (O)</b><p>외부열원 유량 감소 발생 확인</p><p>공급펌프 감소(<span class="tg">PP-003</span>)<br>구도심 차압 확보(<span class="tg">CP-4</span>)</p><p>Mean Pr 조정 · 기동 전 조건 준비<br>Mean Pr 5.5[kg/㎠]</p></div><div class="fcc"><b>연료전지·호랑 Trip (X)</b><p>외부열원 유량 감소 확인</p><p>공급펌프 감소(<span class="tg">PP-003</span>)<br>구도심 차압 확보(<span class="tg">CP-4</span>)</p><p>리턴 펌프 기동 및 부하 증가(<span class="tg">PP-001</span>)</p><p>기동 성공 시 부하 증가하며<br><span class="tg">HV-9708</span> Bypass Close</p></div></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부열원에 정상화 상황 공유, 학익가압장 운전 재개</div></div></div></details></section><section class="case" id="case-2-1"><header class="chead"><span class="cbadge">Case 2.1</span><h3>연료전지 또는 호랑 펌프 Trip</h3><span class="cpg">원문 p.18–20 · Flow Chart p.26</span></header><div class="ovw"><h4>원문 E21.4.2 개요 (정리)</h4><ul>
+<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol></section></div><details class="fcd"><summary>Flow Chart 보기</summary>
+<div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">리턴 펌프 Trip 발생 확인<br><span class="tg">PP-001</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb"><span class="tg">HV-9708</span> 리턴측 Bypass Open</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지·호랑 리턴 압력 감소 및 Pump Trip 확인<br><span class="tg">PIT-3501, PIT-201</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부열원에 연락하여 상황 공유</div><div class="fca" aria-hidden="true">↓</div><div class="fcbr"><div class="fcc"><b>연료전지·호랑 Trip (O)</b><p>외부열원 유량 감소 발생 확인</p><p>공급펌프 감소(<span class="tg">PP-003</span>)<br>구도심 차압 확보(<span class="tg">CP-4</span>)</p><p>Mean Pr 조정 · 기동 전 조건 준비<br>Mean Pr 5.5[kg/㎠]</p></div><div class="fcc"><b>연료전지·호랑 Trip (X)</b><p>외부열원 유량 감소 확인</p><p>공급펌프 감소(<span class="tg">PP-003</span>)<br>구도심 차압 확보(<span class="tg">CP-4</span>)</p><p>리턴 펌프 기동 및 부하 증가(<span class="tg">PP-001</span>)</p><p>기동 성공 시 부하 증가하며<br><span class="tg">HV-9708</span> Bypass Close</p></div></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부열원에 정상화 상황 공유, 학익가압장 운전 재개</div></div></div></details></section><section class="case" id="case-2-1"><header class="chead"><span class="cbadge">Case 2.1</span><h3>연료전지 또는 호랑 펌프 Trip</h3><span class="cpg"></span></header><div class="ovw"><h4>외부 열원·연료전지 펌프 Trip 개요</h4><ul>
 <li>정상 운전 중 학익가압장은 공급측과 회수측에 각각 펌프 양정을 추가하고 있다.</li>
 <li>외부 열원 또는 연료전지 Pump가 Trip되면 <strong class="kw">즉시 학익가압장 공급·리턴 펌프 가동률을 저하시켜 구도심 차압을 보상</strong>한다.</li>
 <li>CN H/E <span class="tg">PIT-9334</span>(INT Hot Dis)와 <span class="tg">PIT-3501</span>(Fuel cell Re’ Pr’)을 확인하고, <span class="tg">PIT-9334</span>는 <span class="vl">10[kg/㎠]</span>, <span class="tg">PIT-3501</span>은 <span class="vl">2.5-3.5[kg/㎠]</span> 수준으로 압력을 조정한다.</li>
 <li>기존에 토출되던 유량 <span class="tg">FIT-9338</span>(INT CN COLD)과 INTECO FLOW RATE가 감소했는지 확인한다.</li>
 <li>학익가압장 기동 전 수준으로 조정한다.</li>
 <li>외부 수열원에 연락해 상황을 공유하고, 수열량을 조정하여 설비를 안정화한 뒤 학익가압장을 정상화하고 재개한다.</li></ul>
-<p class="ovn">개요는 압력 “조정 수준”을 말하며 Trip 설정값이 아닙니다. E21.4.2는 원문 목차상 Case 2(원문 p.18–22)의 개요입니다. </p></div><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 가</span></div>
-<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 이다.</p><details class="orig"><summary>원문 문장</summary><p>정상 운전 상태 1380[ton/hr]이다. (그림 E21-01 참조)</p></details></div><div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
-<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 나</span></div>
-<p class="main"><strong class="kw">연료전지 또는 호랑에너지의 Pump가 Trip</strong> 한 상황이다.</p><details class="orig"><summary>원문 문장</summary><p>연료전지 또는 호랑에너지 Pump Trip 발생 상황이다.</p></details></div><div class="sfig"><figure class="fig" id="f-E21-29-63">
+</div><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">가</span></div>
+<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 이다.</p></div><div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
+<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">나</span></div>
+<p class="main"><strong class="kw">연료전지 또는 호랑에너지의 Pump가 Trip</strong> 한 상황이다.</p></div><div class="sfig"><figure class="fig" id="f-E21-29-63">
 <button class="zoom" type="button" data-fig="E21-29" aria-label="그림 E21-29 확대 보기">
-<img data-src-id="E21-29" alt="원문 그림 E21-29 압력선도 — 연료전지 또는 호랑에너지 Pump Trip 발생" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-29</b> <span class="fpg">원문 p.19</span>
+<img data-src-id="E21-29" alt="그림 E21-29 압력선도 — 연료전지 또는 호랑에너지 Pump Trip 발생" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-29</b>
 <span class="ftitle">압력선도 — 연료전지 또는 호랑에너지 Pump Trip 발생</span>
 </figcaption></figure></div></li></ol><ol class="steps"><li class="step" id="s-64">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-1</span></div>
-<p class="main">연료전지 또는 호랑의 <strong class="kw">리턴 압력 감소</strong>와 <strong class="kw">Pump Trip</strong>을 확인한다.</p><div class="sub">확인 항목: <span class="tg">PIT-3501</span>, <span class="tg">PIT-201</span></div><details class="orig"><summary>원문 문장</summary><p>연료전지 또는 호랑 리턴 압력 감소 및 pump Trip 확인한다. (PIT-3501, PIT-201) (그림 E21-06, 07 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-06" title="연료전지 화면 — 리턴 압력·DH RETURN PUMP">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">나-1</span></div>
+<p class="main">연료전지 또는 호랑의 <strong class="kw">리턴 압력 감소</strong>와 <strong class="kw">Pump Trip</strong>을 확인한다.</p><div class="sub">확인 항목: <span class="tg">PIT-3501</span>, <span class="tg">PIT-201</span></div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-06" title="연료전지 화면 — 리턴 압력·DH RETURN PUMP">
 <img data-src-id="E21-06" alt="" loading="lazy"><span><b>그림 E21-06</b><br>연료전지 화면 — 리턴 압력·DH RETURN PUMP</span></button><button class="rth" type="button" data-fig="E21-07" title="호랑 화면 — 리턴 압력·DH RETURN PUMP">
 <img data-src-id="E21-07" alt="" loading="lazy"><span><b>그림 E21-07</b><br>호랑 화면 — 리턴 압력·DH RETURN PUMP</span></button></div></div></div></li><li class="step" id="s-65">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-2</span></div>
-<p class="main">외부 수열 <strong class="kw">유량 감소</strong>를 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>외부 수열 유량 감소를 확인한다.(그림 E21-10 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-10" title="H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-chk">확인</span><span class="onum">나-2</span></div>
+<p class="main">외부 수열 <strong class="kw">유량 감소</strong>를 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-10" title="H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소">
 <img data-src-id="E21-10" alt="" loading="lazy"><span><b>그림 E21-10</b><br>H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소</span></button></div></div></div></li><li class="step" id="s-67">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-3</span></div>
-<p class="main"><strong class="kw">구도심 역차압 발생</strong>을 확인한다. (<span class="tg">CP-4</span>)</p><details class="orig"><summary>원문 문장</summary><p>구도심 역차압 발생을 확인한다.(CP-4)</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum">나-3</span></div>
+<p class="main"><strong class="kw">구도심 역차압 발생</strong>을 확인한다. (<span class="tg">CP-4</span>)</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-30-66">
 <button class="zoom" type="button" data-fig="E21-30" aria-label="그림 E21-30 확대 보기">
-<img data-src-id="E21-30" alt="원문 그림 E21-30 2621 CRITICAL POINT 화면 — CP-4 구도심 역차압" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-30</b> <span class="fpg">원문 p.19</span>
+<img data-src-id="E21-30" alt="그림 E21-30 2621 CRITICAL POINT 화면 — CP-4 구도심 역차압" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-30</b>
 <span class="ftitle">2621 CRITICAL POINT 화면 — CP-4 구도심 역차압</span>
 </figcaption></figure></div></li><li class="step" id="s-69">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 나-4</span></div>
-<p class="main">학익가압장 공급·리턴 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-001</span>)의 <strong class="kw">부하를 감소</strong>한다. <strong class="kw">리턴 가압 펌프를 먼저 감소</strong>한다.</p><div class="sub">감소 한도: 학익가압장 <b>초기 기동 조건 상태까지</b> 감소</div><details class="orig"><summary>원문 문장</summary><p>학익가압장 공급, 리턴 펌프(PP-003, 001) 부하 감소(리턴 가압 펌프 먼저감소)한다.(학익가압장 초기 기동 조건 상태까지 감소한다.) ( 그림 E21-11, 12 참조 )</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-op">조작</span><span class="onum">나-4</span></div>
+<p class="main">학익가압장 공급·리턴 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-001</span>)의 <strong class="kw">부하를 감소</strong>한다. <strong class="kw">리턴 가압 펌프를 먼저 감소</strong>한다.</p><div class="sub">감소 한도: 학익가압장 <b>초기 기동 조건 상태까지</b> 감소</div></div>
 <div class="sfig"><figure class="fig" id="f-E21-31-A-68">
 <button class="zoom" type="button" data-fig="E21-31-A" aria-label="그림 E21-31 (A) 확대 보기">
-<img data-src-id="E21-31-A" alt="원문 그림 E21-31 학익가압장 펌프 계통 화면 — 공급·리턴 펌프(PP-003, 001) 부하 감소" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-31</b><span class="iid">내부 ID E21-31-A</span> <span class="fpg">원문 p.20</span>
+<img data-src-id="E21-31-A" alt="그림 E21-31 학익가압장 펌프 계통 화면 — 공급·리턴 펌프(PP-003, 001) 부하 감소" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-31</b><span class="iid">내부 ID E21-31-A</span>
 <span class="ftitle">학익가압장 펌프 계통 화면 — 공급·리턴 펌프(PP-003, 001) 부하 감소</span>
-</figcaption></figure><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+</figcaption></figure><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
 <img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li><li class="step" id="s-70">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 다</span></div>
-<p class="main">학익가압장 <strong class="kw">Bypass Valve를 <span class="vo">Open</span></strong> 한다.</p><div class="sub">Flow Chart 표기 밸브: <span class="tg">HV-9715</span>, <span class="tg">HV-9708</span> (본문에는 태그 미기재)</div><details class="orig"><summary>원문 문장</summary><p>학익가압장 BY Pass Valve 를 Open 한다.(그림 E21-08 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-08" title="학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-op">조작</span><span class="onum">다</span></div>
+<p class="main">학익가압장 <strong class="kw">Bypass Valve를 <span class="vo">Open</span></strong> 한다.</p><div class="sub">Flow Chart 표기 밸브: <span class="tg">HV-9715</span>, <span class="tg">HV-9708</span> (본문에는 태그 미기재)</div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-08" title="학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open">
 <img data-src-id="E21-08" alt="" loading="lazy"><span><b>그림 E21-08</b><br>학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open</span></button></div></div></div></li><li class="step" id="s-71">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="6단계">6</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 다-1</span></div>
-<p class="main"><strong class="kw">구도심 역차압(<span class="tg">CP-4</span>)이 해소</strong>되었는지 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>구도심 역차압(CP-4)이 해소되었는지 확인한다.(그림 E21-30 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="6단계">6</span><span class="kind k-chk">확인</span><span class="onum">다-1</span></div>
+<p class="main"><strong class="kw">구도심 역차압(<span class="tg">CP-4</span>)이 해소</strong>되었는지 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
 <img data-src-id="E21-30" alt="" loading="lazy"><span><b>그림 E21-30</b><br>2621 CRITICAL POINT 화면 — CP-4 구도심 역차압</span></button></div></div></div></li><li class="step" id="s-72">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="7단계">7</span><span class="kind k-go">재개</span><span class="onum" title="원문 항목번호">원문 다-2</span></div>
-<p class="main">연료전지 또는 호랑이 <strong class="kw">정상화</strong>된 후 학익가압장을 <strong class="kw">재개</strong>하고 <strong class="kw">수열을 증량</strong>한다.</p><details class="orig"><summary>원문 문장</summary><p>연료전지 또는 호랑 정상화 후 학익가압장 재개 및 수열 증량한다.(그림 E21-01 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
-<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li></ol><details class="fcd"><summary>원문 E21.5 Flow Chart 보기 (원문 p.26)</summary>
-<div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지 또는 호랑 리턴 압력 감소 및 Pump Trip 확인<br><span class="tg">PIT-3501, PIT-201</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 수열 유량 감소 확인</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">구도심 역차압 발생 확인(<span class="tg">CP-4</span>)</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급·리턴 펌프(<span class="tg">PP-003, 001</span>) 부하 감소 (리턴 가압 펌프 먼저 감소)<br>학익가압장 초기 기동 조건 상태까지 감소</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">학익가압장 Bypass Valve Open<br><span class="tg">HV-9715, 9708</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">구도심 역차압 해소 확인(<span class="tg">CP-4</span>)</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지 또는 호랑 정상화 후 학익가압장 재개 및 수열 증량</div></div></div></details></section><section class="case" id="case-2-2"><header class="chead"><span class="cbadge">Case 2.2</span><h3>SK IPC 펌프 Trip</h3><span class="cpg">원문 p.21–22 · Flow Chart p.27</span></header><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 가</span></div>
-<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 기준이다.</p><details class="orig"><summary>원문 문장</summary><p>정상 운전 상태 1380[ton/hr] 기준 (그림 E21-01 참조)</p></details></div><div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
-<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 나</span></div>
-<p class="main"><strong class="kw">SK IPC Pump가 Trip</strong> 한 상황이다.</p><details class="orig"><summary>원문 문장</summary><p>SK IPC Pump Trip 발생 상황이다. (그림 E21-29 참조)</p></details></div><div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-29" title="압력선도 — 연료전지 또는 호랑에너지 Pump Trip 발생">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="7단계">7</span><span class="kind k-go">재개</span><span class="onum">다-2</span></div>
+<p class="main">연료전지 또는 호랑이 <strong class="kw">정상화</strong>된 후 학익가압장을 <strong class="kw">재개</strong>하고 <strong class="kw">수열을 증량</strong>한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
+<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li></ol><details class="fcd"><summary>Flow Chart 보기</summary>
+<div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지 또는 호랑 리턴 압력 감소 및 Pump Trip 확인<br><span class="tg">PIT-3501, PIT-201</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 수열 유량 감소 확인</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">구도심 역차압 발생 확인(<span class="tg">CP-4</span>)</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급·리턴 펌프(<span class="tg">PP-003, 001</span>) 부하 감소 (리턴 가압 펌프 먼저 감소)<br>학익가압장 초기 기동 조건 상태까지 감소</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">학익가압장 Bypass Valve Open<br><span class="tg">HV-9715, 9708</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">구도심 역차압 해소 확인(<span class="tg">CP-4</span>)</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지 또는 호랑 정상화 후 학익가압장 재개 및 수열 증량</div></div></div></details></section><section class="case" id="case-2-2"><header class="chead"><span class="cbadge">Case 2.2</span><h3>SK IPC 펌프 Trip</h3><span class="cpg"></span></header><ol class="steps"><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">가</span></div>
+<p class="main">정상 운전 중이며 <strong class="kw">INTECO FLOW RATE는 <span class="vl">1380[ton/hr]</span></strong> 기준이다.</p></div><div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-01" title="정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면">
+<img data-src-id="E21-01" alt="" loading="lazy"><span><b>그림 E21-01</b><br>정상 운전 상태 — H/E TOTALIZING OVERVIEW(2890) 화면</span></button></div></div></div></li><li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">나</span></div>
+<p class="main"><strong class="kw">SK IPC Pump가 Trip</strong> 한 상황이다.</p></div><div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-29" title="압력선도 — 연료전지 또는 호랑에너지 Pump Trip 발생">
 <img data-src-id="E21-29" alt="" loading="lazy"><span><b>그림 E21-29</b><br>압력선도 — 연료전지 또는 호랑에너지 Pump Trip 발생</span></button></div></div></div></li></ol><ol class="steps"><li class="step" id="s-74">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-1</span></div>
-<p class="main"><strong class="kw">SK IPC Pump Trip</strong>과 <strong class="kw">유량</strong>을 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>SK IPC Pump Trip 및 유량을 확인한다.</p></details></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="1단계">1</span><span class="kind k-chk">확인</span><span class="onum">나-1</span></div>
+<p class="main"><strong class="kw">SK IPC Pump Trip</strong>과 <strong class="kw">유량</strong>을 확인한다.</p></div>
 <div class="sfig"><figure class="fig" id="f-E21-31-B-73">
 <button class="zoom" type="button" data-fig="E21-31-B" aria-label="그림 E21-31 (B) 확대 보기">
-<img data-src-id="E21-31-B" alt="원문 그림 E21-31 SK INCHEON H/E SYSTEM(2894) 화면 — SK IPC 펌프" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 E21-31</b><span class="iid">내부 ID E21-31-B</span> <span class="fpg">원문 p.21</span>
+<img data-src-id="E21-31-B" alt="그림 E21-31 SK INCHEON H/E SYSTEM(2894) 화면 — SK IPC 펌프" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 E21-31</b><span class="iid">내부 ID E21-31-B</span>
 <span class="ftitle">SK INCHEON H/E SYSTEM(2894) 화면 — SK IPC 펌프</span>
 </figcaption></figure></div></li><li class="step" id="s-75">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-2</span></div>
-<p class="main">연료전지·호랑의 <strong class="kw">리턴 압력</strong>을 확인한다. (<strong class="kw">Pump Trip 확인</strong>)</p><div class="sub">확인 항목: <span class="tg">PIT-3501</span>, <span class="tg">PIT-201</span></div><details class="orig"><summary>원문 문장</summary><p>연료전지, 호랑 리턴 압력을 확인한다.(Pump Trip 확인) PIT-3501, PIT-201 (그림 E21-06, 07 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-06" title="연료전지 화면 — 리턴 압력·DH RETURN PUMP">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="2단계">2</span><span class="kind k-chk">확인</span><span class="onum">나-2</span></div>
+<p class="main">연료전지·호랑의 <strong class="kw">리턴 압력</strong>을 확인한다. (<strong class="kw">Pump Trip 확인</strong>)</p><div class="sub">확인 항목: <span class="tg">PIT-3501</span>, <span class="tg">PIT-201</span></div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-06" title="연료전지 화면 — 리턴 압력·DH RETURN PUMP">
 <img data-src-id="E21-06" alt="" loading="lazy"><span><b>그림 E21-06</b><br>연료전지 화면 — 리턴 압력·DH RETURN PUMP</span></button><button class="rth" type="button" data-fig="E21-07" title="호랑 화면 — 리턴 압력·DH RETURN PUMP">
 <img data-src-id="E21-07" alt="" loading="lazy"><span><b>그림 E21-07</b><br>호랑 화면 — 리턴 압력·DH RETURN PUMP</span></button></div></div></div></li><li class="step" id="s-76">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-3</span></div>
-<p class="main">외부 수열 <strong class="kw">유량 감소</strong>를 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>외부 수열 유량 감소를 확인한다.(그림 E21-10 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-10" title="H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="3단계">3</span><span class="kind k-chk">확인</span><span class="onum">나-3</span></div>
+<p class="main">외부 수열 <strong class="kw">유량 감소</strong>를 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-10" title="H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소">
 <img data-src-id="E21-10" alt="" loading="lazy"><span><b>그림 E21-10</b><br>H/E TOTALIZING OVERVIEW — 외부 열원 유량 감소</span></button></div></div></div></li><li class="step" id="s-77">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 나-4</span></div>
-<p class="main"><strong class="kw">구도심 역차압(<span class="tg">CP-4</span>) 발생</strong>을 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>구도심 역차압(CP-4) 발생을 확인한다.(그림 E21-30 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="4단계">4</span><span class="kind k-chk">확인</span><span class="onum">나-4</span></div>
+<p class="main"><strong class="kw">구도심 역차압(<span class="tg">CP-4</span>) 발생</strong>을 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
 <img data-src-id="E21-30" alt="" loading="lazy"><span><b>그림 E21-30</b><br>2621 CRITICAL POINT 화면 — CP-4 구도심 역차압</span></button></div></div></div></li><li class="step" id="s-78">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 나-5</span></div>
-<p class="main">학익가압장 공급·리턴 펌프의 <strong class="kw">부하를 감소</strong>한다. <strong class="kw">리턴 가압 펌프를 먼저 감소</strong>한다.</p><div class="sub">감소 한도: 학익가압장 <b>초기 기동 조건 상태까지</b> 감소 · 원문 참조 그림 “E21-31”은 중복 번호(A/B) → 부하 감소 화면인 (A)를 연결</div><details class="orig"><summary>원문 문장</summary><p>학익가압장 공급, 리턴 펌프 부하 감소(리턴 가압 펌프 먼저 감소)한다.(학익가압장 초기 기동 조건 상태까지 감소한다.) ( 그림 E21-11, 12, 31 참조 )</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="5단계">5</span><span class="kind k-op">조작</span><span class="onum">나-5</span></div>
+<p class="main">학익가압장 공급·리턴 펌프의 <strong class="kw">부하를 감소</strong>한다. <strong class="kw">리턴 가압 펌프를 먼저 감소</strong>한다.</p><div class="sub">감소 한도: 학익가압장 <b>초기 기동 조건 상태까지</b> 감소</div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
 <img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button><button class="rth" type="button" data-fig="E21-31-A" title="학익가압장 펌프 계통 화면 — 공급·리턴 펌프(PP-003, 001) 부하 감소">
 <img data-src-id="E21-31-A" alt="" loading="lazy"><span><b>그림 E21-31</b> (A)<br>학익가압장 펌프 계통 화면 — 공급·리턴 펌프(PP-003, 001) 부하 감소</span></button></div></div></div></li><li class="step" id="s-79">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="6단계">6</span><span class="kind k-op">조작</span><span class="onum" title="원문 항목번호">원문 다</span></div>
-<p class="main">학익가압장 <strong class="kw">Bypass Valve를 <span class="vo">Open</span></strong> 한다.</p><div class="sub">Flow Chart 표기 밸브: <span class="tg">HV-9715</span>, <span class="tg">HV-9708</span> (본문에는 태그 미기재)</div><details class="orig"><summary>원문 문장</summary><p>학익가압장 BY Pass Valve를 Open한다.(그림 E21-08 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-08" title="학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="6단계">6</span><span class="kind k-op">조작</span><span class="onum">다</span></div>
+<p class="main">학익가압장 <strong class="kw">Bypass Valve를 <span class="vo">Open</span></strong> 한다.</p><div class="sub">Flow Chart 표기 밸브: <span class="tg">HV-9715</span>, <span class="tg">HV-9708</span> (본문에는 태그 미기재)</div></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-08" title="학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open">
 <img data-src-id="E21-08" alt="" loading="lazy"><span><b>그림 E21-08</b><br>학익가압장 펌프 계통 화면 — 공급·리턴 Bypass Open</span></button></div></div></div></li><li class="step" id="s-80">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="7단계">7</span><span class="kind k-chk">확인</span><span class="onum" title="원문 항목번호">원문 다-1</span></div>
-<p class="main"><strong class="kw">구도심 역차압(<span class="tg">CP-4</span>)이 해소</strong>되었는지 확인한다.</p><details class="orig"><summary>원문 문장</summary><p>구도심 역차압(CP-4)이 해소되었는지 확인한다.(그림 E21-30 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="7단계">7</span><span class="kind k-chk">확인</span><span class="onum">다-1</span></div>
+<p class="main"><strong class="kw">구도심 역차압(<span class="tg">CP-4</span>)이 해소</strong>되었는지 확인한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-30" title="2621 CRITICAL POINT 화면 — CP-4 구도심 역차압">
 <img data-src-id="E21-30" alt="" loading="lazy"><span><b>그림 E21-30</b><br>2621 CRITICAL POINT 화면 — CP-4 구도심 역차압</span></button></div></div></div></li><li class="step" id="s-81">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="8단계">8</span><span class="kind k-go">재개</span><span class="onum" title="원문 항목번호">원문 라</span></div>
-<p class="main">SK IPC가 <strong class="kw">정상화</strong>된 후 학익가압장을 <strong class="kw">재개</strong>하고 <strong class="kw">수열을 증량</strong>한다.</p><details class="orig"><summary>원문 문장</summary><p>SK IPC 정상화 후 학익가압장 재개 및 수열 증량한다.(그림 E21-11, 12 참조)</p></details></div>
-<div class="sfig"><div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
+<div class="stxt"><div class="shead"><span class="sn" aria-label="8단계">8</span><span class="kind k-go">재개</span><span class="onum">라</span></div>
+<p class="main">SK IPC가 <strong class="kw">정상화</strong>된 후 학익가압장을 <strong class="kw">재개</strong>하고 <strong class="kw">수열을 증량</strong>한다.</p></div>
+<div class="sfig"><div class="refs"><span class="flab">참조 그림</span><div class="rg"><button class="rth" type="button" data-fig="E21-11" title="Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]">
 <img data-src-id="E21-11" alt="" loading="lazy"><span><b>그림 E21-11</b><br>Mean Pr 확인 화면 — Mean Pr 기준 5.5[kg/㎠]</span></button><button class="rth" type="button" data-fig="E21-12" title="H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준">
-<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol><details class="fcd"><summary>원문 E21.5 Flow Chart 보기 (원문 p.27)</summary>
+<img data-src-id="E21-12" alt="" loading="lazy"><span><b>그림 E21-12</b><br>H/E TOTALIZING OVERVIEW — INTECO FLOW RATE 850 수준</span></button></div></div></div></li></ol><details class="fcd"><summary>Flow Chart 보기</summary>
 <div class="fcw"><div class="fcflow"><div class="fcb">정상 운전 INTECO FLOW RATE 1,380[t/h]</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">SK IPC Pump Trip 및 유량 확인</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">연료전지·호랑 리턴 압력 <b>과압</b> 확인 (Pump Trip 여부 확인)<br><span class="tg">PIT-3501, PIT-201</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">외부 수열 유량 감소 확인</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">구도심 역차압 발생 확인(<span class="tg">CP-4</span>)</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">공급·리턴 펌프(<span class="tg">PP-003, 001</span>) 부하 감소 (리턴 가압 펌프 먼저 감소)<br>학익가압장 초기 기동 조건 상태까지 감소</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">학익가압장 Bypass Valve Open<br><span class="tg">HV-9715, 9708</span></div><div class="fca" aria-hidden="true">↓</div><div class="fcb">구도심 역차압 해소 확인(<span class="tg">CP-4</span>)</div><div class="fca" aria-hidden="true">↓</div><div class="fcb">SK IPC 정상화 후 학익가압장 재개 및 수열 증량</div></div></div></details></section>
 </section>
 
 <section id="s6" class="sec"><h2><span class="no">⑤</span> 상황별 대응 비교표</h2>
-<p class="fnote">각 칸은 원문 단계번호입니다. “기재 없음”은 해당 Case의 원문에 그 단계가 적혀 있지 않다는 뜻입니다.</p>
+<p class="fnote">각 칸은 단계 번호(나-1 등)입니다. “기재 없음”은 해당 Case에 그 단계가 없다는 뜻입니다.</p>
 <div class="tw"><table class="tbl cmp"><thead><tr><th scope="col">구분</th><th scope="col"><a href="#case-1-1">Case 1.1</a></th><th scope="col"><a href="#case-1-2">Case 1.2</a></th><th scope="col"><a href="#case-1-3">Case 1.3</a></th><th scope="col"><a href="#case-2-1">Case 2.1</a></th><th scope="col"><a href="#case-2-2">Case 2.2</a></th></tr></thead><tbody><tr><th scope="row">Trip 대상</th><td>공급·리턴 펌프(<span class="tg">PP-003</span>, <span class="tg">PP-001</span>) 동시</td><td>공급 펌프(<span class="tg">PP-003</span>)</td><td>리턴 펌프(<span class="tg">PP-001</span>)</td><td>연료전지 또는 호랑 Pump</td><td>SK IPC Pump</td></tr><tr><th scope="row">첫 확인</th><td><span class="tg">PP-003</span>, <span class="tg">PP-001</span> Trip (나-1)</td><td><span class="tg">PP-003</span> Trip (나-1)</td><td><span class="tg">PP-001</span> Trip (나-1)</td><td><span class="tg">PIT-3501</span>, <span class="tg">PIT-201</span> 리턴 압력 감소·Pump Trip (나-1)</td><td>SK IPC Pump Trip·유량 (나-1)</td></tr><tr><th scope="row">Bypass 조작</th><td><span class="tg">HV-9715</span> <span class="vo">Open</span> + <span class="tg">HV-9708</span> <span class="vo">Open</span> (나-4, 압력·유량 확인 후)</td><td><span class="tg">HV-9715</span> <span class="vo">Open</span> (나-2, Trip 확인 직후)</td><td><span class="tg">HV-9708</span> <span class="vo">Open</span> (나-2, Trip 확인 직후)</td><td>Bypass Valve <span class="vo">Open</span> (다, 부하 감소 후) · Flow Chart <span class="tg">HV-9715</span>, <span class="tg">9708</span></td><td>Bypass Valve <span class="vo">Open</span> (다, 부하 감소 후) · Flow Chart <span class="tg">HV-9715</span>, <span class="tg">9708</span></td></tr><tr><th scope="row">CN H/E 확인<br>(<span class="tg">PIT-9334</span>, <span class="tg">FIT-9338</span>)</th><td>나-2</td><td>나-3, 다-2(해소 확인)</td><td>— (기재 없음)</td><td>— (기재 없음)</td><td>— (기재 없음)</td></tr><tr><th scope="row">연료전지·호랑 리턴 압력<br>(<span class="tg">PIT-3501</span>, <span class="tg">PIT-201</span>)</th><td>나-3</td><td>— (기재 없음)</td><td>나-3</td><td>나-1</td><td>나-2</td></tr><tr><th scope="row">외부 열원 유량 감소 확인</th><td>다-1 / 라-1</td><td>나-9(가동 불가 시)</td><td>다-1 / 라-1</td><td>나-2</td><td>나-3</td></tr><tr><th scope="row">구도심 역차압·차압 (<span class="tg">CP-4</span>)</th><td>— (기재 없음)</td><td>— (기재 없음)</td><td>다-2·라-2 “구도심 차압 확보”</td><td>나-3, 다-1</td><td>나-4, 다-1</td></tr><tr><th scope="row">학익가압장 펌프 조작</th><td>(펌프 조작 기재 없음)</td><td><span class="tg">PP-003</span> 재가동 → 불가 시 Spare <span class="tg">PP-002</span> 가동 (가동 전 밸브 상태 확인)</td><td>발생 시: <span class="tg">PP-003</span> 감소<br>미발생 시: <span class="tg">PP-003</span> 감소 → <span class="tg">PP-001</span> 기동·부하 증가 → <span class="tg">HV-9708</span> <span class="vc">Close</span></td><td><span class="tg">PP-003</span>, <span class="tg">PP-001</span> 부하 감소(<strong class="kw">리턴 가압 펌프 먼저</strong>), 초기 기동 조건까지</td><td><span class="tg">PP-003</span>, <span class="tg">PP-001</span> 부하 감소(<strong class="kw">리턴 가압 펌프 먼저</strong>), 초기 기동 조건까지</td></tr><tr><th scope="row">Mean Pr 조정 (<span class="vl">5.5[kg/㎠]</span>)</th><td>다-2 / 라-2</td><td>나-4(감량 요청 시 기준), 다-1(감소)</td><td>다-3</td><td>— (기재 없음)</td><td>— (기재 없음)</td></tr><tr><th scope="row">재개</th><td>학익가압장 정상화 + <span class="tg">INTECO FLOW RATE</span> <span class="vl">850[ton/hr]</span> 수준</td><td>CN H/E 압력·유량 해소 확인 후 공유·재개</td><td>정상화 상황 공유 후 재개 (라-5, Flow Chart)</td><td>연료전지 또는 호랑 정상화 후 재개 및 수열 증량</td><td>SK IPC 정상화 후 재개 및 수열 증량</td></tr></tbody></table></div>
 </section>
 
-<footer class="foot"><p>이 문서는 「학익가압장 운전 비상상황 대응절차」(지침번호 운영(운)-절차-E21, 발행일자 2026. 09, 개정번호 0)를 바탕으로 한 <b>재구성 설명자료</b>입니다. 실제 운전은 원문 절차서와 운영 지시에 따르십시오.</p></footer>
+
 </main>
 <div id="lb" class="lb" hidden role="dialog" aria-modal="true" aria-label="그림 확대 보기"><div class="lbbar"><span id="lbt"></span><span class="lbc"><button type="button" id="lbm" aria-label="축소">−</button><button type="button" id="lbf">화면 맞춤</button><button type="button" id="lbo">원본 크기</button><button type="button" id="lbp" aria-label="확대">＋</button><button type="button" id="lbx" aria-label="닫기">✕ 닫기 (Esc)</button></span></div><div class="lbv" id="lbv"><img id="lbi" alt=""></div></div>
 <noscript><p style="padding:16px;background:#fff3cd">이 문서의 이미지는 JavaScript로 표시됩니다. JavaScript를 켜거나, 함께 제공된 images 폴더의 원본 JPEG(E21-01.jpg 등)를 직접 열어 확인하십시오.</p></noscript>
@@ -773,8 +770,8 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
   function open(id,trigger){
     var m=META[id];if(!m||!IMG[id])return;
     lastFocus=trigger||document.activeElement;
-    lbi.src=IMG[id];lbi.alt='원문 그림 '+m.no+' '+m.title;
-    lbt.textContent='그림 '+m.no+(id.indexOf('-A')>0||id.indexOf('-B')>0?' ('+id.slice(-1)+')':'')+' · 원문 p.'+m.pg+' · '+m.title;
+    lbi.src=IMG[id];lbi.alt='그림 '+m.no+' '+m.title;
+    lbt.textContent='그림 '+m.no+(id.indexOf('-A')>0||id.indexOf('-B')>0?' ('+id.slice(-1)+')':'')+' · '+m.title;
     lb.hidden=false;document.body.style.overflow='hidden';
     setMode('fit');document.getElementById('lbx').focus();
   }
@@ -817,13 +814,6 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
     }
   });
 
-  // ---- 원문 문장 펼치기/접기 ----
-  var allOpen=false,btn=document.getElementById('btnOrig');
-  btn.addEventListener('click',function(){
-    allOpen=!allOpen;
-    document.querySelectorAll('details.orig').forEach(function(d){d.open=allOpen;});
-    btn.textContent=allOpen?'원문 문장 모두 접기':'원문 문장 모두 펼치기';
-  });
   document.getElementById('btnPrint').addEventListener('click',function(){
     document.querySelectorAll('details.fcd').forEach(function(d){d.open=true;});
     fill();window.print();

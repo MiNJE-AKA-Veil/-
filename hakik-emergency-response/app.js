@@ -17,8 +17,8 @@
   function open(id,trigger){
     var m=META[id];if(!m||!IMG[id])return;
     lastFocus=trigger||document.activeElement;
-    lbi.src=IMG[id];lbi.alt='원문 그림 '+m.no+' '+m.title;
-    lbt.textContent='그림 '+m.no+(id.indexOf('-A')>0||id.indexOf('-B')>0?' ('+id.slice(-1)+')':'')+' · 원문 p.'+m.pg+' · '+m.title;
+    lbi.src=IMG[id];lbi.alt='그림 '+m.no+' '+m.title;
+    lbt.textContent='그림 '+m.no+(id.indexOf('-A')>0||id.indexOf('-B')>0?' ('+id.slice(-1)+')':'')+' · '+m.title;
     lb.hidden=false;document.body.style.overflow='hidden';
     setMode('fit');document.getElementById('lbx').focus();
   }
@@ -61,13 +61,6 @@
     }
   });
 
-  // ---- 원문 문장 펼치기/접기 ----
-  var allOpen=false,btn=document.getElementById('btnOrig');
-  btn.addEventListener('click',function(){
-    allOpen=!allOpen;
-    document.querySelectorAll('details.orig').forEach(function(d){d.open=allOpen;});
-    btn.textContent=allOpen?'원문 문장 모두 접기':'원문 문장 모두 펼치기';
-  });
   document.getElementById('btnPrint').addEventListener('click',function(){
     document.querySelectorAll('details.fcd').forEach(function(d){d.open=true;});
     fill();window.print();

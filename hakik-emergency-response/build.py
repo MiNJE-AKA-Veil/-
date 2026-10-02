@@ -125,8 +125,8 @@ def fig_inline(fid, why=''):
     note_h = f'<p class="fnote">{esc(note)}</p>' if note else ''
     return f'''<figure class="fig" id="f-{fid}-{{uid}}">
 <button class="zoom" type="button" data-fig="{fid}" aria-label="그림 {fig_label(fid)} 확대 보기">
-<img data-src-id="{fid}" alt="원문 그림 {orig_no(fid)} {esc(title)}" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
-<figcaption><b class="fno">그림 {orig_no(fid)}</b>{('<span class="iid">내부 ID '+fid+'</span>') if fid.endswith(('-A','-B')) else ''} <span class="fpg">원문 p.{pg}</span>
+<img data-src-id="{fid}" alt="그림 {orig_no(fid)} {esc(title)}" loading="lazy"><span class="zhint">🔍 클릭하여 확대</span></button>
+<figcaption><b class="fno">그림 {orig_no(fid)}</b>{('<span class="iid">내부 ID '+fid+'</span>') if fid.endswith(('-A','-B')) else ''}
 <span class="ftitle">{esc(title)}</span>
 </figcaption></figure>'''
 
@@ -150,13 +150,13 @@ def step(n, orig, kind, text, figs=(), refs=(), src='', flags=(), sub='', cond='
     figs_h = ''.join(fig_inline(f).replace('{uid}', str(uid())) for f in figs)
     refs_h = ''
     if refs:
-        refs_h = '<div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg">' + ''.join(ref_thumb(r) for r in refs) + '</div></div>'
+        refs_h = '<div class="refs"><span class="flab">참조 그림</span><div class="rg">' + ''.join(ref_thumb(r) for r in refs) + '</div></div>'
     fl = ''
-    src_h = f'<details class="orig"><summary>원문 문장</summary><p>{esc(src)}</p></details>' if src else ''
+    src_h = ''
     cond_h = f'<p class="cond">{mk(cond)}</p>' if cond else ''
     sub_h = f'<div class="sub">{mk(sub)}</div>' if sub else ''
     return f'''<li class="step" id="s-{uid()}">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="{n}단계">{n}</span><span class="kind {kc}">{kl}</span><span class="onum" title="원문 항목번호">원문 {esc(orig)}</span></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="{n}단계">{n}</span><span class="kind {kc}">{kl}</span><span class="onum">{esc(orig)}</span></div>
 {cond_h}<p class="main">{mk(text)}</p>{sub_h}{fl}{src_h}</div>
 <div class="sfig">{figs_h}{refs_h}</div></li>'''
 
@@ -164,9 +164,9 @@ def situation(label, text, figs=(), refs=(), src=''):
     figs_h = ''.join(fig_inline(f).replace('{uid}', str(uid())) for f in figs)
     refs_h = ''
     if refs:
-        refs_h = '<div class="refs"><span class="flab">원문이 참조한 그림(다시 보기)</span><div class="rg">' + ''.join(ref_thumb(r) for r in refs) + '</div></div>'
-    src_h = f'<details class="orig"><summary>원문 문장</summary><p>{esc(src)}</p></details>' if src else ''
-    return f'''<li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">원문 {esc(label)}</span></div>
+        refs_h = '<div class="refs"><span class="flab">참조 그림</span><div class="rg">' + ''.join(ref_thumb(r) for r in refs) + '</div></div>'
+    src_h = ''
+    return f'''<li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">{esc(label)}</span></div>
 <p class="main">{mk(text)}</p>{src_h}</div><div class="sfig">{figs_h}{refs_h}</div></li>'''
 
 def branch(title, cond, body, tone='a'):
@@ -198,7 +198,7 @@ def fc(items, tone=''):
     return '<div class="fcflow">' + '<div class="fca" aria-hidden="true">↓</div>'.join(out) + '</div>'
 
 def fcdetails(page, body, verdict):
-    return f'''<details class="fcd"><summary>원문 E21.5 Flow Chart 보기 (원문 {page})</summary>
+    return f'''<details class="fcd"><summary>Flow Chart 보기</summary>
 <div class="fcw">{body}</div></details>'''
 
 # ---------------------------------------------------------------- Case 본문
@@ -220,14 +220,14 @@ def case_1_1():
              src='학익가압장 공급&리턴 By pass Open한다.(HV-9715, HV-9708)', flags=['C4']),
         step(5, '나-5', 'tell', '<k>외부 열원</k>에 연락하여 상황을 공유한다.', src='외부열원에 연락하여 상황을 공유한다.'),
     ])
-    a = branch('연료전지·호랑 Pump Trip이 <u>발생한</u> 경우', '원문 「다」 항목 — 연료전지&호랑 Pump Trip 발생 경우', situation('다', '연료전지·호랑에서 Pump Trip이 발생한 경우이다. (압력선도로 상태 대조)', figs=['E21-09']) +
+    a = branch('연료전지·호랑 Pump Trip이 <u>발생한</u> 경우', '', situation('다', '연료전지·호랑에서 Pump Trip이 발생한 경우이다. (압력선도로 상태 대조)', figs=['E21-09']) +
       step(1, '다-1', 'chk', '외부 열원 <k>유량 감소</k>를 확인한다.', figs=['E21-10'], src='외부열원 유량 감소를 확인한다.') +
       step(2, '다-2', 'op', '<k>Mean Pr 압력을 조정</k>한다. (학익가압장 <k>기동 전 상태로 회귀</k>한다.)', figs=['E21-11'],
            sub='기준: <t>Mean Pr</t> <v>5.5[kg/㎠]</v>', src='Mean Pr 압력 조정한다.(학익가압장 기동전 상태로 회귀한다.) <Mean Pr 기준 5.5[kg/㎠]>') +
       step(3, '다-3', 'go', '외부 열원에 <k>정상화 상황을 공유</k>하고 학익가압장 운전을 <k>재개</k>한다.', figs=['E21-12'],
            sub='<b>재개 시점</b>: 학익가압장 정상화, <t>INTECO FLOW RATE</t> <v>850[ton/hr]</v> 수준',
            src='외부열원에 정상화 상황을 공유하고 학익가압장 운전을 재개한다. (재개 시점 : 학익가압장 정상화, 1INTECO FLOW RATE 850[ton/hr] 수준)'), 'a')
-    b = branch('연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우', '원문 「라」 항목 — 연료전지&호랑 Pump Trip이 발생하지 않은 경우',
+    b = branch('연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우', '',
       step(1, '라-1', 'chk', '외부 열원 <k>유량 감소 발생</k>을 확인한다.', refs=['E21-12'], src='외부열원 유량 감소 발생을 확인한다. (그림 E21-12 참조)') +
       step(2, '라-2', 'op', '<k>Mean Pr 압력을 조정</k>하고 학익가압장 <k>기동 전 조건 상태를 준비</k>한다.', refs=['E21-11'],
            sub='기준: <t>Mean Pr</t> <v>5.5[kg/㎠]</v>', src='Mean Pr 압력 조정하고 학익가압장 기동전 조건 상태 준비한다. <Mean Pr 기준 5.5[kg/㎠]> (그림 E21-11 참조)') +
@@ -241,7 +241,7 @@ def case_1_1():
                        ('연료전지·호랑 Pump Trip 미발생', ['외부열원 유량 감소 발생 확인', 'Mean Pr 조정 – 기동 전 조건 준비<br>Mean Pr 5.5[kg/㎠]'])]),
                '외부 열원에 정상화 상황 공유, 학익가압장 운전 재개<br>INTECO FLOW RATE 850[t/h] 수준'])
     ver = '<ul><li>단계 순서·태그·분기는 <b>일치</b>합니다.</li><li>단위 표기만 다릅니다: 본문 [ton/hr] / Flow Chart [t/h] (각각 원문 표기 유지) → ' + chlink('C3') + '</li><li>E21.4.1 개요의 Bypass 서술(“즉시 Open 상태 확인”)과 순서가 다릅니다 → ' + chlink('C4') + '</li></ul>'
-    return sit + main + '<div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기 (원문 다 / 라)</div><div class="brs">' + a + b + '</div>' + fcdetails('p.23', flow, ver)
+    return sit + main + '<div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기</div><div class="brs">' + a + b + '</div>' + fcdetails('p.23', flow, ver)
 
 def case_1_2():
     sit = olist(situation('가', '정상 운전 중이며 <k>INTECO FLOW RATE는 <v>1380[ton/hr]</v></k> 이다.', refs=['E21-01'],
@@ -257,7 +257,7 @@ def case_1_2():
              src='외부 열원 수열 감량 요청한다. (그림 E21-11, 12 참조) <Mean Pr 기준 5.5[kg/㎠], INTECO FLOW RATE 850[ton/hr] 수준>'),
         step(5, '나-5', 'op', '가압 펌프(<t>PP-003</t>)를 <k>재가동</k>한다.', figs=['E21-16'], src='가압 펌프(PP-003)를 재가동 한다.'),
     ])
-    dec = '''<div class="bhead">재가동 이후 조건별 경로 (원문 나-6 ~ 나-9)</div>
+    dec = '''<div class="bhead">재가동 이후 조건별 경로 (나-6 ~ 나-9)</div>
 <div class="decide"><div><b>PP-003 재가동 불가 상황</b><br>→ 나-6 Spare 펌프(PP-002) 가동</div><div><b>가동 성공 시</b><br>→ 나-7 가압 실시 + 공급 Bypass(HV-9715) Close</div><div><b>PP-003, 002 가동 가능한 경우</b><br>→ 나-8 외부 열원에 상황 공유·가압 진행</div><div><b>PP-003, 002 가동 불가한 경우</b><br>→ 나-9 외부 열원 유량 감량 확인</div></div>'''
     cond = stepsblock([
         step(6, '나-6', 'op', '<k>Spare 펌프(<t>PP-002</t>)를 가동</k>한다.', figs=['E21-17'], cond='<b>조건</b>: 펌프 재가동이 불가한 상황일 때',
@@ -272,7 +272,7 @@ def case_1_2():
              cond='<b>조건</b>: 공급 가압 펌프(<t>PP-003</t>, <t>PP-002</t>) 가동이 불가한 경우',
              src='공급 가압 펌프(PP-003, 002) 가동이 불가한 경우, 외부열원 유량 감량을 확인한다.(그림 E21-10 참조)'),
     ])
-    stab = '<div class="bhead">설비 안정화 (원문 다)</div>' + stepsblock([
+    stab = '<div class="bhead">설비 안정화 (다)</div>' + stepsblock([
         step(10, '다-1', 'op', '외부 열원 <k>유량 및 Mean Pr을 감소</k>한다. <span class="nb">필요 시 리턴 가압 펌프(<t>PP-001</t>)를 증가한다.</span>', figs=['E21-19', 'E21-20'], refs=['E21-11', 'E21-12'],
              src='외부열원 유량 및 Mean Pr 감소한다.(그림 E21-11, 12 참조) (필요 시 리턴 가압 펌프(PP-001) 증가한다)', flags=['C6']),
         step(11, '다-2', 'chk', 'CN H/E <k>공급 압력 초과 및 유량 변화가 해소</k>되었는지 확인한다.', refs=['E21-05'], src='CN H/E 공급 압력 초과 및 유량 변화가 해소되었는지 확인한다. (그림 E21-05 참조)'),
@@ -297,7 +297,7 @@ def case_1_3():
              src='연료전지&호랑 리턴 압력 감소 및 Pump Trip 확인한다. 연료전지 리턴 압력(PIT-3501)&Pump Trip 확인한다.(그림 E21-06, 07 참조)'),
         step(4, '나-4', 'tell', '<k>외부 열원</k>에 연락하여 상황을 공유한다.', src='외부열원에 연락하여 상황을 공유한다.'),
     ])
-    a = branch('연료전지·호랑 Pump Trip이 <u>발생한</u> 경우', '원문 「다」 항목 — 연료전지&호랑 Pump Trip 발생 경우',
+    a = branch('연료전지·호랑 Pump Trip이 <u>발생한</u> 경우', '',
       situation('다', '연료전지·호랑에서 Pump Trip이 발생한 경우이다. (압력선도로 상태 대조)', figs=['E21-24']) +
       step(1, '다-1', 'chk', '외부 열원 <k>유량 감소 발생</k>을 확인한다.', refs=['E21-10'], src='외부열원 유량 감소 발생을 확인한다.(그림 E21-10 참조)') +
       step(2, '다-2', 'op', '학익가압장 <k>공급 펌프(<t>PP-003</t>)를 감소</k>한다. <span class="nb">(구도심 차압 확보 <t>CP-4</t>)</span>', figs=['E21-25'], refs=['E21-30'],
@@ -306,7 +306,7 @@ def case_1_3():
            sub='기준: <t>Mean Pr</t> <v>5.5[kg/㎠]</v>, <t>INTECO FLOW RATE</t> <v>850[ton/hr]</v> 수준',
            src='Mean Pr 압력 조정하고 학익가압장 기동전 조건 상태 준비한다. (그림 E21-11, 12 참조) <Mean Pr 기준 5.5[kg/㎠], INTECO FLOW RATE 850[ton/hr] 수준>') +
       '', 'a')
-    b = branch('연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우', '원문 「라. 외부열원 유량 감소(연료전지&호랑 Pump Trip 미발생)한다.」',
+    b = branch('연료전지·호랑 Pump Trip이 <u>발생하지 않은</u> 경우', '',
       situation('라', '외부 열원 유량 감소 상황이며 연료전지·호랑 Pump Trip은 발생하지 않았다. (압력선도로 상태 대조)', figs=['E21-26'], refs=['E21-12'],
                 src='외부열원 유량 감소(연료전지&호랑 Pump Trip 미발생)한다. (그림 E21-12 참조)') +
       '' +
@@ -324,17 +324,17 @@ def case_1_3():
                        ('연료전지·호랑 Trip (X)', ['외부열원 유량 감소 확인', '공급펌프 감소(<t>PP-003</t>)<br>구도심 차압 확보(<t>CP-4</t>)', '리턴 펌프 기동 및 부하 증가(<t>PP-001</t>)', '기동 성공 시 부하 증가하며<br><t>HV-9708</t> Bypass Close'])]),
                '외부열원에 정상화 상황 공유, 학익가압장 운전 재개'])
     ver = '<ul><li>순서·태그는 대체로 일치합니다.</li><li>“부하 <b>증발</b>”(본문 라-3, 라-4) ↔ “부하 <b>증가</b>”(Flow Chart) → ' + chlink('C7') + '</li><li>다 경로의 재개 단계는 본문에 없고 Flow Chart 공통 박스에만 있습니다 → ' + chlink('C25') + '</li><li>그림 참조: 본문 다-2는 E21-30을 참조하지만 공급 펌프 감소 화면은 E21-25 → ' + chlink('C9') + '</li></ul>'
-    return sit + main + '<div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기 (원문 다 / 라)</div><div class="brs">' + a + b + '</div>' + fcdetails('p.25', flow, ver)
+    return sit + main + '<div class="bhead">연료전지·호랑 Pump Trip 발생 여부에 따른 분기</div><div class="brs">' + a + b + '</div>' + fcdetails('p.25', flow, ver)
 
 def case_2_1():
-    ov = '''<div class="ovw"><h4>원문 E21.4.2 개요 (정리)</h4><ul>
+    ov = '''<div class="ovw"><h4>외부 열원·연료전지 펌프 Trip 개요</h4><ul>
 <li>정상 운전 중 학익가압장은 공급측과 회수측에 각각 펌프 양정을 추가하고 있다.</li>
 <li>외부 열원 또는 연료전지 Pump가 Trip되면 <k>즉시 학익가압장 공급·리턴 펌프 가동률을 저하시켜 구도심 차압을 보상</k>한다.</li>
 <li>CN H/E <t>PIT-9334</t>(INT Hot Dis)와 <t>PIT-3501</t>(Fuel cell Re’ Pr’)을 확인하고, <t>PIT-9334</t>는 <v>10[kg/㎠]</v>, <t>PIT-3501</t>은 <v>2.5-3.5[kg/㎠]</v> 수준으로 압력을 조정한다.</li>
 <li>기존에 토출되던 유량 <t>FIT-9338</t>(INT CN COLD)과 INTECO FLOW RATE가 감소했는지 확인한다.</li>
 <li>학익가압장 기동 전 수준으로 조정한다.</li>
 <li>외부 수열원에 연락해 상황을 공유하고, 수열량을 조정하여 설비를 안정화한 뒤 학익가압장을 정상화하고 재개한다.</li></ul>
-<p class="ovn">개요는 압력 “조정 수준”을 말하며 Trip 설정값이 아닙니다. E21.4.2는 원문 목차상 Case 2(원문 p.18–22)의 개요입니다. </p></div>'''
+</div>'''
     sit = ov + olist(situation('가', '정상 운전 중이며 <k>INTECO FLOW RATE는 <v>1380[ton/hr]</v></k> 이다.', refs=['E21-01'], src='정상 운전 상태 1380[ton/hr]이다. (그림 E21-01 참조)') + \
           situation('나', '<k>연료전지 또는 호랑에너지의 Pump가 Trip</k> 한 상황이다.', figs=['E21-29'], src='연료전지 또는 호랑에너지 Pump Trip 발생 상황이다.', refs=[]))
     main = stepsblock([
@@ -365,7 +365,7 @@ def case_2_2():
         step(3, '나-3', 'chk', '외부 수열 <k>유량 감소</k>를 확인한다.', refs=['E21-10'], src='외부 수열 유량 감소를 확인한다.(그림 E21-10 참조)'),
         step(4, '나-4', 'chk', '<k>구도심 역차압(<t>CP-4</t>) 발생</k>을 확인한다.', refs=['E21-30'], src='구도심 역차압(CP-4) 발생을 확인한다.(그림 E21-30 참조)'),
         step(5, '나-5', 'op', '학익가압장 공급·리턴 펌프의 <k>부하를 감소</k>한다. <k>리턴 가압 펌프를 먼저 감소</k>한다.', refs=['E21-11', 'E21-12', 'E21-31-A'],
-             sub='감소 한도: 학익가압장 <b>초기 기동 조건 상태까지</b> 감소 · 원문 참조 그림 “E21-31”은 중복 번호(A/B) → 부하 감소 화면인 (A)를 연결',
+             sub='감소 한도: 학익가압장 <b>초기 기동 조건 상태까지</b> 감소',
              src='학익가압장 공급, 리턴 펌프 부하 감소(리턴 가압 펌프 먼저 감소)한다.(학익가압장 초기 기동 조건 상태까지 감소한다.) ( 그림 E21-11, 12, 31 참조 )', flags=['C12']),
         step(6, '다', 'op', '학익가압장 <k>Bypass Valve를 <op></k> 한다.', refs=['E21-08'], sub='Flow Chart 표기 밸브: <t>HV-9715</t>, <t>HV-9708</t> (본문에는 태그 미기재)',
              src='학익가압장 BY Pass Valve를 Open한다.(그림 E21-08 참조)', flags=['C18']),
@@ -476,7 +476,7 @@ def build():
      ('PIT-3501', '연료전지 리턴 압력 (Fuel cell Re’ Pr’)', 'E21.4.1·4.2, Case 1.1 나-3, 1.3 나-3, 2.x', '조정 수준 2.5-3.5[kg/㎠]'),
      ('PIT-201', '호랑 리턴 압력', 'Case 1.1 나-3, 1.3 나-3, 2.x', '리턴 압력 확인'),
      ('INTECO FLOW RATE', '그림 E21-01 화면의 INTECO FLOW RATE(RECEIVE)', '정상 1380[ton/hr] → 재개 시점 850[ton/hr] 수준', '단위 표기'),
-     ('Mean Pr', '원문 표기 “Mean Pr”(약어 풀이 없음)', '“Mean Pr 기준 5.5[kg/㎠]”', '압력 조정 기준'),
+     ('Mean Pr', '“Mean Pr”', '“Mean Pr 기준 5.5[kg/㎠]”', '압력 조정 기준'),
      ('CP-4', '구도심 역차압·차압 확인 항목', 'Case 1.3, 2.1, 2.2, ACO “고시외 … (CP-4)”', '명칭'),
      ('P-402-10A/B/C', 'SK IPC 펌프(그림 E21-31 (B) 화면 표기)', 'Case 2.2 나-1', '기동 상태 확인'),
     ]
@@ -484,7 +484,7 @@ def build():
 
     values = [
      ('정상 운전 상태', 'INTECO FLOW RATE', '<v>1380[ton/hr]</v>', 'Case 1.1~2.2 “가. 정상 운전”, Flow Chart [t/h]', '정상 운전 상태 예시'),
-     ('원문 “공통 조건”', 'CN H/E Flow / 연료전지&호랑', '<v>750[ton/hr]</v> / <v>630[ton/hr]</v>', 'E21.4.1', '원문 명칭 그대로(성격 미정의)'),
+     ('“공통 조건”', 'CN H/E Flow / 연료전지&호랑', '<v>750[ton/hr]</v> / <v>630[ton/hr]</v>', 'E21.4.1', '“공통 조건”으로 표기'),
      ('압력 조정 수준', '<t>PIT-9334</t>', '<v>10[kg/㎠]</v> 수준', 'E21.4.1 · E21.4.2', '조정 기준 (Trip 설정값 아님)'),
      ('압력 조정 수준', '<t>PIT-3501</t>', '<v>2.5-3.5[kg/㎠]</v> 수준', 'E21.4.1 · E21.4.2', '조정 기준 (Trip 설정값 아님)'),
      ('압력 조정 기준', '<t>Mean Pr</t>', '<v>5.5[kg/㎠]</v>', 'Case 1.1~1.3 “Mean Pr 기준”', '조정 기준'),
@@ -527,11 +527,11 @@ def build():
     nc_h = ''.join(f'<tr><th scope="row">{esc(a)}</th><td>{esc(b)}</td></tr>' for a, b in NOT_CHANGED)
 
     cases = [
-     ('case-1-1', 'Case 1.1', '공급·회수 펌프 동시 Trip', '원문 p.5–9 · Flow Chart p.23', case_1_1()),
-     ('case-1-2', 'Case 1.2', '공급 펌프 Trip', '원문 p.10–13 · Flow Chart p.24', case_1_2()),
-     ('case-1-3', 'Case 1.3', '리턴 펌프 Trip', '원문 p.14–17 · Flow Chart p.25', case_1_3()),
-     ('case-2-1', 'Case 2.1', '연료전지 또는 호랑 펌프 Trip', '원문 p.18–20 · Flow Chart p.26', case_2_1()),
-     ('case-2-2', 'Case 2.2', 'SK IPC 펌프 Trip', '원문 p.21–22 · Flow Chart p.27', case_2_2()),
+     ('case-1-1', 'Case 1.1', '공급·회수 펌프 동시 Trip', '', case_1_1()),
+     ('case-1-2', 'Case 1.2', '공급 펌프 Trip', '', case_1_2()),
+     ('case-1-3', 'Case 1.3', '리턴 펌프 Trip', '', case_1_3()),
+     ('case-2-1', 'Case 2.1', '연료전지 또는 호랑 펌프 Trip', '', case_2_1()),
+     ('case-2-2', 'Case 2.2', 'SK IPC 펌프 Trip', '', case_2_2()),
     ]
     cases_h = ''.join(f'<section class="case" id="{cid}"><header class="chead"><span class="cbadge">{cn}</span><h3>{esc(ct)}</h3><span class="cpg">{cp}</span></header>{cb}</section>' for cid, cn, ct, cp, cb in cases)
 
@@ -540,61 +540,57 @@ def build():
     nav = '''<nav id="toc" aria-label="목차"><div class="navin"><a class="brand" href="#top">학익가압장 비상상황 대응</a>
 <ul class="navl"><li><a href="#s2">① 계통·설비</a></li><li><a href="#s3">② 정상 상태·기준값</a></li><li><a href="#s4">③ 보직별 조치</a></li><li><a href="#s5">④ 상황별 대응</a></li><li><a href="#s6">⑤ 비교표</a></li></ul>
 <ul class="casel" aria-label="Case 바로가기"><li><a href="#case-1-1">1.1 공급·회수 동시</a></li><li><a href="#case-1-2">1.2 공급</a></li><li><a href="#case-1-3">1.3 리턴</a></li><li><a href="#case-2-1">2.1 연료전지·호랑</a></li><li><a href="#case-2-2">2.2 SK IPC</a></li></ul>
-<div class="tools"><button id="btnOrig" type="button">원문 문장 모두 펼치기</button><button id="btnPrint" type="button">인쇄 / PDF</button></div></div></nav>'''
+<div class="tools"><button id="btnPrint" type="button">인쇄 / PDF</button></div></div></nav>'''
 
     body = f'''<a class="skip" href="#s2">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
 {nav}
 <main id="top">
-<header class="hero"><p class="eyebrow">운전원 교육용 설명자료 · 원문 재구성본</p><h1>학익가압장 운전 비상상황 대응절차</h1>
-<p class="sub">펌프 Trip 상황별로 “무엇을 확인하고, 무엇을 조작하며, 언제 재개하는지”를 원문 순서 그대로 따라가고, 해당 운전화면을 바로 옆에서 대조합니다.</p>
-<dl class="meta"><div><dt>문서</dt><dd>비상대응 절차서 · 학익가압장 운전 비상상황 대응절차</dd></div><div><dt>지침번호</dt><dd>운영(운)-절차-E21</dd></div><div><dt>발행일자(표지)</dt><dd>2026. 09</dd></div><div><dt>개정</dt><dd>개정번호 0 · 2026.09 · 제정</dd></div><div><dt>총 페이지(원문)</dt><dd>29</dd></div><div><dt>발행</dt><dd>인천종합에너지(주) (INTECO)</dd></div></dl>
-<div class="notice"><b>이 자료는 원문을 재구성한 설명자료입니다.</b> 운전 조작·수치·밸브 상태·순서는 원문 절차서(운영(운)-절차-E21)가 기준이며, 본 자료의 설명 문장은 이해를 돕기 위해 정리한 것입니다. 파일명의 날짜는 공식 개정일로 사용하지 않았고, 표지에 적힌 “발행일자 2026. 09 / 개정번호 0(제정)”만 표시했습니다.
-<div class="legend"><span class="kind k-chk">확인</span> 보기만 하는 단계 <span class="kind k-op">조작</span> 설비를 조작하는 단계 <span class="kind k-tell">연락·공유</span> <span class="kind k-go">재개</span> <span class="tg">PP-003</span> 기기 태그 <span class="vl">850[ton/hr]</span> 수치·단위 <span class="vo">Open</span><span class="vc">Close</span> 밸브 상태</div></div>
+<header class="hero"><p class="eyebrow">운전원 교육용 설명자료</p><h1>학익가압장 운전 비상상황 대응절차</h1>
 </header>
 
 <section id="s2" class="sec"><h2><span class="no">①</span> 계통 이해 및 주요 설비·계측점</h2>
-<article class="card"><h3>원문이 설명하는 계통의 기본</h3><ul class="plain">
-<li>정상 운전 중 학익가압장은 <k>공급측과 회수(리턴)측에 각각 펌프 양정을 추가</k>하고 있다. (E21.4.1)</li>
+<article class="card"><h3>계통의 기본</h3><ul class="plain">
+<li>정상 운전 중 학익가압장은 <k>공급측과 회수(리턴)측에 각각 펌프 양정을 추가</k>하고 있다.</li>
 <li>공급측 Bypass는 <t>HV-9715</t>, 리턴측 Bypass는 <t>HV-9708</t>이다.</li>
-<li>“SK IPC, 연료전지 및 호랑”은 이하 <k>“외부 열원”</k>이라 한다. (E21.4.1)</li>
-<li>Case는 두 갈래이다: <b>Case 1</b> 학익가압장 펌프 Trip (원문 p.4–17) / <b>Case 2</b> 외부 열원 또는 연료전지 펌프 Trip (원문 p.18–22).</li></ul></article>
-<article class="card"><h3>E21.4.1 개요 (정리)</h3><ol class="plain">
+<li>“SK IPC, 연료전지 및 호랑”은 이하 <k>“외부 열원”</k>이라 한다.</li>
+<li>Case는 두 갈래이다: <b>Case 1</b> 학익가압장 펌프 Trip / <b>Case 2</b> 외부 열원 또는 연료전지 펌프 Trip.</li></ul></article>
+<article class="card"><h3>학익가압장 펌프 Trip 개요</h3><ol class="plain">
 <li>공급 펌프와 회수 펌프가 Trip 상태가 되면 <k>즉시 <t>HV-9715</t>/<t>HV-9708</t> Open 상태를 확인</k>한다.</li>
 <li>Open 상태가 확인되면 CN H/E <t>PIT-9334</t>(INT Hot Dis), <t>PIT-3501</t>(Fuel cell Re’ Pr’)을 확인하여 <t>PIT-9334</t>는 <v>10[kg/㎠]</v>, <t>PIT-3501</t>은 <v>2.5-3.5[kg/㎠]</v> 수준으로 압력을 조정한다.</li>
 <li>기존 가압 펌프를 이용해 토출되던 유량 <t>FIT-9338</t>(CN INTECO COLD)과 INTECO FLOW RATE가 감소했는지 확인한다.</li>
 <li>학익가압장 기동 전 수준(INTECO FLOW RATE 약 <v>850[ton/hr]</v>)으로 조정한다.</li>
 <li>공급 열량에 변화가 생긴 외부 수열원(SK IPC&amp;연료전지&amp;호랑)에 연락해 상황을 공유하고, 수열량을 조정하여 설비를 안정화한 뒤 학익가압장을 정상화하고 재개한다.</li></ol>
-<p class="fnote">공통 조건(원문): CN H/E Flow <v>750[ton/hr]</v>, 연료전지&amp;호랑 <v>630[ton/hr]</v></p></article>
-<article class="card"><h3>주요 설비·계측점 한눈에 (원문에 나온 것만)</h3>
-<div class="tw"><table class="tbl"><thead><tr><th scope="col">태그</th><th scope="col">원문상 대상</th><th scope="col">원문 표기·위치</th><th scope="col">용도·상태</th></tr></thead><tbody>{eq_h}</tbody></table></div>
+<p class="fnote">공통 조건: CN H/E Flow <v>750[ton/hr]</v>, 연료전지&amp;호랑 <v>630[ton/hr]</v></p></article>
+<article class="card"><h3>주요 설비·계측점 한눈에</h3>
+<div class="tw"><table class="tbl"><thead><tr><th scope="col">태그</th><th scope="col">대상</th><th scope="col">표기·위치</th><th scope="col">용도·상태</th></tr></thead><tbody>{eq_h}</tbody></table></div>
 <p class="fnote">회수/리턴: Case 제목은 “공급·회수”, 본문은 “공급·리턴”이며 같은 펌프(PP-003, 001)를 가리킵니다.</p></article>
 <article class="card"><h3>계통 화면 모아보기</h3><p class="fnote">각 Case의 단계 옆에서 다시 보여주는 화면입니다. 눌러서 확대하세요.</p><div class="rg wide">{gallery}</div></article>
 </section>
 
-<section id="s3" class="sec"><h2><span class="no">②</span> 정상 운전 상태와 원문상 주요 기준값</h2>
-<div class="notice amber"><b>원문에는 Trip 설정값이 없습니다.</b> 아래 수치는 원문이 “정상 운전 상태”, “조정 수준·기준”, “재개 시점”으로 적은 값이며, 새로운 운전 기준이나 Trip 설정값으로 확대 해석하지 않았습니다.</div>
-<div class="tw"><table class="tbl"><thead><tr><th scope="col">구분</th><th scope="col">항목</th><th scope="col">원문 값</th><th scope="col">원문 위치</th><th scope="col">성격</th></tr></thead><tbody>{val_h}</tbody></table></div>
+<section id="s3" class="sec"><h2><span class="no">②</span> 정상 운전 상태와 주요 기준값</h2>
+<div class="notice amber">아래 수치는 정상 운전 상태, 조정 수준·기준, 재개 시점으로 정리한 값이며 <b>Trip 설정값이 아닙니다.</b></div>
+<div class="tw"><table class="tbl"><thead><tr><th scope="col">구분</th><th scope="col">항목</th><th scope="col">값</th><th scope="col">위치</th><th scope="col">성격</th></tr></thead><tbody>{val_h}</tbody></table></div>
 
 </section>
 
 <section id="s4" class="sec"><h2><span class="no">③</span> 보직별 점검·조치사항 (E21.3)</h2>
-<p class="fnote">보직 약어(CO, ACO, CLO, DLO)는 원문이 풀어 쓰지 않아 그대로 표기했습니다. 항목은 원문 순서·내용 그대로입니다.</p>
+<p class="fnote">보직 약어(CO, ACO, CLO, DLO)는 풀어 쓰지 않고 그대로 표기했습니다.</p>
 <div class="roles">{role_h}</div>
 
 </section>
 
 <section id="s5" class="sec"><h2><span class="no">④</span> 상황별 상세 대응 (E21.4 · E21.5)</h2>
 
-<p class="howto"><b>읽는 법</b> 각 Case는 <b>상황 → 확인 → 조작 → 조건별 분기 → 안정화 확인 → 재개</b> 순으로 원문 순서를 따릅니다. 단계 왼쪽의 큰 번호는 이 자료의 진행 순서, “원문 나-1” 같은 표시는 원문 항목번호입니다. 오른쪽(작은 화면에서는 아래)에는 그 단계에서 대조할 운전화면이 있고, 원문이 “참조”라고만 적은 그림은 작은 카드로 다시 열 수 있습니다.</p>
+<p class="howto"><b>읽는 법</b> 각 Case는 <b>상황 → 확인 → 조작 → 조건별 분기 → 안정화 확인 → 재개</b> 순으로 구성되어 있습니다. 단계 왼쪽의 큰 번호는 진행 순서이고, 오른쪽(작은 화면에서는 아래)에 그 단계에서 볼 운전화면이 있습니다. “참조 그림”은 눌러서 다시 열 수 있습니다.</p>
 {cases_h}
 </section>
 
 <section id="s6" class="sec"><h2><span class="no">⑤</span> 상황별 대응 비교표</h2>
-<p class="fnote">각 칸은 원문 단계번호입니다. “기재 없음”은 해당 Case의 원문에 그 단계가 적혀 있지 않다는 뜻입니다.</p>
+<p class="fnote">각 칸은 단계 번호(나-1 등)입니다. “기재 없음”은 해당 Case에 그 단계가 없다는 뜻입니다.</p>
 <div class="tw"><table class="tbl cmp">{cmp_h}</table></div>
 </section>
 
-<footer class="foot"><p>이 문서는 「학익가압장 운전 비상상황 대응절차」(지침번호 운영(운)-절차-E21, 발행일자 2026. 09, 개정번호 0)를 바탕으로 한 <b>재구성 설명자료</b>입니다. 실제 운전은 원문 절차서와 운영 지시에 따르십시오.</p></footer>
+
 </main>
 <div id="lb" class="lb" hidden role="dialog" aria-modal="true" aria-label="그림 확대 보기"><div class="lbbar"><span id="lbt"></span><span class="lbc"><button type="button" id="lbm" aria-label="축소">−</button><button type="button" id="lbf">화면 맞춤</button><button type="button" id="lbo">원본 크기</button><button type="button" id="lbp" aria-label="확대">＋</button><button type="button" id="lbx" aria-label="닫기">✕ 닫기 (Esc)</button></span></div><div class="lbv" id="lbv"><img id="lbi" alt=""></div></div>
 <noscript><p style="padding:16px;background:#fff3cd">이 문서의 이미지는 JavaScript로 표시됩니다. JavaScript를 켜거나, 함께 제공된 images 폴더의 원본 JPEG(E21-01.jpg 등)를 직접 열어 확인하십시오.</p></noscript>'''
@@ -603,7 +599,7 @@ def build():
     doc = f'''<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>학익가압장 운전 비상상황 대응절차 설명자료</title>
-<meta name="description" content="학익가압장 운전 비상상황 대응절차(운영(운)-절차-E21)를 운전원이 이해하기 쉽게 재구성하고 운전화면을 본문과 대조할 수 있게 만든 설명자료">
+<meta name="description" content="학익가압장 운전 비상상황 대응절차 설명자료">
 <style>{CSS}</style></head><body>
 {body}
 <script>const IMG={lib};const META={meta};</script>
