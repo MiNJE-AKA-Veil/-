@@ -6,4 +6,4 @@
 - `images/` — 원문 PDF에서 무손실 추출한 원본 JPEG 32장(E21-01 ~ E21-31, E21-31은 원문에서 중복되어 `-A`/`-B`로 구분).
 - `build.py`, `style.css`, `app.js` — HTML 재생성용 소스 (`python3 build.py`).
 
-수정 내역·원문 확인 필요 사항은 HTML 맨 끝 ⑧ 섹션에 있습니다.
+HTML에는 각 단계의 원문 확인 필요 경고와 본문·Flow Chart 대조 박스가 포함되어 있습니다.

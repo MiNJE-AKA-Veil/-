@@ -104,7 +104,7 @@ def esc(s):
     return html.escape(s, quote=True)
 
 def chlink(cid):
-    return f'<a class="chk" href="#c-{cid}" title="원문 확인 필요 항목으로 이동">⚠ 원문 확인 필요 #{cid}</a>'
+    return f'<span class="chk">⚠ 원문 확인 필요 #{cid}</span>'
 
 INLINE = {
  'C1': ('본문·Flow Chart ↔ 그림', [('본문 나-1 · Flow Chart', 'PP-003, 001 Trip 확인'), ('그림 E21-04', 'PP-003 / PP-002 / PP-001 Trip 확인 표기')]),
@@ -491,7 +491,6 @@ def build():
      ('유량 조정 수준', '학익가압장 기동 전 수준 (INTECO FLOW RATE)', '약 <v>850[ton/hr]</v>', 'E21.4.1', '조정 기준'),
      ('재개 조건', '학익가압장 정상화 + INTECO FLOW RATE', '<v>850[ton/hr]</v> 수준', 'Case 1.1 다-3·라-3, Flow Chart [t/h]', '재개 시점'),
      ('감량 요청 시 기준', 'Mean Pr / INTECO FLOW RATE', '<v>5.5[kg/㎠]</v> / <v>850[ton/hr]</v> 수준', 'Case 1.2 나-4, Case 1.3 다-3', '조정 기준'),
-     ('안전사항 수치', '산소농도 / 인화성가스', '<v>18%</v> / <v>“0”</v>', 'E21.6 8)·9)', '→ ⑦ 설비조작 안전사항'),
     ]
     val_h = ''.join(f'<tr><td>{a}</td><td>{mk(b)}</td><td class="num">{mk(c)}</td><td>{d}</td><td><span class="ty">{mk(e)}</span></td></tr>' for a, b, c, d, e in values)
 
@@ -539,11 +538,11 @@ def build():
     gallery = ''.join(ref_thumb(f) for f in ['E21-01', 'E21-04', 'E21-05', 'E21-06', 'E21-07', 'E21-08', 'E21-30', 'E21-31-A', 'E21-31-B'])
 
     nav = '''<nav id="toc" aria-label="목차"><div class="navin"><a class="brand" href="#top">학익가압장 비상상황 대응</a>
-<ul class="navl"><li><a href="#s1">① 목적·적용범위</a></li><li><a href="#s2">② 계통·설비</a></li><li><a href="#s3">③ 정상 상태·기준값</a></li><li><a href="#s4">④ 보직별 조치</a></li><li><a href="#s5">⑤ 상황별 대응</a></li><li><a href="#s6">⑥ 비교표</a></li><li><a href="#s7">⑦ 안전사항</a></li><li><a href="#s8">⑧ 수정내역·확인필요</a></li></ul>
+<ul class="navl"><li><a href="#s2">① 계통·설비</a></li><li><a href="#s3">② 정상 상태·기준값</a></li><li><a href="#s4">③ 보직별 조치</a></li><li><a href="#s5">④ 상황별 대응</a></li><li><a href="#s6">⑤ 비교표</a></li></ul>
 <ul class="casel" aria-label="Case 바로가기"><li><a href="#case-1-1">1.1 공급·회수 동시</a></li><li><a href="#case-1-2">1.2 공급</a></li><li><a href="#case-1-3">1.3 리턴</a></li><li><a href="#case-2-1">2.1 연료전지·호랑</a></li><li><a href="#case-2-2">2.2 SK IPC</a></li></ul>
 <div class="tools"><button id="btnOrig" type="button">원문 문장 모두 펼치기</button><button id="btnPrint" type="button">인쇄 / PDF</button></div></div></nav>'''
 
-    body = f'''<a class="skip" href="#s1">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
+    body = f'''<a class="skip" href="#s2">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
 {nav}
 <main id="top">
 <header class="hero"><p class="eyebrow">운전원 교육용 설명자료 · 원문 재구성본</p><h1>학익가압장 운전 비상상황 대응절차</h1>
@@ -553,24 +552,7 @@ def build():
 <div class="legend"><span class="kind k-chk">확인</span> 보기만 하는 단계 <span class="kind k-op">조작</span> 설비를 조작하는 단계 <span class="kind k-tell">연락·공유</span> <span class="kind k-go">재개</span> <span class="nb">⚠ 원문 확인 필요</span> 본문·Flow Chart·그림이 서로 다르거나 불명확한 곳 <span class="tg">PP-003</span> 기기 태그 <span class="vl">850[ton/hr]</span> 수치·단위 <span class="vo">Open</span><span class="vc">Close</span> 밸브 상태</div></div>
 </header>
 
-<section id="s1" class="sec"><h2><span class="no">①</span> 목적 · 적용범위</h2>
-<div class="cols">
-<article class="card"><h3>E21.0 목적</h3><p>이 절차서는 비정상적인 상황에서 운전원이 신속하게 위기관리와 즉각적인 대응을 하여 <k>설비를 보호하고 안정적으로 열을 공급</k>하는 것을 목적으로 한다.</p></article>
-<article class="card"><h3>E21.1 적용범위</h3><p>학익가압장 운전 비상상황에서의 <k>운전 조치사항</k>에 적용한다.</p></article>
-</div>
-<article class="card"><h3>E21.2 개요</h3><p>학익가압장 및 연계 열원 운전 중 발생할 수 있는 <k>펌프 Trip, 발전소 압력 급변, 외부 열원 펌프 Trip</k> 등에 대해 운전원이 신속하게 계통 상태를 판단하고 조치하여 다음을 달성하는 것을 목적으로 한다.</p>
-<ul class="goal"><li>원도심 사용자 차압 확보</li><li>연계유량 급감 방지</li><li>공급·회수 압력 급변 최소화</li><li>역류 및 비정상 유동 방지</li><li>설비 손상 및 사용자 민원 최소화</li></ul>
-<p class="fnote">“원도심”은 원문 표기입니다(구도심·고시외와의 관계 → {chlink("C14")}).</p></article>
-<article class="card"><h3>원문 장 ↔ 이 자료의 위치</h3><table class="tbl small"><thead><tr><th scope="col">원문</th><th scope="col">원문 쪽</th><th scope="col">이 자료</th></tr></thead><tbody>
-<tr><td>E21.0 목적 · E21.1 적용범위 · E21.2 개요</td><td>2</td><td>① 목적·적용범위</td></tr>
-<tr><td>E21.3 보직별 점검 및 조치사항</td><td>2–3</td><td>④ 보직별 점검·조치사항</td></tr>
-<tr><td>E21.4 운전조작 절차 (Case 1 · 2)</td><td>4–22</td><td>⑤ 상황별 상세 대응 (Case 1.1~2.2)</td></tr>
-<tr><td>E21.5 Flow Chart</td><td>23–27</td><td>⑤ 각 Case의 “Flow Chart 보기” · ⑥ 비교표</td></tr>
-<tr><td>E21.6 설비조작 안전절차</td><td>28–29</td><td>⑦ 설비조작 안전사항</td></tr>
-</tbody></table></article>
-</section>
-
-<section id="s2" class="sec"><h2><span class="no">②</span> 계통 이해 및 주요 설비·계측점</h2>
+<section id="s2" class="sec"><h2><span class="no">①</span> 계통 이해 및 주요 설비·계측점</h2>
 <article class="card"><h3>원문이 설명하는 계통의 기본</h3><ul class="plain">
 <li>정상 운전 중 학익가압장은 <k>공급측과 회수(리턴)측에 각각 펌프 양정을 추가</k>하고 있다. (E21.4.1)</li>
 <li>공급측 Bypass는 <t>HV-9715</t>, 리턴측 Bypass는 <t>HV-9708</t>이다.</li>
@@ -589,44 +571,29 @@ def build():
 <article class="card"><h3>계통 화면 모아보기</h3><p class="fnote">각 Case의 단계 옆에서 다시 보여주는 화면입니다. 눌러서 확대하세요.</p><div class="rg wide">{gallery}</div></article>
 </section>
 
-<section id="s3" class="sec"><h2><span class="no">③</span> 정상 운전 상태와 원문상 주요 기준값</h2>
+<section id="s3" class="sec"><h2><span class="no">②</span> 정상 운전 상태와 원문상 주요 기준값</h2>
 <div class="notice amber"><b>원문에는 Trip 설정값이 없습니다.</b> 아래 수치는 원문이 “정상 운전 상태”, “조정 수준·기준”, “재개 시점”으로 적은 값이며, 새로운 운전 기준이나 Trip 설정값으로 확대 해석하지 않았습니다.</div>
 <div class="tw"><table class="tbl"><thead><tr><th scope="col">구분</th><th scope="col">항목</th><th scope="col">원문 값</th><th scope="col">원문 위치</th><th scope="col">성격</th></tr></thead><tbody>{val_h}</tbody></table></div>
 <p class="fnote">그림 E21-05 화면에는 “11[kg/㎠] 초과 상태”라는 문구가 있으나 판단 기준으로 쓰지 않았습니다 → {chlink("C2")}</p>
 </section>
 
-<section id="s4" class="sec"><h2><span class="no">④</span> 보직별 점검·조치사항 (E21.3)</h2>
+<section id="s4" class="sec"><h2><span class="no">③</span> 보직별 점검·조치사항 (E21.3)</h2>
 <p class="fnote">보직 약어(CO, ACO, CLO, DLO)는 원문이 풀어 쓰지 않아 그대로 표기했습니다. 항목은 원문 순서·내용 그대로입니다.</p>
 <div class="roles">{role_h}</div>
 <p class="fnote">ACO의 “#5-10 PUMP” → {chlink("C23")} · 원도심/고시외 → {chlink("C14")}</p>
 </section>
 
-<section id="s5" class="sec"><h2><span class="no">⑤</span> 상황별 상세 대응 (E21.4 · E21.5)</h2>
-<div class="notice red"><b>조작 전 안전 확인</b> — 명령계통을 지키고 <b>독단적인 조작을 하지 않는다</b>(안전사항 2), 4)). 현장근무자는 안전조치·안전장구를 생략하지 않는다(안전사항 3)). 자세한 내용은 <a href="#s7">⑦ 설비조작 안전사항</a>.</div>
+<section id="s5" class="sec"><h2><span class="no">④</span> 상황별 상세 대응 (E21.4 · E21.5)</h2>
+
 <p class="howto"><b>읽는 법</b> 각 Case는 <b>상황 → 확인 → 조작 → 조건별 분기 → 안정화 확인 → 재개</b> 순으로 원문 순서를 따릅니다. 단계 왼쪽의 큰 번호는 이 자료의 진행 순서, “원문 나-1” 같은 표시는 원문 항목번호입니다. 오른쪽(작은 화면에서는 아래)에는 그 단계에서 대조할 운전화면이 있고, 원문이 “참조”라고만 적은 그림은 작은 카드로 다시 열 수 있습니다.</p>
 {cases_h}
 </section>
 
-<section id="s6" class="sec"><h2><span class="no">⑥</span> 상황별 대응 비교표</h2>
+<section id="s6" class="sec"><h2><span class="no">⑤</span> 상황별 대응 비교표</h2>
 <p class="fnote">각 칸은 원문 단계번호입니다. “기재 없음”은 해당 Case의 원문에 그 단계가 적혀 있지 않다는 뜻입니다.</p>
 <div class="tw"><table class="tbl cmp">{cmp_h}</table></div>
 </section>
 
-<section id="s7" class="sec"><h2><span class="no">⑦</span> 설비조작 안전사항 (E21.6)</h2>
-<ol class="safety">{safety_h}</ol>
-<p class="fnote">원문 9개 항목 전부이며 수치(산소농도 18%, 가스농도 “0”)는 원문 그대로입니다.</p>
-</section>
-
-<section id="s8" class="sec"><h2><span class="no">⑧</span> 오탈자 수정 내역 및 원문 확인 필요 사항</h2>
-<h3>8-1. 이미지 추출 결과</h3><div class="card"><p>{IMAGE_REPORT}</p></div>
-<h3>8-2. 오탈자·표현 수정 내역</h3>
-<p class="fnote">의미가 확실한 것만 수정했습니다. 의미가 불확실한 표현은 수정하지 않고 8-3에 올렸습니다.</p>
-<div class="tw"><table class="tbl typo"><thead><tr><th scope="col">번호</th><th scope="col">수정 전 (원문)</th><th scope="col">수정 후 (본 자료)</th><th scope="col">위치</th><th scope="col">근거</th></tr></thead><tbody>{typo_h}</tbody></table></div>
-<h3>8-2-1. 수정하지 않은 것</h3><div class="tw"><table class="tbl small"><tbody>{nc_h}</tbody></table></div>
-<h3>8-3. 원문 확인 필요 사항</h3>
-<p class="fnote">본문·Flow Chart·그림이 다르거나 대상·운전 의미가 불확실한 항목입니다. 본 자료는 이 항목들을 임의로 통일하지 않았습니다.</p>
-<div class="cgrid">{chk_h}</div>
-</section>
 <footer class="foot"><p>이 문서는 「학익가압장 운전 비상상황 대응절차」(지침번호 운영(운)-절차-E21, 발행일자 2026. 09, 개정번호 0)를 바탕으로 한 <b>재구성 설명자료</b>입니다. 실제 운전은 원문 절차서와 운영 지시에 따르십시오.</p></footer>
 </main>
 <div id="lb" class="lb" hidden role="dialog" aria-modal="true" aria-label="그림 확대 보기"><div class="lbbar"><span id="lbt"></span><span class="lbc"><button type="button" id="lbm" aria-label="축소">−</button><button type="button" id="lbf">화면 맞춤</button><button type="button" id="lbo">원본 크기</button><button type="button" id="lbp" aria-label="확대">＋</button><button type="button" id="lbx" aria-label="닫기">✕ 닫기 (Esc)</button></span></div><div class="lbv" id="lbv"><img id="lbi" alt=""></div></div>
