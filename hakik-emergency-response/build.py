@@ -471,17 +471,16 @@ def overview():
     C.append(case('case-2-2', 'Case 2.2', 'SK IPC 펌프 Trip',
         ['SK IPC Pump Trip 및 유량 확인', '연료전지·호랑 리턴 압력 확인 (Pump Trip 여부 확인) <t>PIT-3501, PIT-201</t>', '외부 수열 유량 감소 확인', '구도심 역차압 발생 확인 <t>CP-4</t>', '공급·리턴 펌프 부하 감소 <t>PP-003, 001</t> (<b>리턴 가압 펌프 먼저</b> 감소) – 학익가압장 초기 기동 조건 상태까지', '학익가압장 Bypass Valve <op> <t>HV-9715, 9708</t>', '구도심 역차압 해소 확인 <t>CP-4</t>'],
         '', 'SK IPC 정상화 후 학익가압장 <b>재개</b> 및 수열 증량 (분기 없음)'))
-    pick = '''<div class="ovpick"><div class="ovstart">정상 운전 중 · <t>INTECO FLOW RATE</t> <v>1380[t/h]</v></div><div class="fca" aria-hidden="true">↓</div>
-<div class="ovask">◆ 어느 펌프가 Trip했는가?</div>
-<div class="ovgrp"><section><h4>학익가압장 펌프 Trip → Case 1</h4><ul>
-<li><a href="#case-1-1"><b>공급·리턴 동시</b> Trip <span class="tg">PP-003, 001</span><em>Case 1.1</em></a></li>
-<li><a href="#case-1-2"><b>공급 펌프만</b> Trip <span class="tg">PP-003</span><em>Case 1.2</em></a></li>
-<li><a href="#case-1-3"><b>리턴 펌프만</b> Trip <span class="tg">PP-001</span><em>Case 1.3</em></a></li></ul></section>
-<section><h4>외부 열원 펌프 Trip → Case 2</h4><ul>
-<li><a href="#case-2-1"><b>연료전지 또는 호랑</b> 펌프 Trip<em>Case 2.1</em></a></li>
-<li><a href="#case-2-2"><b>SK IPC</b> 펌프 Trip<em>Case 2.2</em></a></li></ul></section></div>
-<p class="ovnote"><b>분기가 있는 Case는 1.1, 1.2, 1.3입니다.</b> 1.1·1.3은 연료전지·호랑 Pump Trip 여부(<b>상태 분기</b>), 1.2는 가압 펌프 재가동 결과(<b>결과 분기</b>)로 나뉩니다. Case 2.1·2.2는 분기 없이 한 줄로 진행합니다.</p></div>'''
-    return f'<section id="s0" class="sec"><h2>개요 · 어떤 Case를 먼저 볼 것인가</h2>{pick}</section>'
+    pick = '''<div class="ovpick">
+<div class="ovask">Case 구분</div>
+<div class="ovgrp"><section><h4>Case 1 : 학익가압장 Pump Trip</h4><ul>
+<li><a href="#case-1-1"><b>공급·리턴 동시</b> Trip<em>Case 1.1</em></a><p class="ovbr">분기: 연료전지·호랑 Pump Trip 발생 / 미발생</p></li>
+<li><a href="#case-1-2"><b>공급 펌프만</b> Trip<em>Case 1.2</em></a><p class="ovbr">분기: 재가동 성공 / 재가동 불가</p></li>
+<li><a href="#case-1-3"><b>리턴 펌프만</b> Trip<em>Case 1.3</em></a><p class="ovbr">분기: 연료전지·호랑 Pump Trip 발생 / 미발생</p></li></ul></section>
+<section><h4>Case 2 : 외부열원 Pump Trip</h4><ul>
+<li><a href="#case-2-1"><b>연료전지 또는 호랑</b> Pump Trip<em>Case 2.1</em></a></li>
+<li><a href="#case-2-2"><b>SK IPC</b> Pump Trip<em>Case 2.2</em></a></li></ul></section></div></div>'''
+    return f'<section id="s0" class="sec"><h2>개요</h2>{pick}</section>'
 
 # ---------------------------------------------------------------- HTML 조립
 CSS = open(os.path.join(HERE, 'style.css'), encoding='utf-8').read()
@@ -598,7 +597,7 @@ def build():
 {overview()}
 <section id="s5" class="sec"><h2><span class="no">①</span> 상황별 상세 대응</h2>
 
-<p class="howto"><b>읽는 법</b> 각 Case는 <b>상황 → 확인 → 조작 → 조건별 분기 → 안정화 확인 → 재개</b> 순으로 구성되어 있습니다. 단계 왼쪽의 큰 번호는 진행 순서이고, 오른쪽(작은 화면에서는 아래)에 그 단계에서 볼 운전화면이 있습니다. “참조 그림”은 눌러서 다시 열 수 있습니다.</p>
+
 {cases_h}
 </section>
 

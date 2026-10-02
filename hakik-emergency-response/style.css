@@ -266,3 +266,4 @@ figcaption .fnote{font-size:13.5px;color:var(--warn)}
 .ove{margin-top:8px;padding:6px 12px;border:2px solid var(--go);background:var(--go-bg);border-radius:8px;font-weight:600}
 @media (max-width:980px){.ovgrp,.ovpp{grid-template-columns:1fr}.go{margin-left:0}}
 @media print{.ovcase,.ovpick{break-inside:avoid}}
+.ovbr{margin:3px 0 0 14px;font-size:15px;color:var(--tell);font-weight:600}.ovbr::before{content:"↳ ";}
