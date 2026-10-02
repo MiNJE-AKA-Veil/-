@@ -481,7 +481,7 @@ def overview():
 <li><a href="#case-2-1"><b>연료전지 또는 호랑</b> 펌프 Trip<em>Case 2.1</em></a></li>
 <li><a href="#case-2-2"><b>SK IPC</b> 펌프 Trip<em>Case 2.2</em></a></li></ul></section></div>
 <p class="ovnote"><b>분기가 있는 Case는 1.1, 1.2, 1.3입니다.</b> 1.1·1.3은 연료전지·호랑 Pump Trip 여부(<b>상태 분기</b>), 1.2는 가압 펌프 재가동 결과(<b>결과 분기</b>)로 나뉩니다. Case 2.1·2.2는 분기 없이 한 줄로 진행합니다.</p></div>'''
-    return f'<section id="s0" class="sec"><h2>개요 · 어떤 Case를 먼저 볼 것인가</h2>{pick}<div class="ovlist">' + ''.join(C) + '</div></section>'
+    return f'<section id="s0" class="sec"><h2>개요 · 어떤 Case를 먼저 볼 것인가</h2>{pick}</section>'
 
 # ---------------------------------------------------------------- HTML 조립
 CSS = open(os.path.join(HERE, 'style.css'), encoding='utf-8').read()
