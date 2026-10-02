@@ -96,7 +96,7 @@ def orig_no(fid):
 def mk(s):
     s = s.replace('<t>', '<span class="tg">').replace('</t>', '</span>')
     s = s.replace('<v>', '<span class="vl">').replace('</v>', '</span>')
-    s = s.replace('<op>', '<span class="vo">Open</span>').replace('<cl>', '<span class="vc">Close</span>')
+    s = s.replace('<op>', 'Open').replace('<cl>', 'Close')
     s = s.replace('<k>', '<strong class="kw">').replace('</k>', '</strong>')
     return s
 
@@ -156,7 +156,7 @@ def step(n, orig, kind, text, figs=(), refs=(), src='', flags=(), sub='', cond='
     cond_h = f'<p class="cond">{mk(cond)}</p>' if cond else ''
     sub_h = f'<div class="sub">{mk(sub)}</div>' if sub else ''
     return f'''<li class="step" id="s-{uid()}">
-<div class="stxt"><div class="shead"><span class="sn" aria-label="{n}단계">{n}</span><span class="kind {kc}">{kl}</span><span class="onum">{esc(orig)}</span></div>
+<div class="stxt"><div class="shead"><span class="sn" aria-label="{n}단계">{n}</span><span class="onum">{esc(orig)}</span></div>
 {cond_h}<p class="main">{mk(text)}</p>{sub_h}{fl}{src_h}</div>
 <div class="sfig">{figs_h}{refs_h}</div></li>'''
 
@@ -166,7 +166,7 @@ def situation(label, text, figs=(), refs=(), src=''):
     if refs:
         refs_h = '<div class="refs"><span class="flab">참조 그림</span>' + ''.join(fig_inline(r).replace('{uid}', str(uid())) for r in refs if r not in figs) + '</div>'
     src_h = ''
-    return f'''<li class="step sit"><div class="stxt"><div class="shead"><span class="kind k-sit">상황</span><span class="onum">{esc(label)}</span></div>
+    return f'''<li class="step sit"><div class="stxt"><div class="shead"><span class="onum">{esc(label)}</span></div>
 <p class="main">{mk(text)}</p>{src_h}</div><div class="sfig">{figs_h}{refs_h}</div></li>'''
 
 def branch(title, cond, body, tone='a'):
