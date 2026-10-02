@@ -538,54 +538,23 @@ def build():
     gallery = ''.join(ref_thumb(f) for f in ['E21-01', 'E21-04', 'E21-05', 'E21-06', 'E21-07', 'E21-08', 'E21-30', 'E21-31-A', 'E21-31-B'])
 
     nav = '''<nav id="toc" aria-label="목차"><div class="navin"><a class="brand" href="#top">학익가압장 비상상황 대응</a>
-<ul class="navl"><li><a href="#s2">① 계통·설비</a></li><li><a href="#s3">② 정상 상태·기준값</a></li><li><a href="#s4">③ 보직별 조치</a></li><li><a href="#s5">④ 상황별 대응</a></li><li><a href="#s6">⑤ 비교표</a></li></ul>
+<ul class="navl"><li><a href="#s5">① 상황별 대응</a></li><li><a href="#s6">② 비교표</a></li></ul>
 <ul class="casel" aria-label="Case 바로가기"><li><a href="#case-1-1">1.1 공급·회수 동시</a></li><li><a href="#case-1-2">1.2 공급</a></li><li><a href="#case-1-3">1.3 리턴</a></li><li><a href="#case-2-1">2.1 연료전지·호랑</a></li><li><a href="#case-2-2">2.2 SK IPC</a></li></ul>
 <div class="tools"><button id="btnPrint" type="button">인쇄 / PDF</button></div></div></nav>'''
 
-    body = f'''<a class="skip" href="#s2">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
+    body = f'''<a class="skip" href="#s5">본문으로 건너뛰기</a><a class="totop" href="#toc">↑ 목차</a>
 {nav}
 <main id="top">
 <header class="hero"><p class="eyebrow">운전원 교육용 설명자료</p><h1>학익가압장 운전 비상상황 대응절차</h1>
 </header>
 
-<section id="s2" class="sec"><h2><span class="no">①</span> 계통 이해 및 주요 설비·계측점</h2>
-<article class="card"><h3>계통의 기본</h3><ul class="plain">
-<li>정상 운전 중 학익가압장은 <k>공급측과 회수(리턴)측에 각각 펌프 양정을 추가</k>하고 있다.</li>
-<li>공급측 Bypass는 <t>HV-9715</t>, 리턴측 Bypass는 <t>HV-9708</t>이다.</li>
-<li>“SK IPC, 연료전지 및 호랑”은 이하 <k>“외부 열원”</k>이라 한다.</li>
-<li>Case는 두 갈래이다: <b>Case 1</b> 학익가압장 펌프 Trip / <b>Case 2</b> 외부 열원 또는 연료전지 펌프 Trip.</li></ul></article>
-<article class="card"><h3>학익가압장 펌프 Trip 개요</h3><ol class="plain">
-<li>공급 펌프와 회수 펌프가 Trip 상태가 되면 <k>즉시 <t>HV-9715</t>/<t>HV-9708</t> Open 상태를 확인</k>한다.</li>
-<li>Open 상태가 확인되면 CN H/E <t>PIT-9334</t>(INT Hot Dis), <t>PIT-3501</t>(Fuel cell Re’ Pr’)을 확인하여 <t>PIT-9334</t>는 <v>10[kg/㎠]</v>, <t>PIT-3501</t>은 <v>2.5-3.5[kg/㎠]</v> 수준으로 압력을 조정한다.</li>
-<li>기존 가압 펌프를 이용해 토출되던 유량 <t>FIT-9338</t>(CN INTECO COLD)과 INTECO FLOW RATE가 감소했는지 확인한다.</li>
-<li>학익가압장 기동 전 수준(INTECO FLOW RATE 약 <v>850[ton/hr]</v>)으로 조정한다.</li>
-<li>공급 열량에 변화가 생긴 외부 수열원(SK IPC&amp;연료전지&amp;호랑)에 연락해 상황을 공유하고, 수열량을 조정하여 설비를 안정화한 뒤 학익가압장을 정상화하고 재개한다.</li></ol>
-<p class="fnote">공통 조건: CN H/E Flow <v>750[ton/hr]</v>, 연료전지&amp;호랑 <v>630[ton/hr]</v></p></article>
-<article class="card"><h3>주요 설비·계측점 한눈에</h3>
-<div class="tw"><table class="tbl"><thead><tr><th scope="col">태그</th><th scope="col">대상</th><th scope="col">표기·위치</th><th scope="col">용도·상태</th></tr></thead><tbody>{eq_h}</tbody></table></div>
-<p class="fnote">회수/리턴: Case 제목은 “공급·회수”, 본문은 “공급·리턴”이며 같은 펌프(PP-003, 001)를 가리킵니다.</p></article>
-<article class="card"><h3>계통 화면 모아보기</h3><p class="fnote">각 Case의 단계 옆에서 다시 보여주는 화면입니다. 눌러서 확대하세요.</p><div class="rg wide">{gallery}</div></article>
-</section>
-
-<section id="s3" class="sec"><h2><span class="no">②</span> 정상 운전 상태와 주요 기준값</h2>
-<div class="notice amber">아래 수치는 정상 운전 상태, 조정 수준·기준, 재개 시점으로 정리한 값이며 <b>Trip 설정값이 아닙니다.</b></div>
-<div class="tw"><table class="tbl"><thead><tr><th scope="col">구분</th><th scope="col">항목</th><th scope="col">값</th><th scope="col">위치</th><th scope="col">성격</th></tr></thead><tbody>{val_h}</tbody></table></div>
-
-</section>
-
-<section id="s4" class="sec"><h2><span class="no">③</span> 보직별 점검·조치사항 (E21.3)</h2>
-<p class="fnote">보직 약어(CO, ACO, CLO, DLO)는 풀어 쓰지 않고 그대로 표기했습니다.</p>
-<div class="roles">{role_h}</div>
-
-</section>
-
-<section id="s5" class="sec"><h2><span class="no">④</span> 상황별 상세 대응 (E21.4 · E21.5)</h2>
+<section id="s5" class="sec"><h2><span class="no">①</span> 상황별 상세 대응</h2>
 
 <p class="howto"><b>읽는 법</b> 각 Case는 <b>상황 → 확인 → 조작 → 조건별 분기 → 안정화 확인 → 재개</b> 순으로 구성되어 있습니다. 단계 왼쪽의 큰 번호는 진행 순서이고, 오른쪽(작은 화면에서는 아래)에 그 단계에서 볼 운전화면이 있습니다. “참조 그림”은 눌러서 다시 열 수 있습니다.</p>
 {cases_h}
 </section>
 
-<section id="s6" class="sec"><h2><span class="no">⑤</span> 상황별 대응 비교표</h2>
+<section id="s6" class="sec"><h2><span class="no">②</span> 상황별 대응 비교표</h2>
 <p class="fnote">각 칸은 단계 번호(나-1 등)입니다. “기재 없음”은 해당 Case에 그 단계가 없다는 뜻입니다.</p>
 <div class="tw"><table class="tbl cmp">{cmp_h}</table></div>
 </section>
