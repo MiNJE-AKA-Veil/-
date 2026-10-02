@@ -257,8 +257,7 @@ def case_1_2():
              src='외부 열원 수열 감량 요청한다. (그림 E21-11, 12 참조) <Mean Pr 기준 5.5[kg/㎠], INTECO FLOW RATE 850[ton/hr] 수준>'),
         step(5, '나-5', 'op', '가압 펌프(<t>PP-003</t>)를 <k>재가동</k>한다.', figs=['E21-16'], src='가압 펌프(PP-003)를 재가동 한다.'),
     ])
-    dec = '''<div class="bhead">재가동 이후 조건별 경로 (나-6 ~ 나-9)</div>
-<div class="decide"><div><b>PP-003 재가동 불가 상황</b><br>→ 나-6 Spare 펌프(PP-002) 가동</div><div><b>가동 성공 시</b><br>→ 나-7 가압 실시 + 공급 Bypass(HV-9715) Close</div><div><b>PP-003, 002 가동 가능한 경우</b><br>→ 나-8 외부 열원에 상황 공유·가압 진행</div><div><b>PP-003, 002 가동 불가한 경우</b><br>→ 나-9 외부 열원 유량 감량 확인</div></div>'''
+    dec = ''
     cond = stepsblock([
         step(6, '나-6', 'op', '<k>Spare 펌프(<t>PP-002</t>)를 가동</k>한다.', figs=['E21-17'], cond='<b>조건</b>: 펌프 재가동이 불가한 상황일 때',
              sub='<b>가동 전 밸브 상태 확인</b>: <t>HV-9703</t> <op> · <t>HV-9715</t> <op> / <t>HV-9704</t> <cl> · <t>HV-9717</t> <cl>',
